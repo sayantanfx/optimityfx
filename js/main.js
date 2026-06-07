@@ -184,3 +184,27 @@
   /* ---- Year ---- */
   document.querySelectorAll('[data-year]').forEach(el => el.textContent = new Date().getFullYear());
 })();
+
+/* ---- Mouse-tracking glow ---- */
+(function () {
+  const glow = document.createElement('div');
+  glow.id = 'mouse-glow';
+  glow.setAttribute('aria-hidden', 'true');
+  document.body.appendChild(glow);
+
+  let raf, mx = 50, my = 50;
+  const render = () => {
+    glow.style.background =
+      `radial-gradient(820px circle at ${mx}% ${my}%, rgba(0,212,255,0.065), rgba(0,212,255,0.018) 35%, transparent 60%)`;
+  };
+
+  document.addEventListener('mousemove', (e) => {
+    mx = (e.clientX / window.innerWidth)  * 100;
+    my = (e.clientY / window.innerHeight) * 100;
+    if (raf) cancelAnimationFrame(raf);
+    raf = requestAnimationFrame(render);
+  }, { passive: true });
+
+  // Initial soft glow at center-top
+  render();
+})();
