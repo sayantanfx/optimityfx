@@ -184,14 +184,25 @@
     },
 
     async requireAuth(redirectTo) {
-      if (!sb) return null; // unconfigured — don't block pages during dev
-      const { data: { session } } = await sb.auth.getSession();
-      if (!session) {
-        const next = redirectTo || window.location.pathname + window.location.search;
-        window.location.href = `login.html?next=${encodeURIComponent(next)}`;
+      if (!sb) return null;
+      try {
+        // 6-second timeout guards against extensions blocking the fetch
+        const race = await Promise.race([
+          sb.auth.getSession(),
+          new Promise((_, rej) => setTimeout(() => rej(new Error('timeout')), 6000)),
+        ]);
+        const session = race?.data?.session;
+        if (!session) {
+          const next = redirectTo || window.location.pathname + window.location.search;
+          window.location.href = `login.html?next=${encodeURIComponent(next)}`;
+          return null;
+        }
+        return session;
+      } catch (e) {
+        console.warn('requireAuth:', e.message, '— redirecting to login');
+        window.location.href = 'login.html';
         return null;
       }
-      return session;
     },
 
     async signIn(email, password) {
