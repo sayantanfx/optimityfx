@@ -5,7 +5,7 @@
 
 window.OFX = Object.freeze({
   // Supabase — get from: supabase.com > Project Settings > API
-  supabaseUrl: 'https://odcqkutaindtzbjrncdi.supabase.co',    // https://xxxx.supabase.co
+  supabaseUrl: 'https://odcqkutaindtzbjrncdl.supabase.co',    // https://xxxx.supabase.co
   supabaseKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9kY3FrdXRhaW5kdHpianJuY2RsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA4NDUyMDAsImV4cCI6MjA5NjQyMTIwMH0.92AAPjpZVReQTpU4y9eX88IB0U-8Vu6CR9ufOkUGBzE',        // eyJhbGc... (safe to expose)
 
   // Razorpay — get from: dashboard.razorpay.com > Settings > API Keys
