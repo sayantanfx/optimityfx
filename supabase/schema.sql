@@ -443,3 +443,12 @@ ON CONFLICT (code) DO NOTHING;
 
 -- Set a user as super_admin (replace with your actual user UUID after registering)
 -- UPDATE profiles SET role = 'super_admin' WHERE email = 'optimityfx.studio@gmail.com';
+
+-- ============================================================
+-- STORAGE BUCKET (run separately in Supabase Dashboard > Storage)
+-- ============================================================
+-- 1. Go to Storage > New Bucket
+-- 2. Name: screenshots
+-- 3. Make it PUBLIC (so images can be viewed via URL)
+-- 4. Max file size: 5MB
+-- 5. Allowed MIME types: image/png, image/jpeg, image/webp

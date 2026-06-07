@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Panel — OptimityFX</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="../css/style.css?v=20260608">
+</head>
+<body>
+
+<!-- Top nav -->
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a href="../index.html" class="brand"><img src="../assets/logo.png" alt="OptimityFX" class="brand-img" width="878" height="296"></a>
+    <div class="nav-cta">
+      <span id="admin-role-badge" class="badge badge-admin" style="display:none"></span>
+      <button id="signout-btn" class="btn btn-ghost btn-sm" style="display:none">Sign Out</button>
+    </div>
+  </div>
+</header>
+
+<div class="panel-layout">
+
+  <!-- Sidebar -->
+  <aside class="panel-sidebar">
+    <div class="sidebar-logo">
+      <img src="../assets/logo.png" alt="OptimityFX" class="brand-img" width="878" height="296">
+      <div style="font-size:.68rem;color:var(--accent);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-top:8px">Admin Panel</div>
+    </div>
+    <nav class="sidebar-nav">
+      <button class="sidebar-link active" data-section="overview">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        Overview
+      </button>
+      <button class="sidebar-link" data-section="products">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18M16 10a4 4 0 0 1-8 0"/></svg>
+        Products
+      </button>
+      <button class="sidebar-link" data-section="courses">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+        Courses
+      </button>
+      <button class="sidebar-link" data-section="orders">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        Orders
+      </button>
+      <button class="sidebar-link" data-section="users">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Users
+      </button>
+      <button class="sidebar-link" data-section="coupons">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+        Coupons
+      </button>
+      <div class="sidebar-sep"></div>
+      <a href="../store.html" class="sidebar-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+        View Site
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <button class="sidebar-link" id="sidebar-signout">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+        Sign Out
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main content -->
+  <main class="panel-main">
+
+    <!-- ========== OVERVIEW ========== -->
+    <div class="panel-section active" id="section-overview">
+      <div class="panel-header">
+        <h2>Overview</h2>
+        <span id="today-date" style="font-size:.84rem;color:var(--muted)"></span>
+      </div>
+      <div class="admin-stats">
+        <div class="stat-card"><div class="stat-icon cyan"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div><div><div class="stat-val" id="ov-revenue">₹0</div><div class="stat-lbl">Total Revenue</div></div></div>
+        <div class="stat-card"><div class="stat-icon green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div><div><div class="stat-val" id="ov-users">0</div><div class="stat-lbl">Total Users</div></div></div>
+        <div class="stat-card"><div class="stat-icon gold"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/></svg></div><div><div class="stat-val" id="ov-orders">0</div><div class="stat-lbl">Total Orders</div></div></div>
+        <div class="stat-card"><div class="stat-icon red"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/></svg></div><div><div class="stat-val" id="ov-courses">0</div><div class="stat-lbl">Active Courses</div></div></div>
+      </div>
+      <div class="chart-grid">
+        <div class="chart-card"><h4>Revenue (Last 7 days)</h4><div class="chart-wrap"><canvas id="revenueChart"></canvas></div></div>
+        <div class="chart-card"><h4>New Users (Last 7 days)</h4><div class="chart-wrap"><canvas id="usersChart"></canvas></div></div>
+      </div>
+    </div>
+
+    <!-- ========== PRODUCTS ========== -->
+    <div class="panel-section" id="section-products">
+      <div class="panel-header">
+        <h2>Digital Products</h2>
+        <button class="btn btn-accent btn-sm" id="add-product-btn">+ Add Product</button>
+      </div>
+      <div class="data-table-wrap">
+        <div class="filter-bar">
+          <input class="search-input" type="text" id="product-search" placeholder="Search products…">
+          <select class="filter-select" id="product-cat-filter">
+            <option value="">All Categories</option>
+            <option value="lut">LUTs</option>
+            <option value="preset">Presets</option>
+            <option value="template">Templates</option>
+            <option value="bundle">Bundles</option>
+          </select>
+        </div>
+        <table class="data-table">
+          <thead><tr><th>Product</th><th>Category</th><th>Price</th><th>Sale Price</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="products-tbody"><tr><td colspan="6"><div class="table-empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/></svg>Loading products…</div></td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ========== COURSES ========== -->
+    <div class="panel-section" id="section-courses">
+      <div class="panel-header">
+        <h2>Courses</h2>
+        <button class="btn btn-accent btn-sm" id="add-course-btn">+ Add Course</button>
+      </div>
+      <div class="data-table-wrap">
+        <table class="data-table">
+          <thead><tr><th>Course</th><th>Type</th><th>Level</th><th>Price</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="courses-tbody"><tr><td colspan="6"><div class="table-empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/></svg>Loading courses…</div></td></tr></tbody>
+        </table>
+      </div>
+      <!-- Lessons sub-panel -->
+      <div id="lessons-panel" style="display:none;margin-top:24px">
+        <div class="panel-header" style="margin-bottom:14px">
+          <h2 style="font-size:1rem" id="lessons-panel-title">Lessons</h2>
+          <div style="display:flex;gap:8px">
+            <button class="btn btn-ghost btn-sm" id="add-module-btn">+ Module</button>
+            <button class="btn btn-accent btn-sm" id="add-lesson-btn">+ Lesson</button>
+            <button class="btn btn-ghost btn-sm" id="close-lessons-btn">✕ Close</button>
+          </div>
+        </div>
+        <div id="lessons-list" class="data-table-wrap">
+          <table class="data-table">
+            <thead><tr><th>Module / Lesson</th><th>Type</th><th>Preview</th><th>Actions</th></tr></thead>
+            <tbody id="lessons-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== ORDERS ========== -->
+    <div class="panel-section" id="section-orders">
+      <div class="panel-header">
+        <h2>Orders</h2>
+        <select class="filter-select" id="orders-status-filter">
+          <option value="">All Status</option>
+          <option value="paid">Paid</option>
+          <option value="pending">Pending</option>
+          <option value="failed">Failed</option>
+          <option value="refunded">Refunded</option>
+        </select>
+      </div>
+      <div class="data-table-wrap">
+        <table class="data-table">
+          <thead><tr><th>Order ID</th><th>User</th><th>Amount</th><th>Status</th><th>Date</th><th>Payment ID</th></tr></thead>
+          <tbody id="orders-tbody"><tr><td colspan="6"><div class="table-empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>Loading orders…</div></td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ========== USERS ========== -->
+    <div class="panel-section" id="section-users">
+      <div class="panel-header">
+        <h2>Users</h2>
+        <input class="search-input" type="text" id="user-search" placeholder="Search users…" style="max-width:280px">
+      </div>
+      <div class="data-table-wrap">
+        <table class="data-table">
+          <thead><tr><th>User</th><th>Role</th><th>Credits</th><th>Streak</th><th>Joined</th><th>Actions</th></tr></thead>
+          <tbody id="users-tbody"><tr><td colspan="6"><div class="table-empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Loading users…</div></td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ========== COUPONS ========== -->
+    <div class="panel-section" id="section-coupons">
+      <div class="panel-header">
+        <h2>Coupons</h2>
+        <button class="btn btn-accent btn-sm" id="add-coupon-btn">+ Create Coupon</button>
+      </div>
+      <div class="data-table-wrap">
+        <table class="data-table">
+          <thead><tr><th>Code</th><th>Discount</th><th>Min Order</th><th>Uses</th><th>Expires</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="coupons-tbody"><tr><td colspan="7"><div class="table-empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/></svg>Loading coupons…</div></td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- ===== MODALS ===== -->
+
+<!-- Product Modal -->
+<div class="modal-overlay" id="product-modal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('product-modal')">×</button>
+    <h3 id="product-modal-title">Add Product</h3>
+    <form id="product-form">
+      <input type="hidden" id="pf-id">
+      <div class="form-group"><label class="form-label">Product Name *</label><input class="form-input" type="text" id="pf-name" required placeholder="e.g. Cinematic LUT Pack Vol.1"></div>
+      <div class="form-group"><label class="form-label">Slug * (URL-friendly)</label><input class="form-input" type="text" id="pf-slug" required placeholder="cinematic-lut-pack-vol1"></div>
+      <div class="form-group"><label class="form-label">Short Description</label><input class="form-input" type="text" id="pf-short" placeholder="One line description"></div>
+      <div class="form-group"><label class="form-label">Full Description</label><textarea class="form-input" id="pf-desc" rows="3" placeholder="Detailed description…"></textarea></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div class="form-group"><label class="form-label">Price (₹) *</label><input class="form-input" type="number" id="pf-price" required min="0" placeholder="999"></div>
+        <div class="form-group"><label class="form-label">Sale Price (₹)</label><input class="form-input" type="number" id="pf-sale" min="0" placeholder="799"></div>
+      </div>
+      <div class="form-group"><label class="form-label">Category</label>
+        <select class="form-input" id="pf-cat"><option value="lut">LUT</option><option value="preset">Preset</option><option value="template">Template</option><option value="bundle">Bundle</option><option value="other">Other</option></select>
+      </div>
+      <div class="form-group"><label class="form-label">Thumbnail URL</label><input class="form-input" type="url" id="pf-thumb" placeholder="https://…"></div>
+      <div class="form-group"><label class="form-label">Download File URL *</label><input class="form-input" type="url" id="pf-file" placeholder="https://… (Google Drive, Supabase Storage, etc.)"></div>
+      <div class="form-group" style="display:flex;align-items:center;gap:10px;padding:12px;background:rgba(0,212,255,.05);border:1px solid rgba(0,212,255,.2);border-radius:10px">
+        <input type="checkbox" id="pf-active" checked style="accent-color:var(--accent);width:16px;height:16px">
+        <label for="pf-active" style="font-size:.86rem;color:var(--text);cursor:pointer">Active (visible in store)</label>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-ghost btn-sm" onclick="closeModal('product-modal')">Cancel</button>
+        <button type="submit" class="btn btn-accent btn-sm" id="product-save-btn">Save Product</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Course Modal -->
+<div class="modal-overlay" id="course-modal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('course-modal')">×</button>
+    <h3 id="course-modal-title">Add Course</h3>
+    <form id="course-form">
+      <input type="hidden" id="cf-id">
+      <div class="form-group"><label class="form-label">Course Title *</label><input class="form-input" type="text" id="cf-title" required placeholder="e.g. Cinematic Color Grading Masterclass"></div>
+      <div class="form-group"><label class="form-label">Slug *</label><input class="form-input" type="text" id="cf-slug" required placeholder="cinematic-color-grading"></div>
+      <div class="form-group"><label class="form-label">Description</label><textarea class="form-input" id="cf-desc" rows="3"></textarea></div>
+      <div class="form-group"><label class="form-label">Thumbnail URL</label><input class="form-input" type="url" id="cf-thumb" placeholder="https://…"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div class="form-group"><label class="form-label">Price (₹) *</label><input class="form-input" type="number" id="cf-price" required min="0"></div>
+        <div class="form-group"><label class="form-label">Sale Price (₹)</label><input class="form-input" type="number" id="cf-sale" min="0"></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div class="form-group"><label class="form-label">Level</label>
+          <select class="form-input" id="cf-level"><option value="beginner">Beginner</option><option value="intermediate">Intermediate</option><option value="advanced">Advanced</option></select>
+        </div>
+        <div class="form-group"><label class="form-label">Instructor</label><input class="form-input" type="text" id="cf-instructor" placeholder="Instructor name"></div>
+      </div>
+      <div class="form-group" style="display:flex;align-items:center;gap:10px;padding:12px;background:rgba(0,212,255,.05);border:1px solid rgba(0,212,255,.2);border-radius:10px">
+        <input type="checkbox" id="cf-live" style="accent-color:var(--accent);width:16px;height:16px">
+        <label for="cf-live" style="font-size:.86rem;color:var(--text);cursor:pointer">Live course (has scheduled sessions)</label>
+      </div>
+      <div id="cf-live-fields" style="display:none">
+        <div class="form-group"><label class="form-label">Live Meeting URL</label><input class="form-input" type="url" id="cf-live-url" placeholder="https://meet.google.com/…"></div>
+        <div class="form-group"><label class="form-label">Schedule (e.g. Every Saturday 7PM IST)</label><input class="form-input" type="text" id="cf-schedule" placeholder="Every Saturday 7:00 PM IST"></div>
+      </div>
+      <div class="form-group" style="display:flex;align-items:center;gap:10px;padding:12px;background:rgba(0,212,255,.05);border:1px solid rgba(0,212,255,.2);border-radius:10px;margin-top:8px">
+        <input type="checkbox" id="cf-active" checked style="accent-color:var(--accent);width:16px;height:16px">
+        <label for="cf-active" style="font-size:.86rem;color:var(--text);cursor:pointer">Active (visible in academy)</label>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-ghost btn-sm" onclick="closeModal('course-modal')">Cancel</button>
+        <button type="submit" class="btn btn-accent btn-sm">Save Course</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Lesson/Module Modal -->
+<div class="modal-overlay" id="lesson-modal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('lesson-modal')">×</button>
+    <h3 id="lesson-modal-title">Add Lesson</h3>
+    <form id="lesson-form">
+      <input type="hidden" id="lf-id">
+      <input type="hidden" id="lf-type">
+      <div id="module-fields">
+        <div class="form-group"><label class="form-label">Module Title *</label><input class="form-input" type="text" id="lf-module-title" placeholder="e.g. Introduction to Color Theory"></div>
+      </div>
+      <div id="lesson-fields" style="display:none">
+        <div class="form-group"><label class="form-label">Select Module *</label><select class="form-input" id="lf-module-id"></select></div>
+        <div class="form-group"><label class="form-label">Lesson Title *</label><input class="form-input" type="text" id="lf-title" placeholder="e.g. Understanding LUTs"></div>
+        <div class="form-group"><label class="form-label">YouTube Video URL *</label><input class="form-input" type="url" id="lf-video" placeholder="https://www.youtube.com/watch?v=…"></div>
+        <div class="form-group"><label class="form-label">Description</label><textarea class="form-input" id="lf-desc" rows="2" placeholder="Lesson description…"></textarea></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+          <div class="form-group"><label class="form-label">Duration (mins)</label><input class="form-input" type="number" id="lf-duration" min="1" placeholder="15"></div>
+          <div class="form-group"><label class="form-label">Order</label><input class="form-input" type="number" id="lf-order" min="1" placeholder="1"></div>
+        </div>
+        <div class="form-group" style="display:flex;align-items:center;gap:10px;padding:12px;background:rgba(0,212,255,.05);border:1px solid rgba(0,212,255,.2);border-radius:10px">
+          <input type="checkbox" id="lf-preview" style="accent-color:var(--accent);width:16px;height:16px">
+          <label for="lf-preview" style="font-size:.86rem;color:var(--text);cursor:pointer">Free preview (no enrollment required)</label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-ghost btn-sm" onclick="closeModal('lesson-modal')">Cancel</button>
+        <button type="submit" class="btn btn-accent btn-sm">Save</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Coupon Modal -->
+<div class="modal-overlay" id="coupon-modal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('coupon-modal')">×</button>
+    <h3 id="coupon-modal-title">Create Coupon</h3>
+    <form id="coupon-form">
+      <input type="hidden" id="cpf-id">
+      <div class="form-group"><label class="form-label">Coupon Code *</label><input class="form-input" type="text" id="cpf-code" required placeholder="e.g. LAUNCH25" style="text-transform:uppercase"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div class="form-group"><label class="form-label">Discount Type *</label>
+          <select class="form-input" id="cpf-type"><option value="percent">Percentage (%)</option><option value="flat">Flat Amount (₹)</option></select>
+        </div>
+        <div class="form-group"><label class="form-label">Discount Value *</label><input class="form-input" type="number" id="cpf-value" required min="1" placeholder="25"></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div class="form-group"><label class="form-label">Min Order (₹)</label><input class="form-input" type="number" id="cpf-min" min="0" placeholder="0"></div>
+        <div class="form-group"><label class="form-label">Max Uses</label><input class="form-input" type="number" id="cpf-max" min="1" placeholder="Unlimited"></div>
+      </div>
+      <div class="form-group"><label class="form-label">Expiry Date</label><input class="form-input" type="datetime-local" id="cpf-expires"></div>
+      <div class="form-group" style="display:flex;align-items:center;gap:10px;padding:12px;background:rgba(0,212,255,.05);border:1px solid rgba(0,212,255,.2);border-radius:10px">
+        <input type="checkbox" id="cpf-active" checked style="accent-color:var(--accent);width:16px;height:16px">
+        <label for="cpf-active" style="font-size:.86rem;color:var(--text);cursor:pointer">Active</label>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-ghost btn-sm" onclick="closeModal('coupon-modal')">Cancel</button>
+        <button type="submit" class="btn btn-accent btn-sm">Save Coupon</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- User role modal -->
+<div class="modal-overlay" id="user-modal">
+  <div class="modal-box" style="max-width:400px">
+    <button class="modal-close" onclick="closeModal('user-modal')">×</button>
+    <h3>Update User Role</h3>
+    <p style="font-size:.88rem;color:var(--muted);margin-bottom:20px" id="user-modal-email"></p>
+    <input type="hidden" id="uf-id">
+    <div class="form-group"><label class="form-label">Role</label>
+      <select class="form-input" id="uf-role">
+        <option value="customer">Customer</option>
+        <option value="team">Team Member</option>
+        <option value="admin">Admin</option>
+        <option value="super_admin">Super Admin</option>
+      </select>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-ghost btn-sm" onclick="closeModal('user-modal')">Cancel</button>
+      <button type="button" class="btn btn-accent btn-sm" id="save-user-role-btn">Update Role</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="../js/config.js?v=20260608"></script>
+<script src="../js/auth.js?v=20260608"></script>
+<script src="../js/main.js?v=20260608"></script>
+<script>
+'use strict';
+let sb, uid, currentCourseId = null;
+
+/* ============ INIT ============ */
+document.addEventListener('DOMContentLoaded', async () => {
+  const session = await OFXAuth.requireAuth('../login.html?next=admin/index.html');
+  if (!session) return;
+  sb  = OFXAuth.sb;
+  uid = session.user.id;
+
+  // Verify admin role
+  const profile = await OFXAuth.getProfile(uid);
+  if (!profile || !['admin','super_admin'].includes(profile.role)) {
+    alert('Access denied — admin only.');
+    window.location.href = '../index.html';
+    return;
+  }
+
+  document.getElementById('admin-role-badge').textContent = profile.role.replace('_',' ').toUpperCase();
+  document.getElementById('admin-role-badge').style.display = '';
+  document.getElementById('signout-btn').style.display = '';
+  document.getElementById('today-date').textContent = new Date().toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+
+  // Nav
+  document.querySelectorAll('.sidebar-link[data-section]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.sidebar-link').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.panel-section').forEach(s => s.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('section-' + btn.dataset.section)?.classList.add('active');
+      if (btn.dataset.section === 'overview')  loadOverview();
+      if (btn.dataset.section === 'products')  loadProducts();
+      if (btn.dataset.section === 'courses')   loadCourses();
+      if (btn.dataset.section === 'orders')    loadOrders();
+      if (btn.dataset.section === 'users')     loadUsers();
+      if (btn.dataset.section === 'coupons')   loadCoupons();
+    });
+  });
+
+  document.getElementById('signout-btn').addEventListener('click', () => OFXAuth.signOut());
+  document.getElementById('sidebar-signout').addEventListener('click', () => OFXAuth.signOut());
+
+  // Load initial
+  loadOverview();
+  loadProducts();
+});
+
+/* ============ HELPERS ============ */
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+function openModal(id)  { document.getElementById(id).classList.add('open'); }
+function fmtDate(d) { return d ? new Date(d).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}) : '—'; }
+function fmtINR(n) { return '₹' + (n||0).toLocaleString('en-IN'); }
+function badgeRole(r) {
+  const map = {customer:'',team:'badge-admin',admin:'badge-admin',super_admin:'badge-super'};
+  return `<span class="badge ${map[r]||''}">${r||'customer'}</span>`;
+}
+
+/* ============ OVERVIEW ============ */
+async function loadOverview() {
+  const [{ count: userCount }, { data: orders }, { data: courses }] = await Promise.all([
+    sb.from('profiles').select('id', { count: 'exact', head: true }),
+    sb.from('orders').select('total,status,created_at').eq('status','paid'),
+    sb.from('courses').select('id').eq('is_active',true),
+  ]);
+  const revenue = (orders||[]).reduce((s,o) => s + (o.total||0), 0);
+  document.getElementById('ov-revenue').textContent = fmtINR(revenue);
+  document.getElementById('ov-users').textContent   = userCount || 0;
+  document.getElementById('ov-orders').textContent  = (orders||[]).length;
+  document.getElementById('ov-courses').textContent = (courses||[]).length;
+
+  // Charts (simple demo data — replace with real aggregates)
+  const days = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  const rCtx = document.getElementById('revenueChart')?.getContext('2d');
+  const uCtx = document.getElementById('usersChart')?.getContext('2d');
+  const chartOpts = (label, data, color) => ({ type:'line', data:{ labels:days, datasets:[{ label, data, borderColor:color, backgroundColor:color+'22', tension:.4, fill:true, pointRadius:3 }]}, options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{ x:{grid:{color:'#1E2430'},ticks:{color:'#5E6776'}}, y:{grid:{color:'#1E2430'},ticks:{color:'#5E6776'}} }}});
+  if (rCtx) new Chart(rCtx, chartOpts('Revenue (₹)', [0,0,0,0,0,0,revenue], '#00D4FF'));
+  if (uCtx) new Chart(uCtx, chartOpts('New Users',   [0,0,0,0,0,0,userCount||0], '#22e07a'));
+}
+
+/* ============ PRODUCTS ============ */
+let allProducts = [];
+async function loadProducts() {
+  const { data } = await sb.from('products').select('*').order('created_at',{ascending:false});
+  allProducts = data || [];
+  renderProducts(allProducts);
+}
+function renderProducts(list) {
+  const tbody = document.getElementById('products-tbody');
+  if (!list.length) { tbody.innerHTML = `<tr><td colspan="6"><div class="table-empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/></svg>No products yet</div></td></tr>`; return; }
+  tbody.innerHTML = list.map(p => `
+    <tr>
+      <td><div style="display:flex;align-items:center;gap:12px">
+        ${p.thumbnail_url ? `<img class="td-thumb" src="${p.thumbnail_url}" alt="${p.name}">` : `<div class="td-thumb" style="display:grid;place-items:center;color:var(--faint)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/></svg></div>`}
+        <div><div class="td-name">${p.name}</div><div class="td-muted">${p.slug}</div></div>
+      </div></td>
+      <td>${p.category||'—'}</td>
+      <td>${fmtINR(p.price)}</td>
+      <td>${p.sale_price ? fmtINR(p.sale_price) : '—'}</td>
+      <td><span class="badge ${p.is_active?'badge-active':'badge-hold'}">${p.is_active?'Active':'Inactive'}</span></td>
+      <td><div class="tbl-actions">
+        <button class="btn-tbl edit" onclick="editProduct('${p.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>Edit</button>
+        <button class="btn-tbl del" onclick="deleteProduct('${p.id}','${p.name.replace(/'/g,"\'")}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>Delete</button>
+      </div></td>
+    </tr>`).join('');
+}
+
+document.getElementById('product-search').addEventListener('input', e => {
+  const q = e.target.value.toLowerCase();
+  const cat = document.getElementById('product-cat-filter').value;
+  renderProducts(allProducts.filter(p => (!q || p.name.toLowerCase().includes(q)) && (!cat || p.category === cat)));
+});
+document.getElementById('product-cat-filter').addEventListener('change', e => {
+  const q = document.getElementById('product-search').value.toLowerCase();
+  const cat = e.target.value;
+  renderProducts(allProducts.filter(p => (!q || p.name.toLowerCase().includes(q)) && (!cat || p.category === cat)));
+});
+
+document.getElementById('add-product-btn').addEventListener('click', () => {
+  document.getElementById('pf-id').value = '';
+  document.getElementById('product-form').reset();
+  document.getElementById('pf-active').checked = true;
+  document.getElementById('product-modal-title').textContent = 'Add Product';
+  openModal('product-modal');
+});
+window.editProduct = (id) => {
+  const p = allProducts.find(x => x.id === id); if (!p) return;
+  document.getElementById('pf-id').value    = p.id;
+  document.getElementById('pf-name').value  = p.name||'';
+  document.getElementById('pf-slug').value  = p.slug||'';
+  document.getElementById('pf-short').value = p.short_desc||'';
+  document.getElementById('pf-desc').value  = p.description||'';
+  document.getElementById('pf-price').value = p.price||'';
+  document.getElementById('pf-sale').value  = p.sale_price||'';
+  document.getElementById('pf-cat').value   = p.category||'lut';
+  document.getElementById('pf-thumb').value = p.thumbnail_url||'';
+  document.getElementById('pf-file').value  = p.file_url||'';
+  document.getElementById('pf-active').checked = p.is_active !== false;
+  document.getElementById('product-modal-title').textContent = 'Edit Product';
+  openModal('product-modal');
+};
+document.getElementById('product-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const btn = document.getElementById('product-save-btn');
+  btn.textContent = 'Saving…'; btn.disabled = true;
+  const id = document.getElementById('pf-id').value;
+  const payload = {
+    name: document.getElementById('pf-name').value.trim(),
+    slug: document.getElementById('pf-slug').value.trim().toLowerCase().replace(/\s+/g,'-'),
+    short_desc: document.getElementById('pf-short').value.trim(),
+    description: document.getElementById('pf-desc').value.trim(),
+    price: parseFloat(document.getElementById('pf-price').value)||0,
+    sale_price: parseFloat(document.getElementById('pf-sale').value)||null,
+    category: document.getElementById('pf-cat').value,
+    thumbnail_url: document.getElementById('pf-thumb').value.trim()||null,
+    file_url: document.getElementById('pf-file').value.trim()||null,
+    is_active: document.getElementById('pf-active').checked,
+  };
+  const { error } = id
+    ? await sb.from('products').update(payload).eq('id', id)
+    : await sb.from('products').insert(payload);
+  btn.textContent = 'Save Product'; btn.disabled = false;
+  if (error) { OFXAuth.toast('Error: ' + error.message, 'error'); return; }
+  OFXAuth.toast(id ? 'Product updated!' : 'Product added!', 'success');
+  closeModal('product-modal');
+  loadProducts();
+});
+window.deleteProduct = async (id, name) => {
+  if (!confirm(`Delete "${name}"? This cannot be undone.`)) return;
+  await sb.from('products').delete().eq('id', id);
+  OFXAuth.toast('Product deleted.', 'info');
+  loadProducts();
+};
+
+/* ============ COURSES ============ */
+let allCourses = [];
+async function loadCourses() {
+  const { data } = await sb.from('courses').select('*').order('created_at',{ascending:false});
+  allCourses = data || [];
+  const tbody = document.getElementById('courses-tbody');
+  if (!allCourses.length) { tbody.innerHTML = `<tr><td colspan="6"><div class="table-empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/></svg>No courses yet</div></td></tr>`; return; }
+  tbody.innerHTML = allCourses.map(c => `
+    <tr>
+      <td><div class="td-name">${c.title}</div><div class="td-muted">${c.slug}</div></td>
+      <td>${c.is_live ? '🔴 Live' : '📹 Recorded'}</td>
+      <td style="text-transform:capitalize">${c.level||'beginner'}</td>
+      <td>${fmtINR(c.price)}${c.sale_price?` <span style="color:#22e07a;font-size:.76rem">${fmtINR(c.sale_price)}</span>`:''}</td>
+      <td><span class="badge ${c.is_active?'badge-active':'badge-hold'}">${c.is_active?'Active':'Draft'}</span></td>
+      <td><div class="tbl-actions">
+        <button class="btn-tbl" onclick="manageLessons('${c.id}','${c.title.replace(/'/g,"\\'")}')">Lessons</button>
+        <button class="btn-tbl edit" onclick="editCourse('${c.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>Edit</button>
+        <button class="btn-tbl del" onclick="deleteCourse('${c.id}','${c.title.replace(/'/g,"\\'")}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>Del</button>
+      </div></td>
+    </tr>`).join('');
+}
+
+document.getElementById('add-course-btn').addEventListener('click', () => {
+  document.getElementById('cf-id').value = '';
+  document.getElementById('course-form').reset();
+  document.getElementById('cf-active').checked = true;
+  document.getElementById('cf-live-fields').style.display = 'none';
+  document.getElementById('course-modal-title').textContent = 'Add Course';
+  openModal('course-modal');
+});
+document.getElementById('cf-live').addEventListener('change', e => {
+  document.getElementById('cf-live-fields').style.display = e.target.checked ? '' : 'none';
+});
+window.editCourse = (id) => {
+  const c = allCourses.find(x => x.id === id); if (!c) return;
+  document.getElementById('cf-id').value       = c.id;
+  document.getElementById('cf-title').value    = c.title||'';
+  document.getElementById('cf-slug').value     = c.slug||'';
+  document.getElementById('cf-desc').value     = c.description||'';
+  document.getElementById('cf-thumb').value    = c.thumbnail_url||'';
+  document.getElementById('cf-price').value    = c.price||'';
+  document.getElementById('cf-sale').value     = c.sale_price||'';
+  document.getElementById('cf-level').value    = c.level||'beginner';
+  document.getElementById('cf-instructor').value = c.instructor||'';
+  document.getElementById('cf-live').checked   = c.is_live||false;
+  document.getElementById('cf-live-url').value = c.live_url||'';
+  document.getElementById('cf-schedule').value = c.live_schedule?.text||'';
+  document.getElementById('cf-active').checked = c.is_active !== false;
+  document.getElementById('cf-live-fields').style.display = c.is_live ? '' : 'none';
+  document.getElementById('course-modal-title').textContent = 'Edit Course';
+  openModal('course-modal');
+};
+document.getElementById('course-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const id = document.getElementById('cf-id').value;
+  const isLive = document.getElementById('cf-live').checked;
+  const payload = {
+    title: document.getElementById('cf-title').value.trim(),
+    slug: document.getElementById('cf-slug').value.trim().toLowerCase().replace(/\s+/g,'-'),
+    description: document.getElementById('cf-desc').value.trim(),
+    thumbnail_url: document.getElementById('cf-thumb').value.trim()||null,
+    price: parseFloat(document.getElementById('cf-price').value)||0,
+    sale_price: parseFloat(document.getElementById('cf-sale').value)||null,
+    level: document.getElementById('cf-level').value,
+    instructor: document.getElementById('cf-instructor').value.trim(),
+    is_live: isLive,
+    live_url: isLive ? document.getElementById('cf-live-url').value.trim()||null : null,
+    live_schedule: isLive ? { text: document.getElementById('cf-schedule').value.trim() } : null,
+    is_active: document.getElementById('cf-active').checked,
+  };
+  const { error } = id
+    ? await sb.from('courses').update(payload).eq('id', id)
+    : await sb.from('courses').insert(payload);
+  if (error) { OFXAuth.toast('Error: '+error.message,'error'); return; }
+  OFXAuth.toast(id?'Course updated!':'Course added!','success');
+  closeModal('course-modal');
+  loadCourses();
+});
+window.deleteCourse = async (id, name) => {
+  if (!confirm(`Delete course "${name}"?`)) return;
+  await sb.from('courses').delete().eq('id', id);
+  OFXAuth.toast('Course deleted.','info');
+  loadCourses();
+};
+
+/* Lessons management */
+let allModules = [];
+window.manageLessons = async (courseId, courseTitle) => {
+  currentCourseId = courseId;
+  document.getElementById('lessons-panel-title').textContent = `Lessons — ${courseTitle}`;
+  document.getElementById('lessons-panel').style.display = '';
+  document.getElementById('lessons-panel').scrollIntoView({behavior:'smooth'});
+  await loadLessons();
+};
+document.getElementById('close-lessons-btn').addEventListener('click', () => {
+  document.getElementById('lessons-panel').style.display = 'none';
+  currentCourseId = null;
+});
+async function loadLessons() {
+  const [{ data: modules }, { data: lessons }] = await Promise.all([
+    sb.from('modules').select('*').eq('course_id', currentCourseId).order('order_index'),
+    sb.from('lessons').select('*').order('order_index'),
+  ]);
+  allModules = modules || [];
+  const tbody = document.getElementById('lessons-tbody');
+  const rows = [];
+  allModules.forEach(m => {
+    rows.push(`<tr style="background:var(--panel-2)"><td colspan="4" style="padding:10px 18px;font-size:.78rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px">📁 ${m.title}</td></tr>`);
+    const mLessons = (lessons||[]).filter(l => l.module_id === m.id);
+    if (!mLessons.length) rows.push(`<tr><td colspan="4" style="padding:8px 18px;font-size:.8rem;color:var(--faint)">No lessons yet</td></tr>`);
+    mLessons.forEach(l => {
+      rows.push(`<tr>
+        <td style="padding-left:34px"><div class="td-name">${l.title}</div></td>
+        <td>${l.duration_mins ? l.duration_mins+'m' : '—'}</td>
+        <td><span class="badge ${l.is_preview?'badge-active':'badge-hold'}">${l.is_preview?'Free Preview':'Enrolled'}</span></td>
+        <td><div class="tbl-actions">
+          <button class="btn-tbl del" onclick="deleteLesson('${l.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>Del</button>
+        </div></td>
+      </tr>`);
+    });
+  });
+  if (!rows.length) rows.push(`<tr><td colspan="4"><div class="table-empty">No modules yet — add a module first</div></td></tr>`);
+  tbody.innerHTML = rows.join('');
+}
+document.getElementById('add-module-btn').addEventListener('click', () => {
+  if (!currentCourseId) return;
+  document.getElementById('lf-type').value = 'module';
+  document.getElementById('lf-id').value = '';
+  document.getElementById('module-fields').style.display = '';
+  document.getElementById('lesson-fields').style.display = 'none';
+  document.getElementById('lesson-modal-title').textContent = 'Add Module';
+  openModal('lesson-modal');
+});
+document.getElementById('add-lesson-btn').addEventListener('click', () => {
+  if (!currentCourseId) return;
+  if (!allModules.length) { OFXAuth.toast('Add at least one module first.','error'); return; }
+  document.getElementById('lf-type').value = 'lesson';
+  document.getElementById('lf-id').value = '';
+  document.getElementById('module-fields').style.display = 'none';
+  document.getElementById('lesson-fields').style.display = '';
+  document.getElementById('lesson-modal-title').textContent = 'Add Lesson';
+  const sel = document.getElementById('lf-module-id');
+  sel.innerHTML = allModules.map(m => `<option value="${m.id}">${m.title}</option>`).join('');
+  document.getElementById('lesson-modal-title').textContent = 'Add Lesson';
+  openModal('lesson-modal');
+});
+document.getElementById('lesson-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const type = document.getElementById('lf-type').value;
+  let error;
+  if (type === 'module') {
+    const title = document.getElementById('lf-module-title').value.trim();
+    if (!title) return;
+    ({ error } = await sb.from('modules').insert({ course_id:currentCourseId, title, order_index: allModules.length+1 }));
+  } else {
+    const videoRaw = document.getElementById('lf-video').value.trim();
+    const videoId = videoRaw.match(/(?:v=|youtu\.be\/)([^&\s]+)/)?.[1];
+    const videoUrl = videoId ? `https://www.youtube-nocookie.com/embed/${videoId}` : videoRaw;
+    ({ error } = await sb.from('lessons').insert({
+      module_id: document.getElementById('lf-module-id').value,
+      title: document.getElementById('lf-title').value.trim(),
+      video_url: videoUrl,
+      description: document.getElementById('lf-desc').value.trim(),
+      duration_mins: parseInt(document.getElementById('lf-duration').value)||null,
+      order_index: parseInt(document.getElementById('lf-order').value)||1,
+      is_preview: document.getElementById('lf-preview').checked,
+    }));
+  }
+  if (error) { OFXAuth.toast('Error: '+error.message,'error'); return; }
+  OFXAuth.toast('Saved!','success');
+  closeModal('lesson-modal');
+  await loadLessons();
+});
+window.deleteLesson = async (id) => {
+  if (!confirm('Delete this lesson?')) return;
+  await sb.from('lessons').delete().eq('id',id);
+  OFXAuth.toast('Lesson deleted.','info');
+  loadLessons();
+};
+
+/* ============ ORDERS ============ */
+async function loadOrders() {
+  const status = document.getElementById('orders-status-filter').value;
+  let q = sb.from('orders').select('*, profile:profiles(full_name,email)').order('created_at',{ascending:false}).limit(100);
+  if (status) q = q.eq('status',status);
+  const { data } = await q;
+  const tbody = document.getElementById('orders-tbody');
+  if (!data?.length) { tbody.innerHTML = `<tr><td colspan="6"><div class="table-empty">No orders found</div></td></tr>`; return; }
+  tbody.innerHTML = data.map(o => `
+    <tr>
+      <td><span style="font-family:monospace;font-size:.76rem;color:var(--muted)">#${o.id.slice(0,8).toUpperCase()}</span></td>
+      <td><div class="td-name">${o.profile?.full_name||'—'}</div><div class="td-muted">${o.profile?.email||'—'}</div></td>
+      <td style="font-weight:700;color:var(--white)">${fmtINR(o.total)}</td>
+      <td><span class="badge badge-${o.status==='paid'?'paid':o.status==='pending'?'pending':o.status==='failed'?'failed':'hold'}">${o.status}</span></td>
+      <td>${fmtDate(o.created_at)}</td>
+      <td style="font-family:monospace;font-size:.74rem;color:var(--muted)">${o.razorpay_payment_id||'—'}</td>
+    </tr>`).join('');
+}
+document.getElementById('orders-status-filter').addEventListener('change', loadOrders);
+
+/* ============ USERS ============ */
+let allUsers = [];
+async function loadUsers() {
+  const { data } = await sb.from('profiles').select('*').order('created_at',{ascending:false});
+  allUsers = data || [];
+  renderUsers(allUsers);
+}
+function renderUsers(list) {
+  const tbody = document.getElementById('users-tbody');
+  if (!list.length) { tbody.innerHTML = `<tr><td colspan="6"><div class="table-empty">No users found</div></td></tr>`; return; }
+  tbody.innerHTML = list.map(u => `
+    <tr>
+      <td><div class="td-name">${u.full_name||'—'}</div><div class="td-muted">${u.email||'—'}</div></td>
+      <td>${badgeRole(u.role)}</td>
+      <td>${u.wallet_credits||0} ✦</td>
+      <td>🔥 ${u.login_streak||0}</td>
+      <td>${fmtDate(u.created_at)}</td>
+      <td><div class="tbl-actions">
+        <button class="btn-tbl edit" onclick="openUserModal('${u.id}','${(u.email||'').replace(/'/g,"\\'")}','${u.role||'customer'}')">Change Role</button>
+      </div></td>
+    </tr>`).join('');
+}
+document.getElementById('user-search').addEventListener('input', e => {
+  const q = e.target.value.toLowerCase();
+  renderUsers(allUsers.filter(u => !q || (u.full_name||'').toLowerCase().includes(q) || (u.email||'').toLowerCase().includes(q)));
+});
+window.openUserModal = (id, email, role) => {
+  document.getElementById('uf-id').value = id;
+  document.getElementById('user-modal-email').textContent = email;
+  document.getElementById('uf-role').value = role;
+  openModal('user-modal');
+};
+document.getElementById('save-user-role-btn').addEventListener('click', async () => {
+  const id = document.getElementById('uf-id').value;
+  const role = document.getElementById('uf-role').value;
+  const { error } = await sb.from('profiles').update({ role }).eq('id', id);
+  if (error) { OFXAuth.toast('Error: '+error.message,'error'); return; }
+  OFXAuth.toast('Role updated!','success');
+  closeModal('user-modal');
+  loadUsers();
+});
+
+/* ============ COUPONS ============ */
+let allCoupons = [];
+async function loadCoupons() {
+  const { data } = await sb.from('coupons').select('*').order('created_at',{ascending:false});
+  allCoupons = data || [];
+  const tbody = document.getElementById('coupons-tbody');
+  if (!allCoupons.length) { tbody.innerHTML = `<tr><td colspan="7"><div class="table-empty">No coupons yet</div></td></tr>`; return; }
+  tbody.innerHTML = allCoupons.map(c => `
+    <tr>
+      <td><span style="font-family:monospace;font-weight:700;color:var(--white);letter-spacing:1px">${c.code}</span></td>
+      <td>${c.discount_type==='percent' ? c.discount_value+'%' : fmtINR(c.discount_value)}</td>
+      <td>${c.min_order ? fmtINR(c.min_order) : '—'}</td>
+      <td>${c.used_count||0} / ${c.max_uses||'∞'}</td>
+      <td>${c.expires_at ? fmtDate(c.expires_at) : 'Never'}</td>
+      <td><span class="badge ${c.is_active?'badge-active':'badge-hold'}">${c.is_active?'Active':'Inactive'}</span></td>
+      <td><div class="tbl-actions">
+        <button class="btn-tbl edit" onclick="editCoupon('${c.id}')">Edit</button>
+        <button class="btn-tbl del" onclick="deleteCoupon('${c.id}','${c.code}')">Del</button>
+      </div></td>
+    </tr>`).join('');
+}
+document.getElementById('add-coupon-btn').addEventListener('click', () => {
+  document.getElementById('cpf-id').value = '';
+  document.getElementById('coupon-form').reset();
+  document.getElementById('cpf-active').checked = true;
+  document.getElementById('coupon-modal-title').textContent = 'Create Coupon';
+  openModal('coupon-modal');
+});
+window.editCoupon = (id) => {
+  const c = allCoupons.find(x => x.id===id); if (!c) return;
+  document.getElementById('cpf-id').value      = c.id;
+  document.getElementById('cpf-code').value    = c.code;
+  document.getElementById('cpf-type').value    = c.discount_type;
+  document.getElementById('cpf-value').value   = c.discount_value;
+  document.getElementById('cpf-min').value     = c.min_order||'';
+  document.getElementById('cpf-max').value     = c.max_uses||'';
+  document.getElementById('cpf-expires').value = c.expires_at ? c.expires_at.slice(0,16) : '';
+  document.getElementById('cpf-active').checked = c.is_active;
+  document.getElementById('coupon-modal-title').textContent = 'Edit Coupon';
+  openModal('coupon-modal');
+};
+document.getElementById('coupon-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const id = document.getElementById('cpf-id').value;
+  const payload = {
+    code: document.getElementById('cpf-code').value.trim().toUpperCase(),
+    discount_type: document.getElementById('cpf-type').value,
+    discount_value: parseFloat(document.getElementById('cpf-value').value)||0,
+    min_order: parseFloat(document.getElementById('cpf-min').value)||0,
+    max_uses: parseInt(document.getElementById('cpf-max').value)||null,
+    expires_at: document.getElementById('cpf-expires').value || null,
+    is_active: document.getElementById('cpf-active').checked,
+  };
+  const { error } = id
+    ? await sb.from('coupons').update(payload).eq('id', id)
+    : await sb.from('coupons').insert(payload);
+  if (error) { OFXAuth.toast('Error: '+error.message,'error'); return; }
+  OFXAuth.toast(id?'Coupon updated!':'Coupon created!','success');
+  closeModal('coupon-modal');
+  loadCoupons();
+});
+window.deleteCoupon = async (id, code) => {
+  if (!confirm(`Delete coupon "${code}"?`)) return;
+  await sb.from('coupons').delete().eq('id',id);
+  OFXAuth.toast('Coupon deleted.','info');
+  loadCoupons();
+};
+
+// Close modals on overlay click
+document.querySelectorAll('.modal-overlay').forEach(m => m.addEventListener('click', e => { if (e.target === m) m.classList.remove('open'); }));
+</script>
+</body>
+</html>

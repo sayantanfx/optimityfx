@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Team Portal — OptimityFX</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="../css/style.css?v=20260608">
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a href="../index.html" class="brand"><img src="../assets/logo.png" alt="OptimityFX" class="brand-img" width="878" height="296"></a>
+    <div class="nav-cta">
+      <span id="team-name-badge" style="font-size:.84rem;color:var(--muted)"></span>
+      <button id="signout-btn" class="btn btn-ghost btn-sm" style="display:none">Sign Out</button>
+    </div>
+  </div>
+</header>
+
+<div class="panel-layout">
+
+  <!-- Sidebar -->
+  <aside class="panel-sidebar">
+    <div class="sidebar-logo">
+      <img src="../assets/logo.png" alt="OptimityFX" class="brand-img">
+      <div style="font-size:.68rem;color:#7C7BFF;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-top:8px">Team Portal</div>
+    </div>
+    <nav class="sidebar-nav">
+      <button class="sidebar-link active" data-section="projects">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        Projects
+      </button>
+      <button class="sidebar-link" data-section="tasks">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        Tasks
+      </button>
+      <button class="sidebar-link" data-section="timetracker">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        Time Tracker
+      </button>
+      <button class="sidebar-link" data-section="screenshots">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        Screenshots
+      </button>
+      <button class="sidebar-link" data-section="analytics">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        Analytics
+      </button>
+      <div class="sidebar-sep"></div>
+      <a href="../index.html" class="sidebar-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+        View Site
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <button class="sidebar-link" id="sidebar-signout">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+        Sign Out
+      </button>
+    </div>
+  </aside>
+
+  <main class="panel-main">
+
+    <!-- ========== PROJECTS ========== -->
+    <div class="panel-section active" id="section-projects">
+      <div class="panel-header">
+        <h2>Projects</h2>
+        <div style="display:flex;gap:10px;align-items:center">
+          <select class="filter-select" id="proj-status-filter">
+            <option value="">All Status</option>
+            <option value="active">Active</option>
+            <option value="pending">Pending</option>
+            <option value="completed">Completed</option>
+            <option value="on_hold">On Hold</option>
+          </select>
+          <button class="btn btn-accent btn-sm" id="add-project-btn" style="display:none">+ New Project</button>
+        </div>
+      </div>
+
+      <!-- Status columns -->
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px">
+        <div style="background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.2);border-radius:10px;padding:12px;text-align:center">
+          <div style="font-size:1.4rem;font-weight:800;color:var(--accent)" id="cnt-active">0</div>
+          <div style="font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-top:2px">Active</div>
+        </div>
+        <div style="background:rgba(255,194,61,.08);border:1px solid rgba(255,194,61,.2);border-radius:10px;padding:12px;text-align:center">
+          <div style="font-size:1.4rem;font-weight:800;color:#FFC23D" id="cnt-pending">0</div>
+          <div style="font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-top:2px">Pending</div>
+        </div>
+        <div style="background:rgba(34,224,122,.08);border:1px solid rgba(34,224,122,.2);border-radius:10px;padding:12px;text-align:center">
+          <div style="font-size:1.4rem;font-weight:800;color:#22e07a" id="cnt-completed">0</div>
+          <div style="font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-top:2px">Completed</div>
+        </div>
+        <div style="background:rgba(94,103,118,.08);border:1px solid var(--line);border-radius:10px;padding:12px;text-align:center">
+          <div style="font-size:1.4rem;font-weight:800;color:var(--muted)" id="cnt-hold">0</div>
+          <div style="font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-top:2px">On Hold</div>
+        </div>
+      </div>
+
+      <div class="project-grid" id="project-grid">
+        <div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--muted)">Loading projects…</div>
+      </div>
+    </div>
+
+    <!-- ========== TASKS ========== -->
+    <div class="panel-section" id="section-tasks">
+      <div class="panel-header">
+        <h2>Tasks</h2>
+        <div style="display:flex;gap:10px">
+          <select class="filter-select" id="task-project-filter"><option value="">All Projects</option></select>
+          <button class="btn btn-accent btn-sm" id="add-task-btn" style="display:none">+ Add Task</button>
+        </div>
+      </div>
+      <div id="tasks-list">
+        <div style="text-align:center;padding:40px;color:var(--muted)">Loading tasks…</div>
+      </div>
+    </div>
+
+    <!-- ========== TIME TRACKER ========== -->
+    <div class="panel-section" id="section-timetracker">
+      <div class="panel-header"><h2>Time Tracker</h2></div>
+      <div class="timer-display">
+        <div class="timer-clock" id="timer-display">00:00:00</div>
+        <div class="timer-project-label" id="timer-project-label">Select a project to start tracking</div>
+        <div class="timer-btns">
+          <select class="filter-select" id="timer-project-select" style="max-width:220px;border-radius:100px"><option value="">Select project…</option></select>
+          <button class="btn-timer start" id="timer-start-btn">▶ Start</button>
+          <button class="btn-timer stop" id="timer-stop-btn" style="display:none">⏹ Stop</button>
+        </div>
+      </div>
+      <!-- Manual log -->
+      <div style="background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px;margin-bottom:20px">
+        <h4 style="color:var(--white);font-size:.92rem;margin-bottom:14px">Manual Time Entry</h4>
+        <div style="display:grid;grid-template-columns:1fr 1fr 80px auto;gap:10px;align-items:end">
+          <div><label class="form-label">Project</label><select class="form-input" id="manual-project" style="padding:10px 14px"></select></div>
+          <div><label class="form-label">Notes</label><input class="form-input" type="text" id="manual-notes" placeholder="What did you work on?" style="padding:10px 14px"></div>
+          <div><label class="form-label">Hours</label><input class="form-input" type="number" id="manual-hours" min="0.25" max="24" step="0.25" placeholder="1.5" style="padding:10px 14px"></div>
+          <button class="btn btn-accent btn-sm" id="manual-log-btn" style="height:40px">Log</button>
+        </div>
+      </div>
+      <!-- Upload screenshot -->
+      <div style="background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px;margin-bottom:20px" id="screenshot-upload-wrap">
+        <h4 style="color:var(--white);font-size:.92rem;margin-bottom:14px">📸 Upload Screenshot</h4>
+        <div style="display:grid;grid-template-columns:1fr 1fr auto;gap:10px;align-items:end">
+          <div><label class="form-label">Project</label><select class="form-input" id="ss-project" style="padding:10px 14px"></select></div>
+          <div><label class="form-label">Screenshot File</label><input class="form-input" type="file" id="ss-file" accept="image/*" style="padding:8px 14px"></div>
+          <button class="btn btn-ghost btn-sm" id="ss-upload-btn" style="height:40px">Upload</button>
+        </div>
+        <p style="font-size:.76rem;color:var(--faint);margin-top:8px">Max 5MB. PNG/JPG/WEBP. Admin can delete screenshots to free storage.</p>
+      </div>
+      <!-- Recent logs -->
+      <h4 style="color:var(--white);font-size:.92rem;margin-bottom:12px">Recent Time Logs</h4>
+      <div id="time-logs-list"><div style="text-align:center;padding:30px;color:var(--muted)">Loading…</div></div>
+    </div>
+
+    <!-- ========== SCREENSHOTS ========== -->
+    <div class="panel-section" id="section-screenshots">
+      <div class="panel-header">
+        <h2>Screenshots</h2>
+        <select class="filter-select" id="ss-project-filter"><option value="">All Projects</option></select>
+      </div>
+      <div class="screenshot-grid" id="screenshots-grid">
+        <div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--muted)">Loading screenshots…</div>
+      </div>
+    </div>
+
+    <!-- ========== ANALYTICS ========== -->
+    <div class="panel-section" id="section-analytics">
+      <div class="panel-header"><h2>Performance Analytics</h2></div>
+      <div class="admin-stats" style="grid-template-columns:repeat(3,1fr)">
+        <div class="stat-card"><div class="stat-icon cyan"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><div><div class="stat-val" id="an-total-hours">0h</div><div class="stat-lbl">Total Hours Logged</div></div></div>
+        <div class="stat-card"><div class="stat-icon green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 11l3 3L22 4"/></svg></div><div><div class="stat-val" id="an-tasks-done">0</div><div class="stat-lbl">Tasks Completed</div></div></div>
+        <div class="stat-card"><div class="stat-icon gold"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/></svg></div><div><div class="stat-val" id="an-projects">0</div><div class="stat-lbl">Active Projects</div></div></div>
+      </div>
+      <div class="chart-grid">
+        <div class="chart-card"><h4>Hours by Member</h4><div class="chart-wrap"><canvas id="hoursChart"></canvas></div></div>
+        <div class="chart-card"><h4>Project Status Distribution</h4><div class="chart-wrap"><canvas id="statusChart"></canvas></div></div>
+      </div>
+      <div style="margin-top:20px">
+        <h4 style="color:var(--white);font-size:.92rem;margin-bottom:14px">Member Performance</h4>
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead><tr><th>Member</th><th>Hours Logged</th><th>Tasks Done</th><th>Projects</th></tr></thead>
+            <tbody id="member-perf-tbody"><tr><td colspan="4"><div class="table-empty">Loading…</div></td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- ===== MODALS ===== -->
+
+<!-- Project Modal -->
+<div class="modal-overlay" id="project-modal">
+  <div class="modal-box" style="max-width:620px">
+    <button class="modal-close" onclick="closeModal('project-modal')">×</button>
+    <h3 id="proj-modal-title">New Project</h3>
+    <form id="project-form">
+      <input type="hidden" id="pjf-id">
+      <div class="form-group"><label class="form-label">Project Title *</label><input class="form-input" type="text" id="pjf-title" required placeholder="e.g. Brand Identity — Acme Corp"></div>
+      <div class="form-group"><label class="form-label">Description</label><textarea class="form-input" id="pjf-desc" rows="2" placeholder="Brief project description…"></textarea></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div class="form-group"><label class="form-label">Status</label>
+          <select class="form-input" id="pjf-status"><option value="pending">Pending</option><option value="active">Active</option><option value="completed">Completed</option><option value="on_hold">On Hold</option></select>
+        </div>
+        <div class="form-group"><label class="form-label">Priority</label>
+          <select class="form-input" id="pjf-priority"><option value="low">Low</option><option value="medium" selected>Medium</option><option value="high">High</option><option value="urgent">Urgent</option></select>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div class="form-group"><label class="form-label">Deadline</label><input class="form-input" type="date" id="pjf-deadline"></div>
+        <div class="form-group"><label class="form-label">Budget (₹)</label><input class="form-input" type="number" id="pjf-budget" min="0" placeholder="50000"></div>
+      </div>
+      <div style="border-top:1px solid var(--line-soft);margin:16px 0;padding-top:16px">
+        <h4 style="color:var(--white);font-size:.88rem;margin-bottom:12px">Client Details</h4>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+          <div class="form-group"><label class="form-label">Client Name</label><input class="form-input" type="text" id="pjf-cname" placeholder="John Smith"></div>
+          <div class="form-group"><label class="form-label">Client Company</label><input class="form-input" type="text" id="pjf-ccompany" placeholder="Acme Corp"></div>
+          <div class="form-group"><label class="form-label">Client Email</label><input class="form-input" type="email" id="pjf-cemail" placeholder="john@acme.com"></div>
+          <div class="form-group"><label class="form-label">Client Phone</label><input class="form-input" type="tel" id="pjf-cphone" placeholder="+91 98765 43210"></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-ghost btn-sm" onclick="closeModal('project-modal')">Cancel</button>
+        <button type="submit" class="btn btn-accent btn-sm">Save Project</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Task Modal -->
+<div class="modal-overlay" id="task-modal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('task-modal')">×</button>
+    <h3>Add Task</h3>
+    <form id="task-form">
+      <div class="form-group"><label class="form-label">Project *</label><select class="form-input" id="tf-project"></select></div>
+      <div class="form-group"><label class="form-label">Task Title *</label><input class="form-input" type="text" id="tf-title" required placeholder="e.g. Design hero section"></div>
+      <div class="form-group"><label class="form-label">Description</label><textarea class="form-input" id="tf-desc" rows="2"></textarea></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px">
+        <div class="form-group"><label class="form-label">Assign To</label><select class="form-input" id="tf-assign"><option value="">Unassigned</option></select></div>
+        <div class="form-group"><label class="form-label">Priority</label>
+          <select class="form-input" id="tf-priority"><option value="low">Low</option><option value="medium" selected>Medium</option><option value="high">High</option><option value="urgent">Urgent</option></select>
+        </div>
+        <div class="form-group"><label class="form-label">Due Date</label><input class="form-input" type="date" id="tf-due"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-ghost btn-sm" onclick="closeModal('task-modal')">Cancel</button>
+        <button type="submit" class="btn btn-accent btn-sm">Add Task</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Project detail modal -->
+<div class="modal-overlay" id="project-detail-modal">
+  <div class="modal-box" style="max-width:600px">
+    <button class="modal-close" onclick="closeModal('project-detail-modal')">×</button>
+    <div id="project-detail-content"></div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="../js/config.js?v=20260608"></script>
+<script src="../js/auth.js?v=20260608"></script>
+<script src="../js/main.js?v=20260608"></script>
+<script>
+'use strict';
+let sb, uid, userProfile, allProjects = [], allTeamMembers = [];
+let timerInterval = null, timerStart = null, timerProjectId = null;
+
+document.addEventListener('DOMContentLoaded', async () => {
+  const session = await OFXAuth.requireAuth('../login.html?next=team/index.html');
+  if (!session) return;
+  sb  = OFXAuth.sb;
+  uid = session.user.id;
+
+  userProfile = await OFXAuth.getProfile(uid);
+  if (!userProfile || !['team','admin','super_admin'].includes(userProfile.role)) {
+    alert('Access denied — team members only.');
+    window.location.href = '../index.html';
+    return;
+  }
+
+  const isAdmin = ['admin','super_admin'].includes(userProfile.role);
+  document.getElementById('team-name-badge').textContent = userProfile.full_name || session.user.email;
+  document.getElementById('signout-btn').style.display = '';
+  if (isAdmin) {
+    document.getElementById('add-project-btn').style.display = '';
+    document.getElementById('add-task-btn').style.display = '';
+  }
+
+  // Sidebar nav
+  document.querySelectorAll('.sidebar-link[data-section]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.sidebar-link').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.panel-section').forEach(s => s.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('section-' + btn.dataset.section)?.classList.add('active');
+      if (btn.dataset.section === 'projects')    loadProjects();
+      if (btn.dataset.section === 'tasks')       loadTasks();
+      if (btn.dataset.section === 'timetracker') loadTimerSection();
+      if (btn.dataset.section === 'screenshots') loadScreenshots();
+      if (btn.dataset.section === 'analytics')   loadAnalytics();
+    });
+  });
+
+  document.getElementById('signout-btn').addEventListener('click', () => OFXAuth.signOut());
+  document.getElementById('sidebar-signout').addEventListener('click', () => OFXAuth.signOut());
+
+  await loadTeamMembers();
+  loadProjects();
+});
+
+/* ---- Helpers ---- */
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+function openModal(id)  { document.getElementById(id).classList.add('open'); }
+function fmtDate(d) { return d ? new Date(d).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}) : '—'; }
+function fmtDuration(mins) { if (!mins) return '0m'; const h=Math.floor(mins/60), m=mins%60; return h ? `${h}h ${m}m` : `${m}m`; }
+function statusBadge(s) { const map={active:'badge-active',pending:'badge-pending',completed:'badge-completed',on_hold:'badge-hold'}; return `<span class="badge ${map[s]||'badge-hold'}">${s?.replace('_',' ')||'—'}</span>`; }
+function priorityDot(p) { const c={low:'#5E6776',medium:'#FFC23D',high:'#FF8A3D',urgent:'#FF3B57'}; return `<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${c[p]||c.medium}"></span>`; }
+
+async function loadTeamMembers() {
+  const { data } = await sb.from('profiles').select('id,full_name,email').in('role',['team','admin','super_admin']);
+  allTeamMembers = data || [];
+  // Populate assign dropdowns
+  const opts = '<option value="">Unassigned</option>' + allTeamMembers.map(m => `<option value="${m.id}">${m.full_name||m.email}</option>`).join('');
+  document.getElementById('tf-assign').innerHTML = opts;
+}
+
+/* ========== PROJECTS ========== */
+async function loadProjects() {
+  const statusFilter = document.getElementById('proj-status-filter').value;
+  let q = sb.from('projects').select('*, members:project_members(user_id)').order('created_at',{ascending:false});
+  if (statusFilter) q = q.eq('status', statusFilter);
+  // Non-admins see only their projects
+  if (!['admin','super_admin'].includes(userProfile.role)) {
+    const { data: myProjs } = await sb.from('project_members').select('project_id').eq('user_id', uid);
+    const ids = (myProjs||[]).map(p => p.project_id);
+    if (!ids.length) { document.getElementById('project-grid').innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--muted)">No projects assigned to you yet.</div>'; return; }
+    q = q.in('id', ids);
+  }
+  const { data } = await q;
+  allProjects = data || [];
+
+  // Counts
+  document.getElementById('cnt-active').textContent    = allProjects.filter(p=>p.status==='active').length;
+  document.getElementById('cnt-pending').textContent   = allProjects.filter(p=>p.status==='pending').length;
+  document.getElementById('cnt-completed').textContent = allProjects.filter(p=>p.status==='completed').length;
+  document.getElementById('cnt-hold').textContent      = allProjects.filter(p=>p.status==='on_hold').length;
+
+  const grid = document.getElementById('project-grid');
+  if (!allProjects.length) { grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--muted)">No projects found.</div>'; return; }
+  grid.innerHTML = allProjects.map(p => `
+    <div class="project-card" onclick="viewProject('${p.id}')">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+        ${statusBadge(p.status)}
+        ${priorityDot(p.priority)}
+      </div>
+      <h4>${p.title}</h4>
+      <div class="pc-client">${p.client_name ? `👤 ${p.client_name}${p.client_company?' — '+p.client_company:''}` : 'No client'}</div>
+      ${p.description ? `<p style="font-size:.8rem;color:var(--muted);margin-bottom:8px;line-height:1.45">${p.description.slice(0,80)}${p.description.length>80?'…':''}</p>` : ''}
+      <div class="pc-meta">
+        <div class="pm-avatars">${(p.members||[]).slice(0,4).map(()=>`<div class="pm-av">👤</div>`).join('')}${p.members?.length>4?`<div class="pm-av">+${p.members.length-4}</div>`:''}</div>
+        ${p.deadline?`<span class="pc-deadline">📅 ${fmtDate(p.deadline)}</span>`:''}
+        ${['admin','super_admin'].includes(userProfile.role)?`<button class="btn-tbl edit" style="margin-left:auto" onclick="event.stopPropagation();editProject('${p.id}')">Edit</button>`:''}
+      </div>
+    </div>`).join('');
+
+  // Populate dropdowns
+  const projOpts = '<option value="">All Projects</option>' + allProjects.map(p=>`<option value="${p.id}">${p.title}</option>`).join('');
+  document.getElementById('task-project-filter').innerHTML = projOpts;
+  document.getElementById('timer-project-select').innerHTML = '<option value="">Select project…</option>' + allProjects.filter(p=>p.status==='active').map(p=>`<option value="${p.id}">${p.title}</option>`).join('');
+  document.getElementById('manual-project').innerHTML = allProjects.map(p=>`<option value="${p.id}">${p.title}</option>`).join('');
+  document.getElementById('ss-project').innerHTML = allProjects.map(p=>`<option value="${p.id}">${p.title}</option>`).join('');
+  document.getElementById('ss-project-filter').innerHTML = projOpts;
+}
+document.getElementById('proj-status-filter').addEventListener('change', loadProjects);
+
+window.viewProject = (id) => {
+  const p = allProjects.find(x=>x.id===id); if(!p) return;
+  document.getElementById('project-detail-content').innerHTML = `
+    <h3>${p.title}</h3>
+    ${statusBadge(p.status)} ${priorityDot(p.priority)} <span style="font-size:.76rem;color:var(--muted);margin-left:6px">${p.priority} priority</span>
+    ${p.description?`<p style="margin-top:14px;font-size:.9rem;color:var(--muted)">${p.description}</p>`:''}
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:20px">
+      ${p.client_name?`<div><div class="cmi-label">Client</div><div class="cmi-value">${p.client_name}</div></div>`:''}
+      ${p.client_company?`<div><div class="cmi-label">Company</div><div class="cmi-value">${p.client_company}</div></div>`:''}
+      ${p.client_email?`<div><div class="cmi-label">Email</div><div class="cmi-value">${p.client_email}</div></div>`:''}
+      ${p.client_phone?`<div><div class="cmi-label">Phone</div><div class="cmi-value">${p.client_phone}</div></div>`:''}
+      ${p.deadline?`<div><div class="cmi-label">Deadline</div><div class="cmi-value">${fmtDate(p.deadline)}</div></div>`:''}
+      ${p.budget?`<div><div class="cmi-label">Budget</div><div class="cmi-value">₹${p.budget.toLocaleString('en-IN')}</div></div>`:''}
+    </div>
+  `;
+  openModal('project-detail-modal');
+};
+
+document.getElementById('add-project-btn').addEventListener('click', () => {
+  document.getElementById('pjf-id').value = '';
+  document.getElementById('project-form').reset();
+  document.getElementById('proj-modal-title').textContent = 'New Project';
+  openModal('project-modal');
+});
+window.editProject = (id) => {
+  const p = allProjects.find(x=>x.id===id); if(!p) return;
+  document.getElementById('pjf-id').value       = p.id;
+  document.getElementById('pjf-title').value    = p.title||'';
+  document.getElementById('pjf-desc').value     = p.description||'';
+  document.getElementById('pjf-status').value   = p.status||'pending';
+  document.getElementById('pjf-priority').value = p.priority||'medium';
+  document.getElementById('pjf-deadline').value = p.deadline||'';
+  document.getElementById('pjf-budget').value   = p.budget||'';
+  document.getElementById('pjf-cname').value    = p.client_name||'';
+  document.getElementById('pjf-ccompany').value = p.client_company||'';
+  document.getElementById('pjf-cemail').value   = p.client_email||'';
+  document.getElementById('pjf-cphone').value   = p.client_phone||'';
+  document.getElementById('proj-modal-title').textContent = 'Edit Project';
+  openModal('project-modal');
+};
+document.getElementById('project-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const id = document.getElementById('pjf-id').value;
+  const payload = {
+    title: document.getElementById('pjf-title').value.trim(),
+    description: document.getElementById('pjf-desc').value.trim(),
+    status: document.getElementById('pjf-status').value,
+    priority: document.getElementById('pjf-priority').value,
+    deadline: document.getElementById('pjf-deadline').value||null,
+    budget: parseFloat(document.getElementById('pjf-budget').value)||null,
+    client_name: document.getElementById('pjf-cname').value.trim()||null,
+    client_company: document.getElementById('pjf-ccompany').value.trim()||null,
+    client_email: document.getElementById('pjf-cemail').value.trim()||null,
+    client_phone: document.getElementById('pjf-cphone').value.trim()||null,
+    created_by: uid,
+  };
+  const { error } = id ? await sb.from('projects').update(payload).eq('id',id) : await sb.from('projects').insert(payload);
+  if (error) { OFXAuth.toast('Error: '+error.message,'error'); return; }
+  OFXAuth.toast(id?'Project updated!':'Project created!','success');
+  closeModal('project-modal');
+  loadProjects();
+});
+
+/* ========== TASKS ========== */
+let allTasks = [];
+async function loadTasks() {
+  const projId = document.getElementById('task-project-filter').value;
+  let q = sb.from('tasks').select('*, project:projects(title)').order('created_at',{ascending:false});
+  if (projId) q = q.eq('project_id', projId);
+  if (!['admin','super_admin'].includes(userProfile.role)) q = q.eq('assigned_to', uid);
+  const { data } = await q;
+  allTasks = data || [];
+  const div = document.getElementById('tasks-list');
+  if (!allTasks.length) { div.innerHTML = '<div style="text-align:center;padding:40px;color:var(--muted)">No tasks found.</div>'; return; }
+  div.innerHTML = allTasks.map(t => `
+    <div class="task-row" id="task-${t.id}">
+      <div class="task-check ${t.status==='done'?'done':''}" onclick="toggleTask('${t.id}','${t.status}')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6 9 17l-5-5"/></svg>
+      </div>
+      <div style="flex:1;min-width:0">
+        <div class="task-title ${t.status==='done'?'struck':''}">${t.title}</div>
+        <div style="font-size:.74rem;color:var(--muted);margin-top:2px">${t.project?.title||''}</div>
+      </div>
+      ${statusBadge(t.status)}
+      ${priorityDot(t.priority)}
+      ${t.due_date?`<span class="task-due">${fmtDate(t.due_date)}</span>`:''}
+      ${['admin','super_admin'].includes(userProfile.role)?`<button class="btn-tbl del" onclick="deleteTask('${t.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button>`:''}
+    </div>`).join('');
+}
+document.getElementById('task-project-filter').addEventListener('change', loadTasks);
+
+window.toggleTask = async (id, currentStatus) => {
+  const newStatus = currentStatus === 'done' ? 'todo' : 'done';
+  await sb.from('tasks').update({ status: newStatus }).eq('id', id);
+  loadTasks();
+};
+window.deleteTask = async (id) => {
+  if (!confirm('Delete this task?')) return;
+  await sb.from('tasks').delete().eq('id', id);
+  OFXAuth.toast('Task deleted.','info');
+  loadTasks();
+};
+
+document.getElementById('add-task-btn').addEventListener('click', () => {
+  document.getElementById('task-form').reset();
+  document.getElementById('tf-project').innerHTML = allProjects.map(p=>`<option value="${p.id}">${p.title}</option>`).join('');
+  openModal('task-modal');
+});
+document.getElementById('task-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const payload = {
+    project_id:  document.getElementById('tf-project').value,
+    title:       document.getElementById('tf-title').value.trim(),
+    description: document.getElementById('tf-desc').value.trim(),
+    assigned_to: document.getElementById('tf-assign').value||null,
+    priority:    document.getElementById('tf-priority').value,
+    due_date:    document.getElementById('tf-due').value||null,
+    status:      'todo',
+    created_by:  uid,
+  };
+  const { error } = await sb.from('tasks').insert(payload);
+  if (error) { OFXAuth.toast('Error: '+error.message,'error'); return; }
+  OFXAuth.toast('Task added!','success');
+  closeModal('task-modal');
+  loadTasks();
+});
+
+/* ========== TIME TRACKER ========== */
+function loadTimerSection() { loadTimeLogs(); }
+let timerSeconds = 0;
+function updateTimerDisplay() {
+  const h = Math.floor(timerSeconds/3600), m = Math.floor((timerSeconds%3600)/60), s = timerSeconds%60;
+  document.getElementById('timer-display').textContent = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+}
+document.getElementById('timer-start-btn').addEventListener('click', () => {
+  timerProjectId = document.getElementById('timer-project-select').value;
+  if (!timerProjectId) { OFXAuth.toast('Select a project first.','error'); return; }
+  const proj = allProjects.find(p=>p.id===timerProjectId);
+  document.getElementById('timer-project-label').textContent = proj?.title || 'Tracking…';
+  timerStart = new Date();
+  timerSeconds = 0;
+  document.getElementById('timer-start-btn').style.display = 'none';
+  document.getElementById('timer-stop-btn').style.display  = '';
+  timerInterval = setInterval(() => { timerSeconds++; updateTimerDisplay(); }, 1000);
+});
+document.getElementById('timer-stop-btn').addEventListener('click', async () => {
+  clearInterval(timerInterval);
+  const end = new Date();
+  const mins = Math.round((end - timerStart) / 60000);
+  document.getElementById('timer-start-btn').style.display = '';
+  document.getElementById('timer-stop-btn').style.display  = 'none';
+  document.getElementById('timer-project-label').textContent = 'Select a project to start tracking';
+  timerSeconds = 0; updateTimerDisplay();
+  if (mins < 1) { OFXAuth.toast('Session too short to log.','info'); return; }
+  await sb.from('time_logs').insert({ user_id:uid, project_id:timerProjectId, start_time:timerStart.toISOString(), end_time:end.toISOString(), duration_mins:mins });
+  OFXAuth.toast(`Logged ${fmtDuration(mins)} ✓`,'success');
+  loadTimeLogs();
+});
+document.getElementById('manual-log-btn').addEventListener('click', async () => {
+  const projId = document.getElementById('manual-project').value;
+  const hours  = parseFloat(document.getElementById('manual-hours').value)||0;
+  const notes  = document.getElementById('manual-notes').value.trim();
+  if (!projId || !hours) { OFXAuth.toast('Select project and enter hours.','error'); return; }
+  await sb.from('time_logs').insert({ user_id:uid, project_id:projId, duration_mins:Math.round(hours*60), notes });
+  OFXAuth.toast(`Logged ${hours}h manually.`,'success');
+  document.getElementById('manual-hours').value = '';
+  document.getElementById('manual-notes').value = '';
+  loadTimeLogs();
+});
+async function loadTimeLogs() {
+  const { data } = await sb.from('time_logs').select('*, project:projects(title)').eq('user_id',uid).order('created_at',{ascending:false}).limit(20);
+  const div = document.getElementById('time-logs-list');
+  if (!data?.length) { div.innerHTML = '<div style="text-align:center;padding:30px;color:var(--muted)">No time logged yet.</div>'; return; }
+  div.innerHTML = data.map(l => `
+    <div class="time-log-row">
+      <div class="tl-info">
+        <div class="tl-project">${l.project?.title||'—'}</div>
+        ${l.notes?`<div class="tl-note">${l.notes}</div>`:''}
+      </div>
+      <span class="tl-duration">⏱ ${fmtDuration(l.duration_mins)}</span>
+      <span class="tl-date">${fmtDate(l.created_at)}</span>
+    </div>`).join('');
+}
+
+/* Screenshot upload */
+document.getElementById('ss-upload-btn').addEventListener('click', async () => {
+  const file  = document.getElementById('ss-file').files[0];
+  const projId = document.getElementById('ss-project').value;
+  if (!file || !projId) { OFXAuth.toast('Select project and file.','error'); return; }
+  if (file.size > 5*1024*1024) { OFXAuth.toast('File too large (max 5MB).','error'); return; }
+  const ext  = file.name.split('.').pop();
+  const path = `screenshots/${uid}/${Date.now()}.${ext}`;
+  const { error: uploadErr } = await sb.storage.from('screenshots').upload(path, file);
+  if (uploadErr) { OFXAuth.toast('Upload failed: '+uploadErr.message,'error'); return; }
+  const { data: { publicUrl } } = sb.storage.from('screenshots').getPublicUrl(path);
+  await sb.from('screenshots').insert({ user_id:uid, project_id:projId, storage_path:publicUrl });
+  OFXAuth.toast('Screenshot uploaded!','success');
+  document.getElementById('ss-file').value = '';
+  loadScreenshots();
+});
+
+/* ========== SCREENSHOTS ========== */
+async function loadScreenshots() {
+  const projId = document.getElementById('ss-project-filter').value;
+  const isAdmin = ['admin','super_admin'].includes(userProfile.role);
+  let q = sb.from('screenshots').select('*, project:projects(title), user:profiles(full_name)').order('created_at',{ascending:false}).limit(40);
+  if (projId) q = q.eq('project_id', projId);
+  if (!isAdmin) q = q.eq('user_id', uid);
+  const { data } = await q;
+  const grid = document.getElementById('screenshots-grid');
+  if (!data?.length) { grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--muted)">No screenshots yet.</div>'; return; }
+  grid.innerHTML = data.map(s => `
+    <div class="ss-tile">
+      <img src="${s.storage_path}" alt="Screenshot" loading="lazy">
+      <div class="ss-overlay">
+        <a href="${s.storage_path}" target="_blank" class="btn-tbl">View</a>
+        ${isAdmin?`<button class="btn-tbl del" onclick="deleteScreenshot('${s.id}','${s.storage_path}')">Delete</button>`:''}
+      </div>
+      <div class="ss-meta">${s.project?.title||'—'} · ${s.user?.full_name||'—'} · ${fmtDate(s.created_at)}</div>
+    </div>`).join('');
+}
+document.getElementById('ss-project-filter').addEventListener('change', loadScreenshots);
+window.deleteScreenshot = async (id, path) => {
+  if (!confirm('Delete this screenshot?')) return;
+  // Remove from storage
+  const storePath = path.split('/storage/v1/object/public/screenshots/')[1];
+  if (storePath) await sb.storage.from('screenshots').remove([storePath]);
+  await sb.from('screenshots').delete().eq('id',id);
+  OFXAuth.toast('Screenshot deleted.','success');
+  loadScreenshots();
+};
+
+/* ========== ANALYTICS ========== */
+async function loadAnalytics() {
+  const isAdmin = ['admin','super_admin'].includes(userProfile.role);
+  const [{ data: logs }, { data: tasks }, { data: projects }] = await Promise.all([
+    isAdmin ? sb.from('time_logs').select('user_id,duration_mins,project_id') : sb.from('time_logs').select('duration_mins,project_id').eq('user_id',uid),
+    sb.from('tasks').select('status,assigned_to'),
+    sb.from('projects').select('status'),
+  ]);
+  const totalMins = (logs||[]).reduce((s,l)=>s+(l.duration_mins||0),0);
+  document.getElementById('an-total-hours').textContent = Math.round(totalMins/60) + 'h';
+  document.getElementById('an-tasks-done').textContent  = (tasks||[]).filter(t=>t.status==='done').length;
+  document.getElementById('an-projects').textContent    = (projects||[]).filter(p=>p.status==='active').length;
+
+  // Charts
+  const statuses = ['active','pending','completed','on_hold'];
+  const statusCounts = statuses.map(s=>(projects||[]).filter(p=>p.status===s).length);
+  const sCtx = document.getElementById('statusChart')?.getContext('2d');
+  if (sCtx) new Chart(sCtx, { type:'doughnut', data:{ labels:['Active','Pending','Completed','On Hold'], datasets:[{ data:statusCounts, backgroundColor:['#00D4FF','#FFC23D','#22e07a','#5E6776'], borderWidth:0 }]}, options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{position:'right',labels:{color:'#9AA3B2',boxWidth:12}}}}});
+
+  if (isAdmin) {
+    // Hours by member
+    const memberHours = {};
+    (logs||[]).forEach(l => { memberHours[l.user_id] = (memberHours[l.user_id]||0)+(l.duration_mins||0); });
+    const memberIds = Object.keys(memberHours);
+    const memberNames = memberIds.map(id => allTeamMembers.find(m=>m.id===id)?.full_name || id.slice(0,6));
+    const memberVals  = memberIds.map(id => Math.round(memberHours[id]/60));
+    const hCtx = document.getElementById('hoursChart')?.getContext('2d');
+    if (hCtx) new Chart(hCtx, { type:'bar', data:{ labels:memberNames, datasets:[{ label:'Hours', data:memberVals, backgroundColor:'rgba(0,212,255,.6)', borderRadius:6 }]}, options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{ x:{grid:{color:'#1E2430'},ticks:{color:'#5E6776'}}, y:{grid:{color:'#1E2430'},ticks:{color:'#5E6776'}} }}});
+
+    // Member performance table
+    const tbody = document.getElementById('member-perf-tbody');
+    tbody.innerHTML = allTeamMembers.map(m => {
+      const h = Math.round((memberHours[m.id]||0)/60);
+      const done = (tasks||[]).filter(t=>t.assigned_to===m.id&&t.status==='done').length;
+      return `<tr><td><div class="td-name">${m.full_name||'—'}</div><div class="td-muted">${m.email}</div></td><td>⏱ ${h}h</td><td>✅ ${done}</td><td>—</td></tr>`;
+    }).join('');
+  }
+}
+
+// Close modals on backdrop click
+document.querySelectorAll('.modal-overlay').forEach(m => m.addEventListener('click', e => { if(e.target===m) m.classList.remove('open'); }));
+</script>
+</body>
+</html>
