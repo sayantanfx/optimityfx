@@ -242,7 +242,7 @@
     async resetPassword(email) {
       if (!sb) return { error: { message: 'Supabase not configured.' } };
       return sb.auth.resetPasswordForEmail(email, {
-        redirectTo: OFX.siteUrl + '/reset-password.html',
+        redirectTo: OFX.siteUrl + '/forgot-password.html',
       });
     },
 
