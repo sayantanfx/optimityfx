@@ -1,0 +1,14 @@
+{
+  "name": "OptimityFX — Creative Studio",
+  "short_name": "OptimityFX",
+  "description": "Premium creative studio for video editing, color grading & AI production. Your Vision — Graded.",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#07090C",
+  "theme_color": "#07090C",
+  "lang": "en",
+  "categories": ["photo", "video", "education", "business"],
+  "icons": [
+    { "src": "assets/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

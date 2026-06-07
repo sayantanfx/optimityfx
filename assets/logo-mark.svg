@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" width="320" height="320">
+  <defs>
+    <radialGradient id="bgG" cx="70%" cy="20%" r="70%">
+      <stop offset="0%" stop-color="#2D1400"/>
+      <stop offset="100%" stop-color="#00101E"/>
+    </radialGradient>
+    <linearGradient id="beamG" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#0033FF"/>
+      <stop offset="20%"  stop-color="#00AAFF"/>
+      <stop offset="40%"  stop-color="#00FF88"/>
+      <stop offset="60%"  stop-color="#FFE800"/>
+      <stop offset="80%"  stop-color="#FF8800"/>
+      <stop offset="100%" stop-color="#FF0066"/>
+    </linearGradient>
+    <linearGradient id="fxG" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"   stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#CC2222"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <clipPath id="sq"><rect width="320" height="320" rx="24"/></clipPath>
+  </defs>
+
+  <!-- Background -->
+  <rect width="320" height="320" rx="24" fill="#0A0A0A"/>
+  <rect width="320" height="320" rx="24" fill="url(#bgG)"/>
+
+  <!-- Spectrum beam -->
+  <g clip-path="url(#sq)" filter="url(#glow)">
+    <polygon points="20,295  80,295  290,50  265,28" fill="url(#beamG)" opacity="0.9"/>
+    <polygon points="30,292  70,292  285,52  272,42" fill="white" opacity="0.2"/>
+    <circle cx="80" cy="265" r="3" fill="white" opacity="0.7"/>
+    <circle cx="170" cy="160" r="3.5" fill="white" opacity="0.6"/>
+    <circle cx="255" cy="72" r="3" fill="white" opacity="0.5"/>
+  </g>
+
+  <!-- FX box -->
+  <rect x="110" y="85" width="195" height="150" rx="2"
+    fill="none" stroke="url(#fxG)" stroke-width="4"/>
+
+  <!-- FX text -->
+  <text x="118" y="222"
+    font-family="'Arial Black', 'Impact', 'Franklin Gothic Heavy', sans-serif"
+    font-weight="900"
+    font-style="italic"
+    font-size="138"
+    fill="white"
+    letter-spacing="-4">FX</text>
+
+  <!-- Spectrum underline -->
+  <rect x="20" y="302" width="280" height="2" fill="url(#beamG)" rx="1" opacity="0.8"/>
+</svg>
