@@ -17,7 +17,7 @@
     try { sb = createClient(OFX.supabaseUrl, OFX.supabaseKey); }
     catch (e) { console.error('OFXAuth: createClient failed —', e.message); }
   } else {
-    console.info('OFXAuth: Supabase not configured yet. Fill in js/config.js to enable auth.');
+    console.warn('OFXAuth: Supabase not configured yet — fill in js/config.js. URL starts with YOUR_');
   }
 
   /* ================================================================
