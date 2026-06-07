@@ -203,16 +203,36 @@
 <script src="js/main.js?v=20260608"></script>
 <script>
 document.addEventListener('DOMContentLoaded', async () => {
-  const session = await OFXAuth.requireAuth();
-  if (!session) return;
+  let session, sb, uid, profile;
 
-  const sb   = OFXAuth.sb;
-  const uid  = session.user.id;
+  try {
+    session = await OFXAuth.requireAuth();
+    if (!session) return;
 
-  /* ---- Load profile ---- */
-  const profile = await OFXAuth.getProfile(uid);
-  const name    = profile?.full_name || session.user.user_metadata?.full_name || 'User';
-  const email   = profile?.email     || session.user.email || '';
+    sb  = OFXAuth.sb;
+    uid = session.user.id;
+
+    /* ---- Auto-create profile if missing ---- */
+    profile = await OFXAuth.getProfile(uid);
+    if (!profile && sb) {
+      await sb.from('profiles').upsert({
+        id:             uid,
+        email:          session.user.email,
+        full_name:      session.user.user_metadata?.full_name || session.user.email?.split('@')[0] || 'User',
+        role:           'customer',
+        wallet_credits: 0,
+        login_streak:   0,
+      });
+      profile = await OFXAuth.getProfile(uid);
+    }
+  } catch (err) {
+    console.error('Dashboard init error:', err);
+    document.getElementById('dash-name').textContent = 'Error — please refresh';
+    return;
+  }
+
+  const name  = profile?.full_name || session.user.user_metadata?.full_name || session.user.email?.split('@')[0] || 'User';
+  const email = profile?.email     || session.user.email || '';
 
   document.getElementById('dash-name').textContent  = name;
   document.getElementById('dash-email').textContent = email;
@@ -222,7 +242,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.getElementById('prof-email').value = email;
 
   // Avatar initials
-  const initials = name.split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase();
+  const initials = name.split(' ').filter(Boolean).map(w => w[0]).join('').slice(0,2).toUpperCase() || '?';
   document.getElementById('avatar-initials').textContent = initials;
   if (profile?.avatar_url) {
     const img = document.getElementById('avatar-img');

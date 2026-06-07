@@ -177,8 +177,10 @@
 
     async getProfile(userId) {
       if (!sb) return null;
-      const { data } = await sb.from('profiles').select('*').eq('id', userId).maybeSingle();
-      return data;
+      try {
+        const { data } = await sb.from('profiles').select('*').eq('id', userId).maybeSingle();
+        return data;
+      } catch { return null; }
     },
 
     async requireAuth(redirectTo) {
