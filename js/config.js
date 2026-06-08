@@ -14,7 +14,7 @@ window.OFX = Object.freeze({
   // Business info
   currency:    'INR',
   companyName: 'OptimityFX',
-  supportEmail:'optimityfx.studio@gmail.com',
+  supportEmail:'optimityfx@gmail.com',
   siteUrl:     'https://optimityfx.com',
 
   // Daily login rewards

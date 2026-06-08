@@ -263,6 +263,21 @@ CREATE TABLE IF NOT EXISTS projects (
   updated_at      TIMESTAMPTZ DEFAULT NOW()
 );
 
+-- Standalone client directory (matched to projects via client_email/client_name)
+CREATE TABLE IF NOT EXISTS clients (
+  id            UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  name          TEXT NOT NULL,
+  company       TEXT,
+  email         TEXT,
+  phone         TEXT,
+  location      TEXT,
+  notes         TEXT,
+  total_budget  NUMERIC(10,2) DEFAULT 0,
+  created_by    UUID REFERENCES auth.users(id),
+  created_at    TIMESTAMPTZ DEFAULT NOW(),
+  updated_at    TIMESTAMPTZ DEFAULT NOW()
+);
+
 CREATE TABLE IF NOT EXISTS project_members (
   id         UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   project_id UUID REFERENCES projects(id) ON DELETE CASCADE,
@@ -333,6 +348,7 @@ ALTER TABLE wallet_transactions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE coupons           ENABLE ROW LEVEL SECURITY;
 ALTER TABLE coupon_usage      ENABLE ROW LEVEL SECURITY;
 ALTER TABLE projects          ENABLE ROW LEVEL SECURITY;
+ALTER TABLE clients           ENABLE ROW LEVEL SECURITY;
 ALTER TABLE project_members   ENABLE ROW LEVEL SECURITY;
 ALTER TABLE tasks             ENABLE ROW LEVEL SECURITY;
 ALTER TABLE time_logs         ENABLE ROW LEVEL SECURITY;
@@ -411,6 +427,9 @@ CREATE POLICY "Team can view projects" ON projects FOR SELECT
   USING (EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role IN ('team','admin','super_admin')));
 CREATE POLICY "Team can manage projects" ON projects FOR ALL
   USING (EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role IN ('team','admin','super_admin')));
+
+CREATE POLICY "Admins manage clients" ON clients FOR ALL
+  USING (EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role IN ('admin','super_admin')));
 
 CREATE POLICY "Team can view members"  ON project_members FOR SELECT
   USING (EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role IN ('team','admin','super_admin')));

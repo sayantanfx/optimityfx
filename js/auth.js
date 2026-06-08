@@ -109,24 +109,32 @@
   /* ================================================================
      NAV UPDATE
   ================================================================ */
-  async function updateNav() {
-    let session = null;
-    if (sb) { try { const r = await sb.auth.getSession(); session = r.data?.session; } catch {} }
-    const navCta = document.querySelector('.nav-cta');
+  /* Helper to inject or update the nav auth button */
+  function setNavBtn(session) {
+    const isLogin = window.location.pathname.includes('login.html') ||
+                    window.location.pathname.includes('register.html');
+    const base = document.querySelector('base')?.href || window.location.origin + '/';
+
+    // Resolve correct paths (works from any subdirectory like /admin/ or /team/)
+    const depth = (window.location.pathname.match(/\//g)||[]).length - 1;
+    const prefix = depth > 0 ? '../'.repeat(depth) : '';
+
+    const navCta  = document.querySelector('.nav-cta');
     const mDrawer = document.querySelector('.m-drawer');
 
-    // Remove any existing auth btn
+    // Remove old
     document.querySelectorAll('.nav-auth-btn, .mobile-auth-link').forEach(el => el.remove());
 
     if (navCta) {
       const btn = document.createElement('a');
       btn.className = 'btn btn-ghost btn-sm nav-auth-btn';
       if (session) {
-        btn.href = 'dashboard.html';
-        btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="width:15px;height:15px"><circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0 1 16 0"/></svg> Dashboard`;
+        btn.href = prefix + 'dashboard.html';
+        btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="width:15px;height:15px"><circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0 1 16 0"/></svg> My Account`;
       } else {
-        btn.href = 'login.html';
+        btn.href = isLogin ? '#' : prefix + 'login.html';
         btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="width:15px;height:15px"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3"/></svg> Sign In`;
+        if (isLogin) btn.style.display = 'none';
       }
       navCta.insertBefore(btn, navCta.firstChild);
     }
@@ -134,14 +142,26 @@
     if (mDrawer) {
       const mLink = document.createElement('a');
       mLink.className = 'mobile-auth-link';
-      if (session) { mLink.href = 'dashboard.html'; mLink.textContent = 'My Dashboard'; }
-      else          { mLink.href = 'login.html';     mLink.textContent = 'Sign In';      }
+      if (session) { mLink.href = prefix + 'dashboard.html'; mLink.textContent = 'My Dashboard'; }
+      else          { mLink.href = prefix + 'login.html';    mLink.textContent = 'Sign In'; }
       mDrawer.insertBefore(mLink, mDrawer.firstChild);
     }
+  }
 
-    // Cart icon in nav
-    const cartIcon = document.querySelector('.nav-cart');
-    if (cartIcon) Cart.updateBadge();
+  async function updateNav() {
+    // 1. Show Sign In button IMMEDIATELY (no waiting)
+    setNavBtn(null);
+
+    // 2. Check session with 4s timeout — update to Dashboard if logged in
+    if (!sb) return;
+    try {
+      const race = await Promise.race([
+        sb.auth.getSession(),
+        new Promise(r => setTimeout(() => r({ data: { session: null } }), 4000)),
+      ]);
+      const session = race?.data?.session;
+      if (session) setNavBtn(session);
+    } catch { /* keep Sign In */ }
   }
 
   /* ================================================================
@@ -193,8 +213,8 @@
         ]);
         const session = race?.data?.session;
         if (!session) {
-          const next = redirectTo || window.location.pathname + window.location.search;
-          window.location.href = `login.html?next=${encodeURIComponent(next)}`;
+          // redirectTo is already a full destination URL (e.g. 'login.html?next=admin.html')
+          window.location.href = redirectTo || `login.html?next=${encodeURIComponent(window.location.pathname + window.location.search)}`;
           return null;
         }
         return session;
@@ -205,8 +225,13 @@
       }
     },
 
-    async signIn(email, password) {
+    async signIn(identifier, password) {
       if (!sb) return { error: { message: 'Supabase not configured. Fill in js/config.js.' } };
+      // Internal team/admin accounts log in with a username (no @) — map it to
+      // a synthetic, never-emailed address so Supabase Auth can authenticate it.
+      const email = identifier.includes('@')
+        ? identifier
+        : `${identifier.trim().toLowerCase()}@team.optimityfx.local`;
       return sb.auth.signInWithPassword({ email, password });
     },
 
