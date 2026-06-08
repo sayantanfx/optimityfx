@@ -90,11 +90,16 @@ module.exports = async (req, res) => {
     return;
   }
 
-  await admin.from('profiles').update({
+  // Upsert (not update) — some Supabase projects don't fire the
+  // on_auth_user_created trigger for admin-created users, which would
+  // leave no profile row for `.update()` to match. Upsert guarantees
+  // the row exists either way.
+  await admin.from('profiles').upsert({
+    id: created.user.id,
     role,
     full_name: fullName || cleanUsername,
     email: syntheticEmail,
-  }).eq('id', created.user.id);
+  }, { onConflict: 'id' });
 
   res.status(200).json({ ok: true, id: created.user.id, username: cleanUsername, role });
 };

@@ -45,11 +45,15 @@ for (const acc of ACCOUNTS) {
     continue;
   }
 
-  await admin.from('profiles').update({
+  // Upsert (not update) — the on_auth_user_created trigger may not fire
+  // for admin-created users on every project, which would leave no
+  // profile row for `.update()` to match. Upsert guarantees it exists.
+  await admin.from('profiles').upsert({
+    id: data.user.id,
     role: acc.role,
     full_name: acc.fullName,
     email,
-  }).eq('id', data.user.id);
+  }, { onConflict: 'id' });
 
   console.log(`✓ Created ${acc.username} (${acc.role}) — login with username "${acc.username}"`);
 }
