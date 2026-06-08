@@ -213,14 +213,22 @@
         ]);
         const session = race?.data?.session;
         if (!session) {
-          // redirectTo is already a full destination URL (e.g. 'login.html?next=admin.html')
-          window.location.href = redirectTo || `login.html?next=${encodeURIComponent(window.location.pathname + window.location.search)}`;
+          // redirectTo is already a full destination URL relative to the
+          // CALLING page (e.g. 'login.html?next=admin.html' from admin.html,
+          // or '../login.html?next=team/index.html' from team/index.html).
+          // The absolute-path fallback works correctly from any directory depth.
+          window.location.href = redirectTo || `/login.html?next=${encodeURIComponent(window.location.pathname + window.location.search)}`;
           return null;
         }
         return session;
       } catch (e) {
         console.warn('requireAuth:', e.message, '— redirecting to login');
-        window.location.href = 'login.html';
+        // BUG FIX: this used to hardcode the relative path 'login.html', which
+        // resolves to e.g. '/team/login.html' (404) when called from a page
+        // inside a subdirectory like /team/. Reuse the same redirectTo the
+        // caller already computed (it accounts for its own directory depth),
+        // and fall back to an absolute path that works from anywhere.
+        window.location.href = redirectTo || `/login.html?next=${encodeURIComponent(window.location.pathname + window.location.search)}`;
         return null;
       }
     },
