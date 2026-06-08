@@ -88,25 +88,16 @@
 <script src="js/main.js?v=20260608"></script>
 <script>
 document.addEventListener('DOMContentLoaded', async () => {
-  // Redirect if already logged in
-  if (window.OFXAuth) {
-    const session = await OFXAuth.getSession();
-    if (session) {
-      const explicitNext = new URLSearchParams(location.search).get('next');
-      if (explicitNext) { window.location.href = explicitNext; return; }
-
-      let role = 'customer';
-      try {
-        const profile = await OFXAuth.getProfile(session.user.id);
-        role = profile?.role || 'customer';
-      } catch { /* default to customer */ }
-
-      if (role === 'super_admin' || role === 'admin') window.location.href = 'admin.html';
-      else if (role === 'team')                       window.location.href = 'team/index.html';
-      else                                             window.location.href = 'dashboard.html';
-      return;
-    }
-  }
+  // NOTE: We deliberately do NOT auto-redirect away from this page just
+  // because a session already exists. This is a SHARED login page used by
+  // buyers, team members, and admins alike — staff routinely need to land
+  // here to switch accounts (e.g. sign in as "superadmin" while a stale
+  // "team" session is still cached). Auto-redirecting on page load fired
+  // before the user could even submit the form, silently discarding their
+  // typed credentials and bouncing them back into the OLD account's portal
+  // (reported live: typing superadmin creds landed back in the Team Portal).
+  // Letting the form always render — and always run a fresh signIn() on
+  // submit, which replaces any existing session — fixes that for good.
 
   const form     = document.getElementById('login-form');
   const loginBtn = document.getElementById('login-btn');
