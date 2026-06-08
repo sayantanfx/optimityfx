@@ -92,8 +92,18 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (window.OFXAuth) {
     const session = await OFXAuth.getSession();
     if (session) {
-      const next = new URLSearchParams(location.search).get('next') || 'dashboard.html';
-      window.location.href = next;
+      const explicitNext = new URLSearchParams(location.search).get('next');
+      if (explicitNext) { window.location.href = explicitNext; return; }
+
+      let role = 'customer';
+      try {
+        const profile = await OFXAuth.getProfile(session.user.id);
+        role = profile?.role || 'customer';
+      } catch { /* default to customer */ }
+
+      if (role === 'super_admin' || role === 'admin') window.location.href = 'admin.html';
+      else if (role === 'team')                       window.location.href = 'team/index.html';
+      else                                             window.location.href = 'dashboard.html';
       return;
     }
   }
@@ -163,8 +173,26 @@ document.addEventListener('DOMContentLoaded', async () => {
         : error.message;
       formErr.style.display = 'block';
     } else {
-      const next = new URLSearchParams(location.search).get('next') || 'dashboard.html';
-      window.location.href = next;
+      const explicitNext = new URLSearchParams(location.search).get('next');
+      if (explicitNext) {
+        // Came here via a protected-page redirect (e.g. admin.html → login.html?next=admin.html) — honor it.
+        window.location.href = explicitNext;
+        return;
+      }
+      // No explicit destination — route by role so internal admin/team
+      // accounts land in their own portal instead of the buyer dashboard.
+      let role = 'customer';
+      try {
+        const session = await OFXAuth.getSession();
+        if (session) {
+          const profile = await OFXAuth.getProfile(session.user.id);
+          role = profile?.role || 'customer';
+        }
+      } catch { /* fall through to customer dashboard */ }
+
+      if (role === 'super_admin' || role === 'admin') window.location.href = 'admin.html';
+      else if (role === 'team')                       window.location.href = 'team/index.html';
+      else                                             window.location.href = 'dashboard.html';
     }
   });
 });
