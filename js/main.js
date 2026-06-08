@@ -4,9 +4,10 @@
 (function () {
   'use strict';
 
-  /* ---- Navbar scroll state + progress bar ---- */
+  /* ---- Navbar scroll state + progress bar + depth parallax ---- */
   const nav = document.querySelector('.nav');
   const progress = document.querySelector('.progress');
+  const root = document.documentElement;
   const onScroll = () => {
     if (nav) nav.classList.toggle('scrolled', window.scrollY > 20);
     if (progress) {
@@ -14,6 +15,9 @@
       const max = h.scrollHeight - h.clientHeight;
       progress.style.width = (max > 0 ? (h.scrollTop / max) * 100 : 0) + '%';
     }
+    // Exposes scroll position as a CSS var so hero layers can drift at a
+    // different rate than the page — a sense of depth, no tilt/rotation.
+    root.style.setProperty('--scroll-y', window.scrollY);
   };
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
@@ -181,12 +185,68 @@
     });
   });
 
+  /* ---- Magnetic buttons — primary CTAs drift gently toward the cursor ---- */
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches && !window.matchMedia('(hover: none)').matches) {
+    const PULL = 0.28;     // how much of the offset to follow (0–1)
+    const MAX  = 14;       // px cap so the pull stays subtle
+    document.querySelectorAll('.btn-accent, .btn-primary').forEach((el) => {
+      el.classList.add('btn-magnetic');
+      let raf;
+      el.addEventListener('mousemove', (e) => {
+        const r = el.getBoundingClientRect();
+        const x = Math.max(-MAX, Math.min(MAX, (e.clientX - r.left - r.width / 2) * PULL));
+        const y = Math.max(-MAX, Math.min(MAX, (e.clientY - r.top - r.height / 2) * PULL));
+        if (raf) cancelAnimationFrame(raf);
+        raf = requestAnimationFrame(() => { el.style.transform = `translate(${x}px, ${y}px)`; });
+      }, { passive: true });
+      el.addEventListener('mouseleave', () => {
+        if (raf) cancelAnimationFrame(raf);
+        el.style.transform = '';
+      });
+    });
+  }
+
   /* ---- Year ---- */
   document.querySelectorAll('[data-year]').forEach(el => el.textContent = new Date().getFullYear());
+
+  /* ---- Cinematic hero background video ----
+     Faint looping clip behind the hero copy on every page, played as a
+     muted Vimeo "background" embed (auto-loops, hides UI, no controls).
+     Swap HERO_VIDEO_ID for a brand clip whenever ready. */
+  const HERO_VIDEO_ID = '1036232141';
+  const HERO_VIDEO_SRC = `https://player.vimeo.com/video/${HERO_VIDEO_ID}?badge=0&autopause=0&player_id=0&app_id=58479&background=1&autoplay=1&loop=1&muted=1`;
+  const heroSections = document.querySelectorAll('.hero, .page-hero, .dash-hero');
+  if (heroSections.length && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    heroSections.forEach((section) => {
+      const wrap = document.createElement('div');
+      wrap.className = 'hero-cine-video is-loading';
+      wrap.setAttribute('aria-hidden', 'true');
+
+      const iframe = document.createElement('iframe');
+      iframe.src = HERO_VIDEO_SRC;
+      iframe.setAttribute('tabindex', '-1');
+      iframe.setAttribute('allow', 'autoplay; fullscreen; picture-in-picture; encrypted-media');
+      iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+      iframe.title = 'Background ambience';
+      iframe.addEventListener('load', () => wrap.classList.remove('is-loading'), { once: true });
+
+      wrap.appendChild(iframe);
+      section.insertBefore(wrap, section.firstChild);
+    });
+
+    if (!document.querySelector('script[src*="player.vimeo.com/api/player.js"]')) {
+      const api = document.createElement('script');
+      api.src = 'https://player.vimeo.com/api/player.js';
+      document.body.appendChild(api);
+    }
+  }
 })();
 
 /* ---- Mouse-tracking glow ---- */
 (function () {
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const touch = window.matchMedia('(hover: none)').matches;
+
   const glow = document.createElement('div');
   glow.id = 'mouse-glow';
   glow.setAttribute('aria-hidden', 'true');
@@ -195,7 +255,7 @@
   let raf, mx = 50, my = 50;
   const render = () => {
     glow.style.background =
-      `radial-gradient(820px circle at ${mx}% ${my}%, rgba(0,212,255,0.065), rgba(0,212,255,0.018) 35%, transparent 60%)`;
+      `radial-gradient(820px circle at ${mx}% ${my}%, rgba(0,212,255,0.075), rgba(0,212,255,0.02) 35%, transparent 60%)`;
   };
 
   document.addEventListener('mousemove', (e) => {
@@ -207,4 +267,36 @@
 
   // Initial soft glow at center-top
   render();
+
+  /* ---- Trailing glow dot — a single focused light that eases toward the cursor ---- */
+  if (!reduced && !touch) {
+    const dot = document.createElement('div');
+    dot.id = 'mouse-glow-dot';
+    dot.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(dot);
+
+    let tx = window.innerWidth / 2, ty = window.innerHeight / 2; // target (cursor)
+    let dx = tx, dy = ty;                                         // displayed (eased)
+    let active = false, dotRaf = null;
+
+    const tick = () => {
+      dx += (tx - dx) * 0.16;
+      dy += (ty - dy) * 0.16;
+      dot.style.transform = `translate(${dx}px, ${dy}px)`;
+      if (Math.abs(tx - dx) > 0.4 || Math.abs(ty - dy) > 0.4) {
+        dotRaf = requestAnimationFrame(tick);
+      } else {
+        dotRaf = null;
+      }
+    };
+    const startTick = () => { if (!dotRaf) dotRaf = requestAnimationFrame(tick); };
+
+    document.addEventListener('mousemove', (e) => {
+      tx = e.clientX; ty = e.clientY;
+      if (!active) { active = true; dot.classList.add('show'); dx = tx; dy = ty; }
+      startTick();
+    }, { passive: true });
+
+    document.addEventListener('mouseleave', () => { dot.classList.remove('show'); active = false; });
+  }
 })();

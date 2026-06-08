@@ -71,7 +71,7 @@ SERVICES_DROP = '<div class="drop">\n' + "\n".join(_drop_item(*s) for s in SERVI
 
 def nav(active):
     items = [("services.html","Services"),("portfolio.html","Work"),("academy.html","Academy"),
-             ("store.html","Store"),("coaching.html","Coaching"),("blog.html","Blog"),("about.html","About")]
+             ("store.html","Store"),("b2b.html","B2B"),("blog.html","Blog"),("about.html","About")]
     def li(h,t):
         cls = ' class="active"' if h==active else ''
         if h == "services.html":
@@ -107,7 +107,7 @@ FOOTER = """<footer class="footer">
         </div>
       </div>
       <div><h5>Services</h5><ul><li><a href="services.html#editing">Video Editing</a></li><li><a href="services.html#grading">Color Grading</a></li><li><a href="services.html#design">Graphic Design</a></li><li><a href="services.html#ai-music">AI Music Video</a></li><li><a href="services.html#ugc">AI UGC</a></li><li><a href="services.html#commercial">AI Product Commercial</a></li><li><a href="services.html#ai-tvc">AI TV Advertisement</a></li><li><a href="services.html#ai-influencer">AI Influencer</a></li><li><a href="services.html#ai-vfx">AI VFX</a></li></ul></div>
-      <div><h5>Explore</h5><ul><li><a href="portfolio.html">Portfolio</a></li><li><a href="academy.html">NextGen Academy</a></li><li><a href="store.html">Digital Store</a></li><li><a href="coaching.html">Business Coaching</a></li><li><a href="blog.html">Blog</a></li></ul></div>
+      <div><h5>Explore</h5><ul><li><a href="portfolio.html">Portfolio</a></li><li><a href="academy.html">NextGen Academy</a></li><li><a href="store.html">Digital Store</a></li><li><a href="b2b.html">B2B Solutions</a></li><li><a href="blog.html">Blog</a></li></ul></div>
       <div><h5>Company</h5><ul><li><a href="about.html">About Us</a></li><li><a href="about.html#team">Our Team</a></li><li><a href="contact.html">Contact</a></li><li><a href="privacy.html">Privacy Policy</a></li><li><a href="terms.html">Terms & Conditions</a></li></ul></div>
       <div class="footer-brand">
         <h5>Get In Touch</h5>
@@ -481,25 +481,25 @@ PAGES["store.html"] = dict(
 """)
 
 # ---------- COACHING ----------
-PAGES["coaching.html"] = dict(
- title="Business Coaching for Creators & Brands | OptimityFX",
- desc="1:1 business coaching to grow your creative business or personal brand. Strategy, positioning, pricing and growth planning from people who've built a studio.",
- keywords="creative business coaching, brand strategy, content business growth, freelancer coaching",
- active="coaching.html",
- jsonld='<script type="application/ld+json">{"@context":"https://schema.org","@type":"Service","serviceType":"Business Coaching","provider":{"@type":"Organization","name":"OptimityFX"}}</script>',
+PAGES["b2b.html"] = dict(
+ title="B2B Solutions for Brands & Businesses | OptimityFX",
+ desc="Strategic B2B partnerships for brands and businesses — growth strategy, positioning, content systems and scale planning from a team that's built a studio from zero.",
+ keywords="B2B solutions, brand strategy, business growth partnerships, content systems for brands",
+ active="b2b.html",
+ jsonld='<script type="application/ld+json">{"@context":"https://schema.org","@type":"Service","serviceType":"B2B Solutions","provider":{"@type":"Organization","name":"OptimityFX"}}</script>',
  body=f"""
 <section class="page-hero">
   <div class="wrap">
-    <div class="crumbs reveal"><a href="index.html">Home</a><span>/</span>Coaching</div>
-    <span class="tag-pill reveal">Business Coaching</span>
-    <h1 class="reveal d1" style="margin-top:14px">Grow Your Brand,<br><span class="spectrum-text">On Purpose.</span></h1>
-    <p class="lead reveal d2">We've built a creative studio from zero. Now we help creators, freelancers and brands craft the strategy to grow — and the systems to scale.</p>
+    <div class="crumbs reveal"><a href="index.html">Home</a><span>/</span>B2B</div>
+    <span class="tag-pill reveal">B2B Solutions</span>
+    <h1 class="reveal d1" style="margin-top:14px">Grow Your Business,<br><span class="spectrum-text">On Purpose.</span></h1>
+    <p class="lead reveal d2">We've built a creative studio from zero. Now we partner with businesses and brands to craft the strategy to grow — and the systems to scale.</p>
     <div class="hero-actions reveal d3" style="margin-top:28px"><a href="contact.html" class="btn btn-accent btn-lg">Book a Strategy Call {ARR}</a></div>
   </div>
 </section>
 
 <section class="section"><div class="wrap">
-  <div class="sec-head center reveal"><span class="eyebrow center-eb">What You Get</span><h2 class="h-sec">Coaching That <span class="grad-text">Moves The Needle</span></h2></div>
+  <div class="sec-head center reveal"><span class="eyebrow center-eb">What You Get</span><h2 class="h-sec">B2B Solutions That <span class="grad-text">Move The Needle</span></h2></div>
   <div class="grid g-3">
     <div class="card reveal"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 3v18h18"/><path d="m7 14 3-3 3 3 5-5"/></svg></div><h3>Growth Strategy</h3><p>A clear roadmap to grow revenue, audience and impact — built around your strengths.</p></div>
     <div class="card reveal d1"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="m9 12 2 2 4-4"/></svg></div><h3>Brand Positioning</h3><p>Stand out in a crowded market with messaging and a niche that's unmistakably you.</p></div>
@@ -515,7 +515,7 @@ PAGES["coaching.html"] = dict(
   <div class="grid g-4">
     <div class="card reveal"><div class="ic">01</div><h3>Audit</h3><p>We assess where you are and where the biggest opportunities sit.</p></div>
     <div class="card reveal d1"><div class="ic">02</div><h3>Plan</h3><p>A custom 90-day strategy with clear priorities and milestones.</p></div>
-    <div class="card reveal d2"><div class="ic">03</div><h3>Execute</h3><p>Bi-weekly coaching sessions to implement, adjust and stay on track.</p></div>
+    <div class="card reveal d2"><div class="ic">03</div><h3>Execute</h3><p>Bi-weekly strategy sessions to implement, adjust and stay on track.</p></div>
     <div class="card reveal d3"><div class="ic">04</div><h3>Scale</h3><p>Systemize what works so growth compounds without burnout.</p></div>
   </div>
 </div></section>
@@ -630,7 +630,7 @@ PAGES["blog-post.html"] = dict(
 # ---------- CONTACT ----------
 PAGES["contact.html"] = dict(
  title="Contact OptimityFX — Start Your Project | Free Consultation",
- desc="Get in touch with OptimityFX for video editing, color grading, AI production or coaching. Free consultation and a tailored quote within 24 hours.",
+ desc="Get in touch with OptimityFX for video editing, color grading, AI production or B2B solutions. Free consultation and a tailored quote within 24 hours.",
  keywords="contact OptimityFX, hire creative studio, video editing quote, color grading enquiry",
  active="contact.html",
  jsonld='<script type="application/ld+json">{"@context":"https://schema.org","@type":"ContactPage","name":"Contact OptimityFX","url":"https://optimityfx.com/contact.html"}</script>',
@@ -652,7 +652,7 @@ PAGES["contact.html"] = dict(
           <div class="field"><label>Email</label><input type="email" required placeholder="you@email.com"></div>
         </div>
         <div class="form-row">
-          <div class="field"><label>Service</label><select><option>Video Editing</option><option>Color Grading</option><option>Graphic Design</option><option>AI Music Video</option><option>UGC / AI UGC</option><option>AI Product Commercial</option><option>Academy</option><option>Business Coaching</option></select></div>
+          <div class="field"><label>Service</label><select><option>Video Editing</option><option>Color Grading</option><option>Graphic Design</option><option>AI Music Video</option><option>UGC / AI UGC</option><option>AI Product Commercial</option><option>Academy</option><option>B2B Solutions</option></select></div>
           <div class="field"><label>Budget</label><select><option>Under ₹25k</option><option>₹25k – ₹1L</option><option>₹1L – ₹5L</option><option>₹5L+</option></select></div>
         </div>
         <div class="field"><label>Project Details</label><textarea required placeholder="Tell us about your vision, timeline and references…"></textarea></div>
@@ -753,7 +753,7 @@ PAGES["terms.html"] = legal("terms.html",
  "Terms &amp; Conditions",
  "Welcome to OptimityFX. By accessing our website, purchasing products or engaging our services, you agree to these Terms &amp; Conditions. Please read them carefully.",
  [
-  ("Services","<p>OptimityFX provides creative services including video editing, color grading, graphic design, AI-generated content, education (NextGen Academy) and business coaching. Project scope, deliverables and timelines are defined in your individual agreement or order.</p>"),
+  ("Services","<p>OptimityFX provides creative services including video editing, color grading, graphic design, AI-generated content, education (NextGen Academy) and B2B solutions. Project scope, deliverables and timelines are defined in your individual agreement or order.</p>"),
   ("Payments &amp; Invoicing","<p>Project work typically requires an advance to commence, with the balance due before final delivery. Digital products and courses are charged in full at checkout. All prices are exclusive of applicable taxes unless stated.</p>"),
   ("Revisions","<p>Each engagement includes a defined number of revision rounds. Additional revisions or scope changes may incur extra charges, communicated before work proceeds.</p>"),
   ("Refunds","<p>Service deposits are non-refundable once work has begun. Digital products (LUTs, presets, templates, courses) are non-refundable after download due to their nature. See specific offer terms at checkout.</p>"),

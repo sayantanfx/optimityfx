@@ -30,8 +30,7 @@
   --spectrum-soft: linear-gradient(90deg,#00D4FF,#4D9FFF,#9B86FF);
   --grad-cool: linear-gradient(135deg,#00D4FF 0%,#1E90FF 100%);
   --grad-warm: linear-gradient(135deg,#FF8A3D 0%,#FF3B57 100%);
-  --grad-hero: radial-gradient(ellipse 80% 60% at 75% 10%, rgba(255,60,87,0.10) 0%, transparent 55%),
-               radial-gradient(ellipse 70% 70% at 10% 90%, rgba(0,212,255,0.12) 0%, transparent 55%);
+  --grad-hero: none;
 
   --shadow:   0 24px 60px -20px rgba(0,0,0,.7);
   --shadow-sm:0 8px 30px -12px rgba(0,0,0,.6);
@@ -127,6 +126,8 @@ p { color: var(--muted); }
   transition: transform .35s var(--ease), box-shadow .35s var(--ease), background .3s, color .3s;
   white-space: nowrap;
 }
+/* Magnetic hover — buttons drift slightly toward the cursor (see js/main.js) */
+.btn-magnetic { transition: transform .2s cubic-bezier(.2,.8,.2,1), box-shadow .35s var(--ease), background .3s, color .3s; }
 .btn svg { width: 16px; height: 16px; transition: transform .35s var(--ease); }
 .btn:hover svg { transform: translateX(4px); }
 .btn-primary { background: var(--white); color: #0a0a0a; }
@@ -240,7 +241,10 @@ body.menu-open .m-drawer { transform: translateX(0); }
 
 /* ---------- Hero ---------- */
 .hero { position: relative; padding: 168px 0 110px; overflow: hidden; }
-.hero::before { content:""; position:absolute; inset:0; background: var(--grad-hero); z-index:0; }
+.hero::before {
+  content:""; position:absolute; inset:-10% -10%; background: var(--grad-hero); z-index:0;
+  transform: translate3d(0, calc(var(--scroll-y, 0) * -0.05px), 0); will-change: transform;
+}
 .hero-beam {
   position: absolute; top: 8%; right: -8%; width: 60vw; height: 60vw; max-width: 760px; max-height: 760px;
   background: conic-gradient(from 200deg, transparent, rgba(0,212,255,.12), rgba(255,60,87,.12), transparent 70%);
@@ -519,7 +523,10 @@ body.menu-open .m-drawer { transform: translateX(0); }
 
 /* ---------- Page hero (inner) ---------- */
 .page-hero { padding: 150px 0 60px; position: relative; overflow: hidden; }
-.page-hero::before { content:""; position:absolute; inset:0; background: var(--grad-hero); }
+.page-hero::before {
+  content:""; position:absolute; inset:-10% -10%; background: var(--grad-hero);
+  transform: translate3d(0, calc(var(--scroll-y, 0) * -0.05px), 0); will-change: transform;
+}
 .page-hero .wrap { position: relative; }
 .crumbs { font-size: .8rem; color: var(--dim); margin-bottom: 16px; display: flex; gap: 8px; align-items: center; }
 .crumbs a:hover { color: var(--accent); }
@@ -570,10 +577,10 @@ body.menu-open .m-drawer { transform: translateX(0); }
 .lightbox .lb-prev { left: 24px; } .lightbox .lb-next { right: 24px; }
 
 /* ---------- Reveal animation ---------- */
-.reveal { opacity: 0; transform: translateY(28px); transition: opacity .8s var(--ease), transform .8s var(--ease); }
+.reveal { opacity: 0; transform: translateY(28px) scale(.96); transition: opacity .8s var(--ease), transform .8s var(--ease); transform-style: preserve-3d; }
 .reveal.in { opacity: 1; transform: none; }
 .reveal.d1 { transition-delay: .08s } .reveal.d2 { transition-delay: .16s } .reveal.d3 { transition-delay: .24s } .reveal.d4 { transition-delay: .32s }
-@media (prefers-reduced-motion: reduce) { .reveal { opacity:1; transform:none; transition:none } *{ animation:none !important; scroll-behavior:auto } }
+@media (prefers-reduced-motion: reduce) { .reveal { opacity:1; transform:none; transition:none } .hero::before, .page-hero::before, .hero-cine-video { transform:none !important } *{ animation:none !important; scroll-behavior:auto } }
 
 /* scroll progress bar */
 .progress { position: fixed; top: 0; left: 0; height: 3px; width: 0; background: var(--spectrum); z-index: 200; transition: width .1s linear; }
@@ -591,10 +598,44 @@ body.menu-open .m-drawer { transform: translateX(0); }
    Auth · Dashboard · Checkout · Mouse Glow · Toasts · Cart
    ============================================================ */
 
+/* ---------- Cinematic hero background video ----------
+   A faint, slow-moving clip sits behind the hero copy on every page —
+   ambient motion without competing with the text. Plays as a muted,
+   looping Vimeo background embed. Swap HERO_VIDEO_ID in js/main.js
+   for a brand-specific clip later. */
+.hero-cine-video {
+  position: absolute; inset: 0; overflow: hidden; opacity: .07; pointer-events: none;
+  transform: translate3d(0, calc(var(--scroll-y, 0) * -0.04px), 0) scale(1.06);
+  will-change: transform; transition: opacity 1.6s var(--ease);
+}
+.hero-cine-video.is-loading { opacity: 0; }
+.hero-cine-video iframe {
+  position: absolute; top: 50%; left: 50%; border: 0; pointer-events: none;
+  width: 100vw; height: 56.25vw;          /* 16:9 */
+  min-height: 100%; min-width: 177.78vh;  /* 16:9, ensures full cover */
+  transform: translate(-50%, -50%);
+}
+
 /* ---------- Mouse-tracking glow ---------- */
 #mouse-glow {
   position: fixed; inset: 0; pointer-events: none; z-index: 0;
   will-change: background;
+}
+/* Focused glowing dot that trails the cursor for a tactile, premium feel */
+#mouse-glow-dot {
+  position: fixed; top: 0; left: 0; z-index: 0; pointer-events: none;
+  width: 240px; height: 240px; margin: -120px 0 0 -120px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,212,255,.22) 0%, rgba(0,212,255,.06) 40%, transparent 70%);
+  filter: blur(10px);
+  mix-blend-mode: screen;
+  opacity: 0;
+  transition: opacity .4s var(--ease);
+  will-change: transform, opacity;
+}
+#mouse-glow-dot.show { opacity: 1; }
+@media (prefers-reduced-motion: reduce), (hover: none) {
+  #mouse-glow-dot { display: none; }
 }
 
 /* ---------- Toast notifications ---------- */
@@ -721,8 +762,8 @@ body.menu-open .m-drawer { transform: translateX(0); }
 .dash-wrap { padding-top: 100px; min-height: 100vh; }
 
 .dash-hero {
-  padding: 40px 0 0; position: relative;
-  background: radial-gradient(ellipse 80% 60% at 20% -10%, rgba(0,212,255,.09), transparent 55%);
+  padding: 40px 0 0; position: relative; overflow: hidden;
+  background: radial-gradient(ellipse 80% 60% at 20% -10%, rgba(0,0,0,.35), transparent 55%);
 }
 .dash-hero-inner { display: flex; align-items: center; gap: 24px; padding-bottom: 32px; border-bottom: 1px solid var(--line-soft); flex-wrap: wrap; }
 .dash-avatar { width: 72px; height: 72px; border-radius: 50%; border: 2px solid var(--accent); overflow: hidden; flex-shrink: 0; background: var(--panel); display: grid; place-items: center; color: var(--accent); font-size: 1.8rem; font-weight: 800; }
