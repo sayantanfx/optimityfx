@@ -32,7 +32,14 @@ module.exports = async (req, res) => {
   }
 
   // Verify the caller's identity and role using their own session token.
-  const anon = createClient(SUPABASE_URL, ANON_KEY);
+  // IMPORTANT: the client must carry the caller's bearer token on requests,
+  // otherwise PostgREST sees an anonymous request (auth.uid() is NULL), RLS
+  // silently returns zero rows for the profile lookup below, and the
+  // authorization check fails for EVERY caller — including real super admins.
+  const anon = createClient(SUPABASE_URL, ANON_KEY, {
+    global: { headers: { Authorization: `Bearer ${token}` } },
+    auth: { autoRefreshToken: false, persistSession: false },
+  });
   const { data: { user }, error: userErr } = await anon.auth.getUser(token);
   if (userErr || !user) {
     res.status(401).json({ error: 'Invalid session.' });
