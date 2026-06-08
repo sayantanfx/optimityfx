@@ -242,21 +242,25 @@
 <div class="modal-overlay" id="task-modal">
   <div class="modal-box">
     <button class="modal-close" onclick="closeModal('task-modal')">×</button>
-    <h3>Add Task</h3>
+    <h3 id="task-modal-title">Add Task</h3>
     <form id="task-form">
+      <input type="hidden" id="tf-id">
       <div class="form-group"><label class="form-label">Project *</label><select class="form-input" id="tf-project"></select></div>
       <div class="form-group"><label class="form-label">Task Title *</label><input class="form-input" type="text" id="tf-title" required placeholder="e.g. Design hero section"></div>
       <div class="form-group"><label class="form-label">Description</label><textarea class="form-input" id="tf-desc" rows="2"></textarea></div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:14px">
         <div class="form-group"><label class="form-label">Assign To</label><select class="form-input" id="tf-assign"><option value="">Unassigned</option></select></div>
         <div class="form-group"><label class="form-label">Priority</label>
           <select class="form-input" id="tf-priority"><option value="low">Low</option><option value="medium" selected>Medium</option><option value="high">High</option><option value="urgent">Urgent</option></select>
+        </div>
+        <div class="form-group"><label class="form-label">Status</label>
+          <select class="form-input" id="tf-status"><option value="todo">To Do</option><option value="in_progress">In Progress</option><option value="review">In Review</option><option value="done">Done</option></select>
         </div>
         <div class="form-group"><label class="form-label">Due Date</label><input class="form-input" type="date" id="tf-due"></div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-ghost btn-sm" onclick="closeModal('task-modal')">Cancel</button>
-        <button type="submit" class="btn btn-accent btn-sm">Add Task</button>
+        <button type="submit" class="btn btn-accent btn-sm" id="tf-submit">Add Task</button>
       </div>
     </form>
   </div>
@@ -299,8 +303,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.getElementById('signout-btn').style.display = '';
   if (isAdmin) {
     document.getElementById('add-project-btn').style.display = '';
-    document.getElementById('add-task-btn').style.display = '';
   }
+  // Any team member (not just admins) can create and assign tasks.
+  document.getElementById('add-task-btn').style.display = '';
 
   // Sidebar nav
   document.querySelectorAll('.sidebar-link[data-section]').forEach(btn => {
@@ -331,6 +336,7 @@ function fmtDate(d) { return d ? new Date(d).toLocaleDateString('en-IN',{day:'nu
 function fmtDuration(mins) { if (!mins) return '0m'; const h=Math.floor(mins/60), m=mins%60; return h ? `${h}h ${m}m` : `${m}m`; }
 function statusBadge(s) { const map={active:'badge-active',pending:'badge-pending',completed:'badge-completed',on_hold:'badge-hold'}; return `<span class="badge ${map[s]||'badge-hold'}">${s?.replace('_',' ')||'—'}</span>`; }
 function priorityDot(p) { const c={low:'#5E6776',medium:'#FFC23D',high:'#FF8A3D',urgent:'#FF3B57'}; return `<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${c[p]||c.medium}"></span>`; }
+function assigneeName(id) { if (!id) return ''; const m = allTeamMembers.find(x=>x.id===id); return m ? (m.full_name||m.email) : ''; }
 
 async function loadTeamMembers() {
   const { data } = await sb.from('profiles').select('id,full_name,email').in('role',['team','admin','super_admin']);
@@ -453,12 +459,17 @@ document.getElementById('project-form').addEventListener('submit', async (e) => 
 });
 
 /* ========== TASKS ========== */
+// Any team member (regardless of role) can view, assign, edit, delete and
+// set priority on ANY task — not just their own. The DB-level RLS policy
+// "Team can manage tasks" already grants full CRUD to role IN
+// ('team','admin','super_admin'), so this is purely a UI-permission change:
+// we no longer filter the list down to `assigned_to = uid` for plain team
+// members, and we show Edit/Delete controls to everyone.
 let allTasks = [];
 async function loadTasks() {
   const projId = document.getElementById('task-project-filter').value;
   let q = sb.from('tasks').select('*, project:projects(title)').order('created_at',{ascending:false});
   if (projId) q = q.eq('project_id', projId);
-  if (!['admin','super_admin'].includes(userProfile.role)) q = q.eq('assigned_to', uid);
   const { data } = await q;
   allTasks = data || [];
   const div = document.getElementById('tasks-list');
@@ -470,12 +481,13 @@ async function loadTasks() {
       </div>
       <div style="flex:1;min-width:0">
         <div class="task-title ${t.status==='done'?'struck':''}">${t.title}</div>
-        <div style="font-size:.74rem;color:var(--muted);margin-top:2px">${t.project?.title||''}</div>
+        <div style="font-size:.74rem;color:var(--muted);margin-top:2px">${t.project?.title||''}${assigneeName(t.assigned_to)?` · Assigned to ${assigneeName(t.assigned_to)}`:''}</div>
       </div>
       ${statusBadge(t.status)}
       ${priorityDot(t.priority)}
       ${t.due_date?`<span class="task-due">${fmtDate(t.due_date)}</span>`:''}
-      ${['admin','super_admin'].includes(userProfile.role)?`<button class="btn-tbl del" onclick="deleteTask('${t.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button>`:''}
+      <button class="btn-tbl" onclick="editTask('${t.id}')" title="Edit task"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+      <button class="btn-tbl del" onclick="deleteTask('${t.id}')" title="Delete task"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button>
     </div>`).join('');
 }
 document.getElementById('task-project-filter').addEventListener('change', loadTasks);
@@ -491,27 +503,48 @@ window.deleteTask = async (id) => {
   OFXAuth.toast('Task deleted.','info');
   loadTasks();
 };
+window.editTask = (id) => {
+  const t = allTasks.find(x=>x.id===id); if(!t) return;
+  document.getElementById('tf-id').value       = t.id;
+  document.getElementById('tf-project').innerHTML = allProjects.map(p=>`<option value="${p.id}">${p.title}</option>`).join('');
+  document.getElementById('tf-project').value  = t.project_id||'';
+  document.getElementById('tf-title').value    = t.title||'';
+  document.getElementById('tf-desc').value     = t.description||'';
+  document.getElementById('tf-assign').value   = t.assigned_to||'';
+  document.getElementById('tf-priority').value = t.priority||'medium';
+  document.getElementById('tf-status').value   = t.status||'todo';
+  document.getElementById('tf-due').value      = t.due_date||'';
+  document.getElementById('task-modal-title').textContent = 'Edit Task';
+  document.getElementById('tf-submit').textContent = 'Save Changes';
+  openModal('task-modal');
+};
 
 document.getElementById('add-task-btn').addEventListener('click', () => {
   document.getElementById('task-form').reset();
+  document.getElementById('tf-id').value = '';
   document.getElementById('tf-project').innerHTML = allProjects.map(p=>`<option value="${p.id}">${p.title}</option>`).join('');
+  document.getElementById('tf-status').value = 'todo';
+  document.getElementById('task-modal-title').textContent = 'Add Task';
+  document.getElementById('tf-submit').textContent = 'Add Task';
   openModal('task-modal');
 });
 document.getElementById('task-form').addEventListener('submit', async (e) => {
   e.preventDefault();
+  const id = document.getElementById('tf-id').value;
   const payload = {
     project_id:  document.getElementById('tf-project').value,
     title:       document.getElementById('tf-title').value.trim(),
     description: document.getElementById('tf-desc').value.trim(),
     assigned_to: document.getElementById('tf-assign').value||null,
     priority:    document.getElementById('tf-priority').value,
+    status:      document.getElementById('tf-status').value,
     due_date:    document.getElementById('tf-due').value||null,
-    status:      'todo',
-    created_by:  uid,
   };
-  const { error } = await sb.from('tasks').insert(payload);
+  // Preserve the original creator on edits — only stamp `created_by` on insert.
+  if (!id) payload.created_by = uid;
+  const { error } = id ? await sb.from('tasks').update(payload).eq('id',id) : await sb.from('tasks').insert(payload);
   if (error) { OFXAuth.toast('Error: '+error.message,'error'); return; }
-  OFXAuth.toast('Task added!','success');
+  OFXAuth.toast(id?'Task updated!':'Task added!','success');
   closeModal('task-modal');
   loadTasks();
 });

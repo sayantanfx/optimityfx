@@ -545,7 +545,7 @@
 <script src="js/widgets.js?v=20260608"></script>
 <script>
 'use strict';
-let sb, uid, currentCourseId = null;
+let sb, uid, currentCourseId = null, isSuperAdmin = false;
 
 /* ============ INIT ============ */
 document.addEventListener('DOMContentLoaded', async () => {
@@ -565,6 +565,16 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.getElementById('admin-role-badge').textContent = profile.role.replace('_',' ').toUpperCase();
   document.getElementById('admin-role-badge').style.display = '';
   document.getElementById('signout-btn').style.display = '';
+
+  // Only super_admin can create new team member accounts — plain admins
+  // no longer see the "Create Team Account" button or its instructions.
+  isSuperAdmin = profile.role === 'super_admin';
+  if (!isSuperAdmin) {
+    const inviteBtn = document.getElementById('invite-team-btn');
+    if (inviteBtn) inviteBtn.style.display = 'none';
+    const inviteBox = document.getElementById('team-invite-box');
+    if (inviteBox) inviteBox.style.display = 'none';
+  }
   document.getElementById('today-date').textContent = new Date().toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
 
   // Nav
@@ -1081,7 +1091,10 @@ async function loadTeam() {
   }
 
   document.getElementById('team-link').textContent = window.location.origin + '/team';
-  document.getElementById('team-invite-box').style.display = '';
+  // Only super_admin can create team accounts — keep these instructions
+  // (and the "+ Create Team Account" button, hidden at init time above)
+  // visible to super_admin only, even on re-render.
+  document.getElementById('team-invite-box').style.display = isSuperAdmin ? '' : 'none';
 }
 document.getElementById('invite-team-btn').addEventListener('click', () => {
   const f = document.getElementById('team-account-form');

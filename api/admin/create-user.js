@@ -1,6 +1,6 @@
 /* ============================================================
    POST /api/admin/create-user
-   Lets an authenticated admin/super_admin create a team account
+   Lets an authenticated super_admin create a team account
    (username + password, no email verification). Runs server-side
    only — uses the Supabase service-role key, which must never be
    exposed to the browser.
@@ -45,18 +45,16 @@ module.exports = async (req, res) => {
     .eq('id', user.id)
     .maybeSingle();
 
-  if (!callerProfile || !['admin', 'super_admin'].includes(callerProfile.role)) {
-    res.status(403).json({ error: 'Admin access required.' });
+  // Only super_admin may create new team accounts (of any role, including
+  // 'team' and 'admin'). Plain 'admin' accounts no longer have this power.
+  if (!callerProfile || callerProfile.role !== 'super_admin') {
+    res.status(403).json({ error: 'Only a super admin can create team accounts.' });
     return;
   }
 
   const { username, password, fullName, role } = req.body || {};
   if (!username || !password || !ALLOWED_ROLES.includes(role)) {
     res.status(400).json({ error: 'username, password, and a valid role (team/admin/super_admin) are required.' });
-    return;
-  }
-  if (role === 'super_admin' && callerProfile.role !== 'super_admin') {
-    res.status(403).json({ error: 'Only a super admin can create another super admin.' });
     return;
   }
   if (String(password).length < 6) {
