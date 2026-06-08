@@ -8,7 +8,7 @@
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="../css/style.css?v=20260608">
+<link rel="stylesheet" href="../css/style.css?v=20260613">
 </head>
 <body>
 
@@ -42,10 +42,6 @@
       <button class="sidebar-link" data-section="timetracker">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
         Time Tracker
-      </button>
-      <button class="sidebar-link" data-section="screenshots">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-        Screenshots
       </button>
       <button class="sidebar-link" data-section="analytics">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
@@ -127,15 +123,7 @@
     <!-- ========== TIME TRACKER ========== -->
     <div class="panel-section" id="section-timetracker">
       <div class="panel-header"><h2>Time Tracker</h2></div>
-      <div class="timer-display">
-        <div class="timer-clock" id="timer-display">00:00:00</div>
-        <div class="timer-project-label" id="timer-project-label">Select a project to start tracking</div>
-        <div class="timer-btns">
-          <select class="filter-select" id="timer-project-select" style="max-width:220px;border-radius:100px"><option value="">Select project…</option></select>
-          <button class="btn-timer start" id="timer-start-btn">▶ Start</button>
-          <button class="btn-timer stop" id="timer-stop-btn" style="display:none">⏹ Stop</button>
-        </div>
-      </div>
+      <p style="font-size:.84rem;color:var(--muted);margin:-6px 0 18px">⏱ The live timer now lives at the top of your <strong style="color:var(--text)">Projects</strong> dashboard — start/stop tracking from there. Use this page for manual entries and your history.</p>
       <!-- Manual log -->
       <div style="background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px;margin-bottom:20px">
         <h4 style="color:var(--white);font-size:.92rem;margin-bottom:14px">Manual Time Entry</h4>
@@ -146,30 +134,9 @@
           <button class="btn btn-accent btn-sm" id="manual-log-btn" style="height:40px">Log</button>
         </div>
       </div>
-      <!-- Upload screenshot -->
-      <div style="background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px;margin-bottom:20px" id="screenshot-upload-wrap">
-        <h4 style="color:var(--white);font-size:.92rem;margin-bottom:14px">📸 Upload Screenshot</h4>
-        <div style="display:grid;grid-template-columns:1fr 1fr auto;gap:10px;align-items:end">
-          <div><label class="form-label">Project</label><select class="form-input" id="ss-project" style="padding:10px 14px"></select></div>
-          <div><label class="form-label">Screenshot File</label><input class="form-input" type="file" id="ss-file" accept="image/*" style="padding:8px 14px"></div>
-          <button class="btn btn-ghost btn-sm" id="ss-upload-btn" style="height:40px">Upload</button>
-        </div>
-        <p style="font-size:.76rem;color:var(--faint);margin-top:8px">Max 5MB. PNG/JPG/WEBP. Admin can delete screenshots to free storage.</p>
-      </div>
       <!-- Recent logs -->
       <h4 style="color:var(--white);font-size:.92rem;margin-bottom:12px">Recent Time Logs</h4>
       <div id="time-logs-list"><div style="text-align:center;padding:30px;color:var(--muted)">Loading…</div></div>
-    </div>
-
-    <!-- ========== SCREENSHOTS ========== -->
-    <div class="panel-section" id="section-screenshots">
-      <div class="panel-header">
-        <h2>Screenshots</h2>
-        <select class="filter-select" id="ss-project-filter"><option value="">All Projects</option></select>
-      </div>
-      <div class="screenshot-grid" id="screenshots-grid">
-        <div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--muted)">Loading screenshots…</div>
-      </div>
     </div>
 
     <!-- ========== ANALYTICS ========== -->
@@ -284,11 +251,10 @@
 <script src="../js/config.js?v=20260608"></script>
 <script src="../js/auth.js?v=20260611"></script>
 <script src="../js/main.js?v=20260608"></script>
-<script src="../js/widgets.js?v=20260612"></script>
+<script src="../js/widgets.js?v=20260613"></script>
 <script>
 'use strict';
 let sb, uid, userProfile, allProjects = [], allTeamMembers = [];
-let timerInterval = null, timerStart = null, timerProjectId = null;
 
 document.addEventListener('DOMContentLoaded', async () => {
   const session = await OFXAuth.requireAuth('../login.html?next=team/index.html');
@@ -319,8 +285,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       document.getElementById('section-' + btn.dataset.section)?.classList.add('active');
       if (btn.dataset.section === 'projects')    loadProjects();
       if (btn.dataset.section === 'tasks')       loadTasks();
-      if (btn.dataset.section === 'timetracker') loadTimerSection();
-      if (btn.dataset.section === 'screenshots') loadScreenshots();
+      if (btn.dataset.section === 'timetracker') loadTimeLogs();
       if (btn.dataset.section === 'analytics')   loadAnalytics();
     });
   });
@@ -389,10 +354,7 @@ async function loadProjects() {
   // Populate dropdowns
   const projOpts = '<option value="">All Projects</option>' + allProjects.map(p=>`<option value="${p.id}">${p.title}</option>`).join('');
   document.getElementById('task-project-filter').innerHTML = projOpts;
-  document.getElementById('timer-project-select').innerHTML = '<option value="">Select project…</option>' + allProjects.filter(p=>p.status==='active').map(p=>`<option value="${p.id}">${p.title}</option>`).join('');
   document.getElementById('manual-project').innerHTML = allProjects.map(p=>`<option value="${p.id}">${p.title}</option>`).join('');
-  document.getElementById('ss-project').innerHTML = allProjects.map(p=>`<option value="${p.id}">${p.title}</option>`).join('');
-  document.getElementById('ss-project-filter').innerHTML = projOpts;
 }
 document.getElementById('proj-status-filter').addEventListener('change', loadProjects);
 
@@ -578,36 +540,10 @@ document.getElementById('task-form').addEventListener('submit', async (e) => {
 });
 
 /* ========== TIME TRACKER ========== */
-function loadTimerSection() { loadTimeLogs(); }
-let timerSeconds = 0;
-function updateTimerDisplay() {
-  const h = Math.floor(timerSeconds/3600), m = Math.floor((timerSeconds%3600)/60), s = timerSeconds%60;
-  document.getElementById('timer-display').textContent = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-}
-document.getElementById('timer-start-btn').addEventListener('click', () => {
-  timerProjectId = document.getElementById('timer-project-select').value;
-  if (!timerProjectId) { OFXAuth.toast('Select a project first.','error'); return; }
-  const proj = allProjects.find(p=>p.id===timerProjectId);
-  document.getElementById('timer-project-label').textContent = proj?.title || 'Tracking…';
-  timerStart = new Date();
-  timerSeconds = 0;
-  document.getElementById('timer-start-btn').style.display = 'none';
-  document.getElementById('timer-stop-btn').style.display  = '';
-  timerInterval = setInterval(() => { timerSeconds++; updateTimerDisplay(); }, 1000);
-});
-document.getElementById('timer-stop-btn').addEventListener('click', async () => {
-  clearInterval(timerInterval);
-  const end = new Date();
-  const mins = Math.round((end - timerStart) / 60000);
-  document.getElementById('timer-start-btn').style.display = '';
-  document.getElementById('timer-stop-btn').style.display  = 'none';
-  document.getElementById('timer-project-label').textContent = 'Select a project to start tracking';
-  timerSeconds = 0; updateTimerDisplay();
-  if (mins < 1) { OFXAuth.toast('Session too short to log.','info'); return; }
-  await sb.from('time_logs').insert({ user_id:uid, project_id:timerProjectId, start_time:timerStart.toISOString(), end_time:end.toISOString(), duration_mins:mins });
-  OFXAuth.toast(`Logged ${fmtDuration(mins)} ✓`,'success');
-  loadTimeLogs();
-});
+// The live start/stop timer now lives in the dashboard's hero widget
+// (js/widgets.js → startHeroTimer). This page keeps manual entry + history,
+// and exposes loadTimeLogs() globally so the widget can refresh this list
+// right after it logs a session.
 document.getElementById('manual-log-btn').addEventListener('click', async () => {
   const projId = document.getElementById('manual-project').value;
   const hours  = parseFloat(document.getElementById('manual-hours').value)||0;
@@ -622,6 +558,7 @@ document.getElementById('manual-log-btn').addEventListener('click', async () => 
 async function loadTimeLogs() {
   const { data } = await sb.from('time_logs').select('*, project:projects(title)').eq('user_id',uid).order('created_at',{ascending:false}).limit(20);
   const div = document.getElementById('time-logs-list');
+  if (!div) return;
   if (!data?.length) { div.innerHTML = '<div style="text-align:center;padding:30px;color:var(--muted)">No time logged yet.</div>'; return; }
   div.innerHTML = data.map(l => `
     <div class="time-log-row">
@@ -633,54 +570,9 @@ async function loadTimeLogs() {
       <span class="tl-date">${fmtDate(l.created_at)}</span>
     </div>`).join('');
 }
-
-/* Screenshot upload */
-document.getElementById('ss-upload-btn').addEventListener('click', async () => {
-  const file  = document.getElementById('ss-file').files[0];
-  const projId = document.getElementById('ss-project').value;
-  if (!file || !projId) { OFXAuth.toast('Select project and file.','error'); return; }
-  if (file.size > 5*1024*1024) { OFXAuth.toast('File too large (max 5MB).','error'); return; }
-  const ext  = file.name.split('.').pop();
-  const path = `screenshots/${uid}/${Date.now()}.${ext}`;
-  const { error: uploadErr } = await sb.storage.from('screenshots').upload(path, file);
-  if (uploadErr) { OFXAuth.toast('Upload failed: '+uploadErr.message,'error'); return; }
-  const { data: { publicUrl } } = sb.storage.from('screenshots').getPublicUrl(path);
-  await sb.from('screenshots').insert({ user_id:uid, project_id:projId, storage_path:publicUrl });
-  OFXAuth.toast('Screenshot uploaded!','success');
-  document.getElementById('ss-file').value = '';
-  loadScreenshots();
-});
-
-/* ========== SCREENSHOTS ========== */
-async function loadScreenshots() {
-  const projId = document.getElementById('ss-project-filter').value;
-  const isAdmin = ['admin','super_admin'].includes(userProfile.role);
-  let q = sb.from('screenshots').select('*, project:projects(title), user:profiles(full_name)').order('created_at',{ascending:false}).limit(40);
-  if (projId) q = q.eq('project_id', projId);
-  if (!isAdmin) q = q.eq('user_id', uid);
-  const { data } = await q;
-  const grid = document.getElementById('screenshots-grid');
-  if (!data?.length) { grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--muted)">No screenshots yet.</div>'; return; }
-  grid.innerHTML = data.map(s => `
-    <div class="ss-tile">
-      <img src="${s.storage_path}" alt="Screenshot" loading="lazy">
-      <div class="ss-overlay">
-        <a href="${s.storage_path}" target="_blank" class="btn-tbl">View</a>
-        ${isAdmin?`<button class="btn-tbl del" onclick="deleteScreenshot('${s.id}','${s.storage_path}')">Delete</button>`:''}
-      </div>
-      <div class="ss-meta">${s.project?.title||'—'} · ${s.user?.full_name||'—'} · ${fmtDate(s.created_at)}</div>
-    </div>`).join('');
-}
-document.getElementById('ss-project-filter').addEventListener('change', loadScreenshots);
-window.deleteScreenshot = async (id, path) => {
-  if (!confirm('Delete this screenshot?')) return;
-  // Remove from storage
-  const storePath = path.split('/storage/v1/object/public/screenshots/')[1];
-  if (storePath) await sb.storage.from('screenshots').remove([storePath]);
-  await sb.from('screenshots').delete().eq('id',id);
-  OFXAuth.toast('Screenshot deleted.','success');
-  loadScreenshots();
-};
+// Exposed so the dashboard's hero timer widget (js/widgets.js) can refresh
+// this list immediately after logging a session from the dashboard.
+window.loadTimeLogs = loadTimeLogs;
 
 /* ========== ANALYTICS ========== */
 async function loadAnalytics() {
