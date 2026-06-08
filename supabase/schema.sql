@@ -359,9 +359,26 @@ CREATE POLICY "Users can view own profile"   ON profiles FOR SELECT USING (auth.
 CREATE POLICY "Users can update own profile" ON profiles FOR UPDATE USING (auth.uid() = id);
 CREATE POLICY "Users can insert own profile" ON profiles FOR INSERT WITH CHECK (auth.uid() = id);
 
+-- Helper: looks up a user's role while BYPASSING RLS (SECURITY DEFINER).
+-- This is required because any policy on `profiles` that queries `profiles`
+-- directly causes Postgres to recurse infinitely while evaluating itself
+-- (error 42P17 "infinite recursion detected in policy for relation profiles").
+-- Routing the lookup through this function breaks that cycle — the function
+-- runs as its owner (which bypasses RLS), so it never re-triggers the
+-- policies that call it.
+CREATE OR REPLACE FUNCTION public.user_role(uid UUID)
+RETURNS TEXT
+LANGUAGE sql
+SECURITY DEFINER
+SET search_path = public
+STABLE
+AS $$
+  SELECT role FROM profiles WHERE id = uid;
+$$;
+
 -- Admins can see all profiles
 CREATE POLICY "Admins view all profiles" ON profiles FOR SELECT
-  USING (EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role IN ('admin','super_admin')));
+  USING (user_role(auth.uid()) IN ('admin','super_admin'));
 
 -- Products & courses: public read, admin write
 CREATE POLICY "Anyone can view active products" ON products FOR SELECT USING (is_active = true);
