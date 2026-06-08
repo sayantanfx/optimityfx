@@ -221,6 +221,11 @@
         <div class="form-group"><label class="form-label">Deadline</label><input class="form-input" type="date" id="pjf-deadline"></div>
         <div class="form-group"><label class="form-label">Budget (₹)</label><input class="form-input" type="number" id="pjf-budget" min="0" placeholder="50000"></div>
       </div>
+      <div class="form-group">
+        <label class="form-label">Assign Team Members</label>
+        <select class="form-input" id="pjf-members" multiple style="height:90px;padding:8px"></select>
+        <span style="font-size:.74rem;color:var(--muted)">Hold Ctrl/Cmd to select multiple</span>
+      </div>
       <div style="border-top:1px solid var(--line-soft);margin:16px 0;padding-top:16px">
         <h4 style="color:var(--white);font-size:.88rem;margin-bottom:12px">Client Details</h4>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
@@ -298,13 +303,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     return;
   }
 
-  const isAdmin = ['admin','super_admin'].includes(userProfile.role);
   document.getElementById('team-name-badge').textContent = userProfile.full_name || session.user.email;
   document.getElementById('signout-btn').style.display = '';
-  if (isAdmin) {
-    document.getElementById('add-project-btn').style.display = '';
-  }
-  // Any team member (not just admins) can create and assign tasks.
+  // Any team member (not just admins) can create/edit/delete projects,
+  // assign teammates to them, and create/assign/edit/delete tasks.
+  document.getElementById('add-project-btn').style.display = '';
   document.getElementById('add-task-btn').style.display = '';
 
   // Sidebar nav
@@ -351,13 +354,8 @@ async function loadProjects() {
   const statusFilter = document.getElementById('proj-status-filter').value;
   let q = sb.from('projects').select('*, members:project_members(user_id)').order('created_at',{ascending:false});
   if (statusFilter) q = q.eq('status', statusFilter);
-  // Non-admins see only their projects
-  if (!['admin','super_admin'].includes(userProfile.role)) {
-    const { data: myProjs } = await sb.from('project_members').select('project_id').eq('user_id', uid);
-    const ids = (myProjs||[]).map(p => p.project_id);
-    if (!ids.length) { document.getElementById('project-grid').innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--muted)">No projects assigned to you yet.</div>'; return; }
-    q = q.in('id', ids);
-  }
+  // Any team member can see and manage every project (not just their own
+  // assigned ones) — matches the same open-access model as tasks.
   const { data } = await q;
   allProjects = data || [];
 
@@ -381,7 +379,10 @@ async function loadProjects() {
       <div class="pc-meta">
         <div class="pm-avatars">${(p.members||[]).slice(0,4).map(()=>`<div class="pm-av">👤</div>`).join('')}${p.members?.length>4?`<div class="pm-av">+${p.members.length-4}</div>`:''}</div>
         ${p.deadline?`<span class="pc-deadline">📅 ${fmtDate(p.deadline)}</span>`:''}
-        ${['admin','super_admin'].includes(userProfile.role)?`<button class="btn-tbl edit" style="margin-left:auto" onclick="event.stopPropagation();editProject('${p.id}')">Edit</button>`:''}
+        <div style="margin-left:auto;display:flex;gap:6px">
+          <button class="btn-tbl edit" onclick="event.stopPropagation();editProject('${p.id}')">Edit</button>
+          <button class="btn-tbl del" onclick="event.stopPropagation();deleteProject('${p.id}')">Delete</button>
+        </div>
       </div>
     </div>`).join('');
 
@@ -417,8 +418,14 @@ document.getElementById('add-project-btn').addEventListener('click', () => {
   document.getElementById('pjf-id').value = '';
   document.getElementById('project-form').reset();
   document.getElementById('proj-modal-title').textContent = 'New Project';
+  populateProjectMemberSelect([]);
   openModal('project-modal');
 });
+function populateProjectMemberSelect(selectedIds) {
+  const sel = document.getElementById('pjf-members');
+  if (!sel) return;
+  sel.innerHTML = allTeamMembers.map(m => `<option value="${m.id}" ${selectedIds?.includes(m.id)?'selected':''}>${m.full_name||m.email}</option>`).join('');
+}
 window.editProject = (id) => {
   const p = allProjects.find(x=>x.id===id); if(!p) return;
   document.getElementById('pjf-id').value       = p.id;
@@ -432,12 +439,21 @@ window.editProject = (id) => {
   document.getElementById('pjf-ccompany').value = p.client_company||'';
   document.getElementById('pjf-cemail').value   = p.client_email||'';
   document.getElementById('pjf-cphone').value   = p.client_phone||'';
+  populateProjectMemberSelect((p.members||[]).map(m=>m.user_id));
   document.getElementById('proj-modal-title').textContent = 'Edit Project';
   openModal('project-modal');
+};
+window.deleteProject = async (id) => {
+  if (!confirm('Delete this project? This will also remove its tasks and team assignments.')) return;
+  const { error } = await sb.from('projects').delete().eq('id', id);
+  if (error) { OFXAuth.toast('Error: '+error.message,'error'); return; }
+  OFXAuth.toast('Project deleted.','info');
+  loadProjects();
 };
 document.getElementById('project-form').addEventListener('submit', async (e) => {
   e.preventDefault();
   const id = document.getElementById('pjf-id').value;
+  const memberIds = Array.from(document.getElementById('pjf-members').selectedOptions).map(o=>o.value);
   const payload = {
     title: document.getElementById('pjf-title').value.trim(),
     description: document.getElementById('pjf-desc').value.trim(),
@@ -449,10 +465,22 @@ document.getElementById('project-form').addEventListener('submit', async (e) => 
     client_company: document.getElementById('pjf-ccompany').value.trim()||null,
     client_email: document.getElementById('pjf-cemail').value.trim()||null,
     client_phone: document.getElementById('pjf-cphone').value.trim()||null,
-    created_by: uid,
   };
-  const { error } = id ? await sb.from('projects').update(payload).eq('id',id) : await sb.from('projects').insert(payload);
-  if (error) { OFXAuth.toast('Error: '+error.message,'error'); return; }
+  let projectId = id;
+  if (id) {
+    const { error } = await sb.from('projects').update(payload).eq('id', id);
+    if (error) { OFXAuth.toast('Error: '+error.message,'error'); return; }
+  } else {
+    payload.created_by = uid;
+    const { data, error } = await sb.from('projects').insert(payload).select('id').single();
+    if (error) { OFXAuth.toast('Error: '+error.message,'error'); return; }
+    projectId = data.id;
+  }
+  // Sync assigned team members for this project
+  await sb.from('project_members').delete().eq('project_id', projectId);
+  if (memberIds.length) {
+    await sb.from('project_members').insert(memberIds.map(memberId => ({ project_id: projectId, user_id: memberId })));
+  }
   OFXAuth.toast(id?'Project updated!':'Project created!','success');
   closeModal('project-modal');
   loadProjects();
