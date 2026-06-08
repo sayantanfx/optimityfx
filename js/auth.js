@@ -168,9 +168,20 @@
      AUTH STATE LISTENER
   ================================================================ */
   if (sb) {
-    sb.auth.onAuthStateChange(async (event, session) => {
+    sb.auth.onAuthStateChange((event, session) => {
       if (event === 'SIGNED_IN' && session) {
-        await grantDailyReward(session.user.id);
+        // CRITICAL: Supabase JS v2 serializes ALL gotrue operations on a
+        // single exclusive navigator.locks lock keyed to the storage key
+        // (e.g. "lock:sb-<ref>-auth-token"). This callback runs WHILE that
+        // lock is held. Awaiting further async work here — especially
+        // queries through the same client — can deadlock the lock forever
+        // (confirmed live: navigator.locks.query() showed the lock stuck
+        // "held" with pending requests queued behind it, causing every
+        // later getSession()/signIn() call to hang indefinitely — exactly
+        // the "logged in but logged out in 2 seconds" symptom). Defer to
+        // a macrotask via setTimeout so the lock is released first, per
+        // Supabase's documented guidance for onAuthStateChange callbacks.
+        setTimeout(() => { grantDailyReward(session.user.id); }, 0);
       }
     });
   }
