@@ -168,32 +168,32 @@ PAGES = {}
 DEMO_VIDEO = "https://www.youtube.com/embed/ScMzIvxBSi4"
 
 # ---------- PORTFOLIO ----------
-def tile(kw, cat, name, cls="", play=False, lock=0, video=None):
-    src = IMG(kw, 800, 600, lock=lock)
+def tile(kw, cat, name, cls="", play=False, lock=0, video=None, img_path=None):
+    src = img_path if img_path else IMG(kw, 800, 600, lock=lock)
     if play:
         overlay = '<div class="play"><span><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span></div>'
         data = f' data-video="{video or DEMO_VIDEO}"'
     else:
         overlay = ''
-        data = f' data-full="{IMG(kw, 1400, 1000, lock=lock)}"'
+        data = f' data-full="{img_path if img_path else IMG(kw, 1400, 1000, lock=lock)}"'
     img = f'<img src="{src}" alt="{name}" loading="lazy">'
     return (f'<div class="tile {cls}" data-cat="{cat.lower()}"{data}>'
             f'{img}<div class="tile-grad"></div>{overlay}'
             f'<div class="tile-meta"><span class="cat">{cat}</span><h4>{name}</h4></div></div>')
 
 work = [
- ("concert,stage","Music Video","Neon Nights — T-Series","wide",True,101),
- ("coastline,cinematic","Color Grade","Coastline Doc","",False,102),
- ("car,product","AI Commercial","Tata Product Film","",True,103),
- ("skincare,cosmetics","UGC","D2C Skincare","",False,104),
- ("festival,poster","Graphic Design","Festival Key Art","",False,105),
- ("rain,concert","Music Video","Monsoon — Zee Music","",True,106),
- ("wedding,cinematic","Color Grade","Wedding Film","wide",False,107),
- ("neon,abstract","AI Music Video","Synthwave Dreams","",True,108),
- ("album,vinyl","Graphic Design","Album Cover Series","",False,109),
- ("fitness,gym","UGC","Fitness App Ads","",False,110),
- ("sneakers,shoes","AI Commercial","Sneaker Drop","",True,111),
- ("travel,landscape","Color Grade","Travel Series","",False,112),
+ ("concert,stage","Music Video","Neon Nights — T-Series","wide",True,101,None,None),
+ ("coastline,cinematic","Color Grade","Coastline Doc","",False,102,None,"assets/portfolio/coastline-doc.webp"),
+ ("car,product","AI Commercial","Tata Product Film","",True,103,None,None),
+ ("skincare,cosmetics","UGC","D2C Skincare","",False,104,None,"assets/portfolio/d2c-skincare.webp"),
+ ("festival,poster","Graphic Design","Festival Key Art","",False,105,None,"assets/portfolio/festival-key-art.webp"),
+ ("rain,concert","Music Video","Monsoon — Zee Music","",True,106,None,None),
+ ("wedding,cinematic","Color Grade","Wedding Film","wide",False,107,None,"assets/portfolio/wedding-film.webp"),
+ ("neon,abstract","AI Music Video","Synthwave Dreams","",True,108,None,"assets/portfolio/synthwave-dreams.webp"),
+ ("album,vinyl","Graphic Design","Album Cover Series","",False,109,None,"assets/portfolio/album-cover-series.webp"),
+ ("fitness,gym","UGC","Fitness App Ads","",False,110,None,"assets/portfolio/fitness-app-ads.webp"),
+ ("sneakers,shoes","AI Commercial","Sneaker Drop","",True,111,None,"assets/portfolio/sneaker-drop.webp"),
+ ("travel,landscape","Color Grade","Travel Series","",False,112,None,"assets/portfolio/travel-series.webp"),
 ]
 tiles = "\n".join(tile(*w) for w in work)
 PAGES["portfolio.html"] = dict(
@@ -358,23 +358,24 @@ PAGES["about.html"] = dict(
 """)
 
 # ---------- ACADEMY ----------
-def course(kw, level, title, meta, price, lock):
+def course(kw, level, title, meta, price, lock, img=None):
+    src = img if img else IMG(kw, 640, 360, lock=lock)
     return f"""<article class="course reveal">
-      <div class="ctop"><img src="{IMG(kw,640,360,lock=lock)}" alt="{title}" loading="lazy"><span class="clevel">{level}</span></div>
+      <div class="ctop"><img src="{src}" alt="{title}" loading="lazy"><span class="clevel">{level}</span></div>
       <div class="cbody"><h4>{title}</h4>
         <div class="cmeta">{meta}</div>
         <div class="cfoot"><span class="cprice">{price}</span><a href="contact.html" class="btn btn-accent btn-sm">Enroll</a></div>
       </div></article>"""
 courses = [
- ("video,editing","Beginner","NextGen Video Editing",'<span>⏱ 24 lessons</span><span>● Live + Recorded</span>',"₹4,999",401),
- ("color,cinema","Advanced","NextGen Color Grading",'<span>⏱ 18 lessons</span><span>● DaVinci Resolve</span>',"₹6,999",402),
- ("audio,studio","Intermediate","NextGen Mix &amp; Master",'<span>⏱ 20 lessons</span><span>● Hands-on</span>',"₹5,499",403),
- ("microphone,singing","Beginner","NextGen Singing",'<span>⏱ 16 lessons</span><span>● Live coaching</span>',"₹3,999",404),
- ("drums,music","Beginner","NextGen Drums",'<span>⏱ 22 lessons</span><span>● Live + Recorded</span>',"₹4,499",405),
- ("technology,computer","Advanced","NextGen AI Tools",'<span>⏱ 14 lessons</span><span>● Latest workflows</span>',"₹5,999",406),
- ("office,computer,desk","Intermediate","NextGen Pro Workflow",'<span>⏱ 12 lessons</span><span>● Pro pipeline</span>',"₹4,999",410),
- ("speaker,podium,audience","Beginner","NextGen Attitude &amp; Confidence",'<span>⏱ 12 sessions</span><span>● Live coaching</span>',"₹4,499",408),
- ("piano,studio","Advanced","NextGen Music Production",'<span>⏱ 26 lessons</span><span>● Live + Recorded</span>',"₹7,499",409),
+ ("video,editing","Beginner","NextGen Video Editing",'<span>⏱ 24 lessons</span><span>● Live + Recorded</span>',"₹4,999",401,"assets/academy/video-editing.webp"),
+ ("color,cinema","Advanced","NextGen Color Grading",'<span>⏱ 18 lessons</span><span>● DaVinci Resolve</span>',"₹6,999",402,"assets/academy/color-grading.webp"),
+ ("audio,studio","Intermediate","NextGen Mix &amp; Master",'<span>⏱ 20 lessons</span><span>● Hands-on</span>',"₹5,499",403,"assets/academy/mix-master.webp"),
+ ("microphone,singing","Beginner","NextGen Singing",'<span>⏱ 16 lessons</span><span>● Live coaching</span>',"₹3,999",404,"assets/academy/singing.webp"),
+ ("drums,music","Beginner","NextGen Drums",'<span>⏱ 22 lessons</span><span>● Live + Recorded</span>',"₹4,499",405,"assets/academy/drums.webp"),
+ ("technology,computer","Advanced","NextGen AI Tools",'<span>⏱ 14 lessons</span><span>● Latest workflows</span>',"₹5,999",406,"assets/academy/ai-tools.webp"),
+ ("office,computer,desk","Intermediate","NextGen Pro Workflow",'<span>⏱ 12 lessons</span><span>● Pro pipeline</span>',"₹4,999",410,"assets/academy/pro-workflow.webp"),
+ ("speaker,podium,audience","Beginner","NextGen Attitude &amp; Confidence",'<span>⏱ 12 sessions</span><span>● Live coaching</span>',"₹4,499",408,"assets/academy/confidence.webp"),
+ ("piano,studio","Advanced","NextGen Music Production",'<span>⏱ 26 lessons</span><span>● Live + Recorded</span>',"₹7,499",409,"assets/academy/music-production.webp"),
 ]
 courses_html = "\n".join(course(*c) for c in courses)
 PAGES["academy.html"] = dict(
@@ -422,23 +423,24 @@ PAGES["academy.html"] = dict(
 """)
 
 # ---------- STORE ----------
-def product(kw, tag, name, meta, price, old=None, lock=0, rating="★★★★★"):
+def product(kw, tag, name, meta, price, old=None, lock=0, rating="★★★★★", img=None):
     old_html = f'<del>{old}</del>' if old else ''
+    src = img if img else IMG(kw, 600, 450, lock=lock)
     return f"""<article class="product reveal" data-cat="{tag.lower()}">
-      <div class="thumb"><img src="{IMG(kw,600,450,lock=lock)}" alt="{name}" loading="lazy"><span class="ptag">{tag}</span></div>
+      <div class="thumb"><img src="{src}" alt="{name}" loading="lazy"><span class="ptag">{tag}</span></div>
       <div class="pbody"><h4>{name}</h4><div class="pmeta">{meta}</div>
         <div class="pfoot"><span class="pprice">{price} {old_html}</span><span class="prating">{rating}</span></div>
         <a href="contact.html" class="btn btn-accent btn-sm" style="width:100%;justify-content:center;margin-top:14px">Buy Now</a>
       </div></article>"""
 products = [
- ("cinematic,landscape","LUTs","Cinematic LUT Pack Vol.1","30 LUTs · .cube","₹1,499","₹2,999",501),
- ("moody,portrait","Presets","Moody Film Presets","20 presets · Lightroom","₹999","₹1,799",502),
- ("video,smartphone","Templates","Reels Transition Pack","50 transitions · Premiere","₹1,299",None,503),
- ("color,monitor","Course","Color Grading Bootcamp","8 hrs · Lifetime","₹3,999","₹5,999",504),
- ("sunset,city","LUTs","Teal & Orange Master LUTs","15 LUTs · .cube","₹1,199",None,505),
- ("screen,desk","Templates","YouTube Thumbnail Kit","100 PSD templates","₹899","₹1,499",506),
- ("portrait,face","Presets","Skin Tone Pro Presets","12 presets · Resolve","₹1,099",None,507),
- ("neon,concert","Course","AI Music Video Blueprint","6 hrs · Lifetime","₹2,999","₹4,499",508),
+ ("cinematic,landscape","LUTs","Cinematic LUT Pack Vol.1","30 LUTs · .cube","₹1,499","₹2,999",501,"★★★★★","assets/store/lut-cinematic.webp"),
+ ("moody,portrait","Presets","Moody Film Presets","20 presets · Lightroom","₹999","₹1,799",502,"★★★★★","assets/store/presets-moody.webp"),
+ ("video,smartphone","Templates","Reels Transition Pack","50 transitions · Premiere","₹1,299",None,503,"★★★★★","assets/store/reels-transitions.webp"),
+ ("color,monitor","Course","Color Grading Bootcamp","8 hrs · Lifetime","₹3,999","₹5,999",504,"★★★★★","assets/store/color-bootcamp.webp"),
+ ("sunset,city","LUTs","Teal & Orange Master LUTs","15 LUTs · .cube","₹1,199",None,505,"★★★★★","assets/store/lut-teal-orange.webp"),
+ ("screen,desk","Templates","YouTube Thumbnail Kit","100 PSD templates","₹899","₹1,499",506,"★★★★★","assets/store/thumbnail-kit.webp"),
+ ("portrait,face","Presets","Skin Tone Pro Presets","12 presets · Resolve","₹1,099",None,507,"★★★★★","assets/store/skin-tone-presets.webp"),
+ ("neon,concert","Course","AI Music Video Blueprint","6 hrs · Lifetime","₹2,999","₹4,499",508,"★★★★★","assets/store/ai-music-blueprint.webp"),
 ]
 products_html = "\n".join(product(*p) for p in products)
 PAGES["store.html"] = dict(
