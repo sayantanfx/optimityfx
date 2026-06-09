@@ -597,7 +597,9 @@ def _post_hero(meta, w, h):
     img = meta.get("image", "").strip()
     if img:
         return img
-    return IMG(meta.get("hero_kw", "cinema,film"), w, h)
+    # use slug-derived lock so card + post page always resolve to the same image
+    lock = abs(hash(meta.get("slug", "default"))) % 9999
+    return IMG(meta.get("hero_kw", "cinema,film"), w, h, lock=lock)
 
 def post_card(meta):
     url = f"blog-{meta['slug']}.html"
