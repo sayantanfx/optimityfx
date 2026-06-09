@@ -346,6 +346,53 @@ body.menu-open .m-drawer { transform: translateX(0); }
 @keyframes renderPulse { 0%,100%{opacity:1} 50%{opacity:.6} }
 .hud-render-pct { position: absolute; right: 0; top: -14px; font-size: .55rem; color: rgba(99,179,255,0.6); font-family: 'Courier New', monospace; }
 
+/* You Are Here */
+.hud-you-here {
+  position: absolute;
+  /* sits on the radar ring, roughly 2-o'clock, between the two right cards */
+  right: 108px; top: calc(50% - 55px);
+  display: flex; flex-direction: column; align-items: center; gap: 7px;
+  z-index: 20;
+}
+.hud-yh-center {
+  position: relative;
+  width: 56px; height: 56px;
+  display: flex; align-items: center; justify-content: center;
+}
+.hud-yh-dot {
+  width: 13px; height: 13px; border-radius: 50%;
+  background: #22e07a; position: relative; z-index: 2;
+  box-shadow: 0 0 0 2px rgba(34,224,122,0.3), 0 0 12px #22e07a, 0 0 30px rgba(34,224,122,0.6), 0 0 50px rgba(34,224,122,0.2);
+  animation: yhBlink 1.2s ease-in-out infinite;
+}
+.hud-yh-ring {
+  position: absolute; top: 50%; left: 50%;
+  width: 30px; height: 30px; border-radius: 50%;
+  border: 1px solid rgba(34,224,122,0.6);
+  transform: translate(-50%, -50%);
+  animation: yhPulse 1.6s ease-out infinite;
+}
+.hud-yh-ring2 {
+  width: 52px; height: 52px;
+  border-color: rgba(34,224,122,0.3);
+  animation-delay: .5s;
+}
+.hud-yh-label {
+  font-family: 'Courier New', monospace;
+  font-size: .54rem; letter-spacing: 2.5px;
+  color: #22e07a; text-transform: uppercase;
+  white-space: nowrap;
+  text-shadow: 0 0 10px rgba(34,224,122,0.8);
+}
+@keyframes yhBlink {
+  0%,100% { opacity: 1; box-shadow: 0 0 0 2px rgba(34,224,122,0.3), 0 0 12px #22e07a, 0 0 30px rgba(34,224,122,0.6); }
+  50%      { opacity: .5; box-shadow: 0 0 0 2px rgba(34,224,122,0.1), 0 0 6px #22e07a; }
+}
+@keyframes yhPulse {
+  0%   { transform: translate(-50%,-50%) scale(1); opacity: .8; }
+  100% { transform: translate(-50%,-50%) scale(3.5); opacity: 0; }
+}
+
 /* Waveform */
 .hud-waveform {
   position: absolute; bottom: 44px; left: 50%; transform: translateX(-50%);
