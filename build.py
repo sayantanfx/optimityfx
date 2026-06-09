@@ -204,6 +204,7 @@ PAGES["portfolio.html"] = dict(
  desc="Browse 2,000+ projects: music videos, color grading, AI commercials, UGC and design for T-Series, Zee Music, Tata and brands across 10+ countries.",
  keywords="video editing portfolio, color grading showreel, creative studio work, music video editing, AI commercial",
  active="portfolio.html",
+ og_image="https://optimityfx.com/assets/portfolio/synthwave-dreams.webp",
  jsonld='<script type="application/ld+json">{"@context":"https://schema.org","@type":"CollectionPage","name":"OptimityFX Portfolio","url":"https://optimityfx.com/portfolio.html"}</script>',
  body=f"""
 <section class="page-hero">
@@ -310,6 +311,7 @@ PAGES["about.html"] = dict(
  desc="Meet OptimityFX — a global creative studio of editors, colorists and AI artists. 2,000+ projects, 10+ countries, clients including T-Series, Zee Music & Tata.",
  keywords="about OptimityFX, creative studio team, colorist, video editor, our story",
  active="about.html",
+ og_image="https://optimityfx.com/assets/story.jpg",
  jsonld='<script type="application/ld+json">{"@context":"https://schema.org","@type":"AboutPage","name":"About OptimityFX","url":"https://optimityfx.com/about.html"}</script>',
  body=f"""
 <section class="page-hero">
@@ -386,6 +388,7 @@ PAGES["academy.html"] = dict(
  desc="Upskill with NextGen Academy: online live & recorded courses in video editing, color grading, mixing & mastering, singing, drums, AI tools and pro workflows.",
  keywords="color grading course, video editing course, music mixing course, AI tools course, online creative classes, NextGen Academy",
  active="academy.html",
+ og_image="https://optimityfx.com/assets/academy/video-editing.webp",
  jsonld='<script type="application/ld+json">{"@context":"https://schema.org","@type":"EducationalOrganization","name":"OptimityFX NextGen Academy","url":"https://optimityfx.com/academy.html","description":"Live and recorded creative courses."}</script>',
  body=f"""
 <section class="page-hero">
@@ -451,6 +454,7 @@ PAGES["store.html"] = dict(
  desc="Download pro-grade LUTs, color presets, editing templates and self-paced courses — the exact tools used by OptimityFX. Instant download, lifetime access.",
  keywords="buy LUTs, color grading presets, premiere templates, lightroom presets, editing course download",
  active="store.html",
+ og_image="https://optimityfx.com/assets/store/lut-cinematic.webp",
  jsonld='<script type="application/ld+json">{"@context":"https://schema.org","@type":"Store","name":"OptimityFX Digital Store","url":"https://optimityfx.com/store.html"}</script>',
  body=f"""
 <section class="page-hero">
@@ -491,6 +495,7 @@ PAGES["b2b.html"] = dict(
  desc="Strategic B2B partnerships for brands and businesses — growth strategy, positioning, content systems and scale planning from a team that's built a studio from zero.",
  keywords="B2B solutions, brand strategy, business growth partnerships, content systems for brands",
  active="b2b.html",
+ og_image="https://optimityfx.com/assets/services/commercial.webp",
  jsonld='<script type="application/ld+json">{"@context":"https://schema.org","@type":"Service","serviceType":"B2B Solutions","provider":{"@type":"Organization","name":"OptimityFX"}}</script>',
  body=f"""
 <section class="page-hero">
@@ -623,6 +628,7 @@ PAGES["blog.html"] = dict(
  desc="Tutorials, breakdowns and strategy from the OptimityFX studio: color grading, video editing, AI tools, UGC and growing your creative business.",
  keywords="color grading tutorial, video editing tips, AI video, UGC tips, creative business blog",
  active="blog.html",
+ og_image="https://optimityfx.com/assets/blog/veo3-ai-audio-video-music-production.webp",
  jsonld='<script type="application/ld+json">{"@context":"https://schema.org","@type":"Blog","name":"OptimityFX Blog","url":"https://optimityfx.com/blog.html"}</script>',
  body=f"""
 <section class="page-hero">
@@ -710,6 +716,7 @@ PAGES["contact.html"] = dict(
  desc="Get in touch with OptimityFX for video editing, color grading, AI production or B2B solutions. Free consultation and a tailored quote within 24 hours.",
  keywords="contact OptimityFX, hire creative studio, video editing quote, color grading enquiry",
  active="contact.html",
+ og_image="https://optimityfx.com/assets/services/grading.webp",
  jsonld='<script type="application/ld+json">{"@context":"https://schema.org","@type":"ContactPage","name":"Contact OptimityFX","url":"https://optimityfx.com/contact.html"}</script>',
  body=f"""
 <section class="page-hero">
@@ -762,6 +769,7 @@ PAGES["app.html"] = dict(
  desc="The OptimityFX app brings color grading presets, course access, project tracking and our store to your pocket. Coming soon to the App Store and Google Play.",
  keywords="OptimityFX app, color grading app, creative learning app, iOS, Android",
  active="",
+ og_image="https://optimityfx.com/assets/services/ai-influencer.webp",
  jsonld='<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"OptimityFX","operatingSystem":"iOS, Android","applicationCategory":"MultimediaApplication","offers":{"@type":"Offer","price":"0","priceCurrency":"INR"},"aggregateRating":{"@type":"AggregateRating","ratingValue":"4.9","ratingCount":"1280"}}</script>',
  body=f"""
 <section class="page-hero">
