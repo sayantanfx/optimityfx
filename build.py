@@ -30,7 +30,7 @@ HEAD = """<!DOCTYPE html>
 <link rel="manifest" href="manifest.json">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="css/style.css?v=20260607">
+<link rel="stylesheet" href="css/style.css?v=20260610">
 {jsonld}
 </head>
 <body>
@@ -209,9 +209,34 @@ PAGES["portfolio.html"] = dict(
  body=f"""
 <section class="page-hero">
   <div class="wrap">
-    <div class="crumbs reveal"><a href="index.html">Home</a><span>/</span>Work</div>
-    <h1 class="reveal d1">Our <span class="spectrum-text">Work</span></h1>
-    <p class="lead reveal d2">2,000+ projects delivered across 10+ countries. Filter by craft and explore the stories we've brought to life.</p>
+    <div class="page-hero-inner">
+      <div class="page-hero-copy">
+        <div class="crumbs reveal"><a href="index.html">Home</a><span>/</span>Work</div>
+        <h1 class="reveal d1">Our <span class="spectrum-text">Work</span></h1>
+        <p class="lead reveal d2">500+ projects delivered across 10+ countries. Filter by craft and explore the stories we've brought to life.</p>
+      </div>
+      <div class="page-hero-hud reveal d2" aria-hidden="true">
+        <div class="ph-monitor">
+          <div class="ph-screen">
+            <div class="ph-screen-bg"></div>
+            <div class="ph-scan"></div>
+            <div class="ph-corners"><b class="tl"></b><b class="tr"></b><b class="bl"></b><b class="br"></b></div>
+            <div class="ph-tc">TC 00:03:24:12</div>
+            <div class="ph-prj">PROJ_MV_2847 · 4K HDR</div>
+            <div class="ph-big"><div class="ph-big-n">500<span style="color:#63b3ff">+</span></div><div class="ph-big-s">PROJECTS · 10+ COUNTRIES</div></div>
+            <div class="ph-scope">
+              <span style="animation-delay:.0s"></span><span style="animation-delay:.05s"></span><span style="animation-delay:.1s"></span><span style="animation-delay:.15s"></span><span style="animation-delay:.2s"></span><span style="animation-delay:.25s"></span><span style="animation-delay:.3s"></span><span style="animation-delay:.35s"></span><span style="animation-delay:.4s"></span><span style="animation-delay:.45s"></span><span style="animation-delay:.5s"></span><span style="animation-delay:.55s"></span><span style="animation-delay:.6s"></span><span style="animation-delay:.65s"></span><span style="animation-delay:.7s"></span>
+            </div>
+          </div>
+          <div class="ph-meta">
+            <div class="ph-tag"><div class="ph-tag-type">Music Video</div><div class="ph-tag-n">142</div><div class="ph-tag-l">Projects</div></div>
+            <div class="ph-tag"><div class="ph-tag-type">Commercial</div><div class="ph-tag-n">98</div><div class="ph-tag-l">Projects</div></div>
+            <div class="ph-tag"><div class="ph-tag-type">AI Content</div><div class="ph-tag-n">130</div><div class="ph-tag-l">Projects</div></div>
+            <div class="ph-tag"><div class="ph-tag-type">Color Grade</div><div class="ph-tag-n">130+</div><div class="ph-tag-l">Projects</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -316,9 +341,70 @@ PAGES["about.html"] = dict(
  body=f"""
 <section class="page-hero">
   <div class="wrap">
-    <div class="crumbs reveal"><a href="index.html">Home</a><span>/</span>About</div>
-    <h1 class="reveal d1">We Turn Vision<br>Into <span class="spectrum-text">Visuals</span></h1>
-    <p class="lead reveal d2">OptimityFX began with a simple belief: world-class creative shouldn't be reserved for the few. Today we're a global studio helping brands and creators look extraordinary.</p>
+    <div class="page-hero-inner">
+      <div class="page-hero-copy">
+        <div class="crumbs reveal"><a href="index.html">Home</a><span>/</span>About</div>
+        <h1 class="reveal d1">We Turn Vision<br>Into <span class="spectrum-text">Visuals</span></h1>
+        <p class="lead reveal d2">OptimityFX began with a simple belief: world-class creative shouldn't be reserved for the few. Today we're a global studio helping brands and creators look extraordinary.</p>
+      </div>
+      <div class="page-hero-hud reveal d2" aria-hidden="true">
+        <div class="ph-mc">
+          <div class="ph-mc-globe">
+            <svg class="ph-mc-svg" viewBox="0 0 240 240" fill="none">
+              <circle cx="120" cy="120" r="108" stroke="rgba(99,179,255,0.06)" stroke-width="8"/>
+              <circle cx="120" cy="120" r="100" stroke="rgba(99,179,255,0.15)" stroke-width="1" fill="rgba(99,179,255,0.02)"/>
+              <ellipse cx="120" cy="120" rx="100" ry="28" stroke="rgba(99,179,255,0.08)" stroke-width="1"/>
+              <ellipse cx="120" cy="120" rx="100" ry="62" stroke="rgba(99,179,255,0.06)" stroke-width="1"/>
+              <ellipse cx="120" cy="120" rx="30" ry="100" stroke="rgba(99,179,255,0.07)" stroke-width="1"/>
+              <ellipse cx="120" cy="120" rx="70" ry="100" stroke="rgba(99,179,255,0.06)" stroke-width="1"/>
+              <path d="M152 72 Q180 40 162 82" stroke="rgba(99,179,255,0.3)" stroke-width="1" stroke-dasharray="3 3"/>
+              <path d="M98 68 Q80 35 64 75" stroke="rgba(99,179,255,0.25)" stroke-width="1" stroke-dasharray="3 3"/>
+              <path d="M152 72 Q165 120 134 135" stroke="rgba(34,224,122,0.2)" stroke-width="1" stroke-dasharray="2 4"/>
+              <circle cx="152" cy="74" r="4" fill="#63b3ff" opacity=".9"/>
+              <circle class="ph-mc-ping" cx="152" cy="74" r="4" fill="none" stroke="#63b3ff" stroke-width="1"/>
+              <circle class="ph-mc-ping" cx="152" cy="74" r="4" fill="none" stroke="#63b3ff" stroke-width="1" style="animation-delay:.6s"/>
+              <circle cx="100" cy="68" r="3.5" fill="#63b3ff" opacity=".75"><animate attributeName="opacity" values=".75;.2;.75" dur="2.2s" repeatCount="indefinite"/></circle>
+              <circle cx="62" cy="78" r="3" fill="#a87fff" opacity=".65"><animate attributeName="opacity" values=".65;.2;.65" dur="1.9s" repeatCount="indefinite"/></circle>
+              <circle cx="134" cy="138" r="3.5" fill="#22e07a" opacity=".7"><animate attributeName="opacity" values=".7;.2;.7" dur="2.5s" repeatCount="indefinite"/></circle>
+              <text x="158" y="70" fill="rgba(99,179,255,0.7)" font-size="6.5" font-family="Courier New">INDIA</text>
+              <text x="105" y="64" fill="rgba(99,179,255,0.55)" font-size="6.5" font-family="Courier New">UK</text>
+              <text x="40" y="74" fill="rgba(168,85,247,0.65)" font-size="6.5" font-family="Courier New">USA</text>
+              <text x="138" y="134" fill="rgba(34,224,122,0.65)" font-size="6.5" font-family="Courier New">AUS</text>
+              <line x1="117" y1="120" x2="123" y2="120" stroke="rgba(99,179,255,0.4)" stroke-width="1"/>
+              <line x1="120" y1="117" x2="120" y2="123" stroke="rgba(99,179,255,0.4)" stroke-width="1"/>
+              <path d="M14 28 L14 14 L28 14" stroke="rgba(99,179,255,0.4)" stroke-width="1.5"/>
+              <path d="M212 14 L226 14 L226 28" stroke="rgba(99,179,255,0.4)" stroke-width="1.5"/>
+              <path d="M14 212 L14 226 L28 226" stroke="rgba(99,179,255,0.4)" stroke-width="1.5"/>
+              <path d="M212 226 L226 226 L226 212" stroke="rgba(99,179,255,0.4)" stroke-width="1.5"/>
+              <text x="120" y="232" fill="rgba(99,179,255,0.25)" font-size="5.5" font-family="Courier New" text-anchor="middle" letter-spacing="1">28°N 77°E · SIGNAL LOCKED</text>
+            </svg>
+          </div>
+          <div class="ph-mc-data">
+            <div class="ph-mc-head">STUDIO NETWORK · <b>ONLINE</b></div>
+            <div class="ph-mc-sig">
+              <div class="ph-mc-sig-head"><span class="ph-mc-sig-name">INDIA HQ</span><span class="ph-mc-sig-st">● LIVE</span></div>
+              <div class="ph-mc-sig-bar"><div class="ph-mc-sig-fill" style="width:95%;background:#63b3ff"></div></div>
+              <div class="ph-mc-coords">28°N 77°E · PRIMARY</div>
+            </div>
+            <div class="ph-mc-sig">
+              <div class="ph-mc-sig-head"><span class="ph-mc-sig-name">UK NODE</span><span class="ph-mc-sig-st" style="color:#63b3ff">● SYNC</span></div>
+              <div class="ph-mc-sig-bar"><div class="ph-mc-sig-fill" style="width:78%;background:#63b3ff;animation-delay:.4s"></div></div>
+              <div class="ph-mc-coords">51°N 0°W · RELAY</div>
+            </div>
+            <div class="ph-mc-sig">
+              <div class="ph-mc-sig-head"><span class="ph-mc-sig-name">USA NODE</span><span class="ph-mc-sig-st" style="color:#a87fff">● SYNC</span></div>
+              <div class="ph-mc-sig-bar"><div class="ph-mc-sig-fill" style="width:65%;background:#a855f7;animation-delay:.8s"></div></div>
+              <div class="ph-mc-coords">40°N 74°W · RELAY</div>
+            </div>
+            <div class="ph-mc-sig">
+              <div class="ph-mc-sig-head"><span class="ph-mc-sig-name">AUS NODE</span><span class="ph-mc-sig-st" style="color:#22e07a">● SYNC</span></div>
+              <div class="ph-mc-sig-bar"><div class="ph-mc-sig-fill" style="width:55%;background:#22e07a;animation-delay:1.2s"></div></div>
+              <div class="ph-mc-coords">33°S 151°E · RELAY</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -393,11 +479,35 @@ PAGES["academy.html"] = dict(
  body=f"""
 <section class="page-hero">
   <div class="wrap">
-    <div class="crumbs reveal"><a href="index.html">Home</a><span>/</span>Academy</div>
-    <span class="tag-pill reveal">NextGen Academy</span>
-    <h1 class="reveal d1" style="margin-top:14px">Skill Up. <span class="spectrum-text">Level Up.</span></h1>
-    <p class="lead reveal d2">Learn directly from working professionals. Live and recorded courses across editing, color, music, AI and the workflows the industry actually uses.</p>
-    <div class="hero-actions reveal d3" style="margin-top:28px"><a href="#courses" class="btn btn-accent btn-lg">Browse Courses {ARR}</a><a href="contact.html" class="btn btn-ghost btn-lg">Request a Syllabus</a></div>
+    <div class="page-hero-inner">
+      <div class="page-hero-copy">
+        <div class="crumbs reveal"><a href="index.html">Home</a><span>/</span>Academy</div>
+        <span class="tag-pill reveal">NextGen Academy</span>
+        <h1 class="reveal d1" style="margin-top:14px">Skill Up. <span class="spectrum-text">Level Up.</span></h1>
+        <p class="lead reveal d2">Learn directly from working professionals. Live and recorded courses across editing, color, music, AI and the workflows the industry actually uses.</p>
+        <div class="hero-actions reveal d3" style="margin-top:28px"><a href="#courses" class="btn btn-accent btn-lg">Browse Courses {ARR}</a><a href="contact.html" class="btn btn-ghost btn-lg">Request a Syllabus</a></div>
+      </div>
+      <div class="page-hero-hud reveal d2" aria-hidden="true">
+        <div class="ph-orbit">
+          <div class="ph-orbit-stage">
+            <div class="ph-ring ph-ring-3" style="width:265px;height:265px">
+              <div class="ph-onode" style="position:absolute;top:-17px;left:50%;transform:translateX(-50%);width:34px;height:34px;background:rgba(99,179,255,0.08);border:1px solid rgba(99,179,255,0.25);color:rgba(99,179,255,0.7);border-radius:50%;display:flex;align-items:center;justify-content:center"><span>MUSIC</span></div>
+              <div class="ph-onode" style="position:absolute;top:50%;right:-17px;transform:translateY(-50%);width:34px;height:34px;background:rgba(255,165,50,0.08);border:1px solid rgba(255,165,50,0.25);color:rgba(255,165,50,0.7);border-radius:50%;display:flex;align-items:center;justify-content:center"><span>VFX</span></div>
+              <div class="ph-onode" style="position:absolute;bottom:-17px;left:50%;transform:translateX(-50%);width:34px;height:34px;background:rgba(34,224,122,0.08);border:1px solid rgba(34,224,122,0.25);color:rgba(34,224,122,0.7);border-radius:50%;display:flex;align-items:center;justify-content:center"><span>BIZ</span></div>
+            </div>
+            <div class="ph-ring ph-ring-2" style="width:180px;height:180px">
+              <div class="ph-onode" style="position:absolute;top:-19px;left:50%;transform:translateX(-50%);width:38px;height:38px;background:rgba(99,179,255,0.12);border:1px solid rgba(99,179,255,0.4);color:#63b3ff;border-radius:50%;display:flex;align-items:center;justify-content:center"><span>EDIT</span></div>
+              <div class="ph-onode" style="position:absolute;bottom:-19px;left:50%;transform:translateX(-50%);width:38px;height:38px;background:rgba(34,224,122,0.12);border:1px solid rgba(34,224,122,0.4);color:#22e07a;border-radius:50%;display:flex;align-items:center;justify-content:center"><span>AI</span></div>
+            </div>
+            <div class="ph-ring ph-ring-1">
+              <div class="ph-onode" style="position:absolute;top:-18px;left:50%;transform:translateX(-50%);width:36px;height:36px;background:rgba(138,99,255,0.15);border:1px solid rgba(138,99,255,0.5);color:#a87fff;border-radius:50%;display:flex;align-items:center;justify-content:center"><span>COLOR</span></div>
+            </div>
+            <div class="ph-center"><span>CREATIVE</span><span>CORE</span></div>
+            <div style="position:absolute;bottom:0;left:50%;transform:translateX(-50%);font-family:'Courier New',monospace;font-size:.5rem;letter-spacing:2px;color:rgba(99,179,255,0.25);white-space:nowrap">UNLOCK YOUR FULL STACK</div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -459,9 +569,44 @@ PAGES["store.html"] = dict(
  body=f"""
 <section class="page-hero">
   <div class="wrap">
-    <div class="crumbs reveal"><a href="index.html">Home</a><span>/</span>Store</div>
-    <h1 class="reveal d1">Digital <span class="spectrum-text">Store</span></h1>
-    <p class="lead reveal d2">The exact LUTs, presets, templates and courses we use on client work — ready to download and drop into your projects.</p>
+    <div class="page-hero-inner">
+      <div class="page-hero-copy">
+        <div class="crumbs reveal"><a href="index.html">Home</a><span>/</span>Store</div>
+        <h1 class="reveal d1">Digital <span class="spectrum-text">Store</span></h1>
+        <p class="lead reveal d2">The exact LUTs, presets, templates and courses we use on client work — ready to download and drop into your projects.</p>
+      </div>
+      <div class="page-hero-hud reveal d2" aria-hidden="true">
+        <div class="ph-lut">
+          <div class="ph-lut-screen">
+            <div class="ph-lut-before"><div class="ph-lut-lbl">RAW</div></div>
+            <div class="ph-lut-after"><div class="ph-lut-lbl">GRADED</div></div>
+            <div class="ph-lut-div"></div>
+            <div class="ph-lut-scan"></div>
+            <div class="ph-lut-dl">↓ 1,284</div>
+          </div>
+          <div class="ph-lut-row">
+            <div class="ph-swatch">
+              <div class="ph-swatch-strip"><span style="background:#0d0020"></span><span style="background:#1a0040"></span><span style="background:#3d0080"></span><span style="background:#6600cc"></span><span style="background:#9933ff"></span><span style="background:#cc66ff"></span></div>
+              <div class="ph-swatch-name">NEON NOIR</div>
+              <div class="ph-swatch-meta">.cube · 33-point</div>
+              <div class="ph-swatch-badge">BESTSELLER</div>
+            </div>
+            <div class="ph-swatch">
+              <div class="ph-swatch-strip"><span style="background:#1a0800"></span><span style="background:#3d1a00"></span><span style="background:#7a3500"></span><span style="background:#b35200"></span><span style="background:#e06b00"></span><span style="background:#ffaa33"></span></div>
+              <div class="ph-swatch-name">GOLDEN HOUR</div>
+              <div class="ph-swatch-meta">.cube · 33-point</div>
+              <div class="ph-swatch-badge">NEW</div>
+            </div>
+            <div class="ph-swatch">
+              <div class="ph-swatch-strip"><span style="background:#001a1a"></span><span style="background:#003333"></span><span style="background:#006666"></span><span style="background:#009999"></span><span style="background:#00cccc"></span><span style="background:#33ffff"></span></div>
+              <div class="ph-swatch-name">ARCTIC TEAL</div>
+              <div class="ph-swatch-meta">.cube · 33-point</div>
+              <div class="ph-swatch-badge">POPULAR</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -500,11 +645,40 @@ PAGES["b2b.html"] = dict(
  body=f"""
 <section class="page-hero">
   <div class="wrap">
-    <div class="crumbs reveal"><a href="index.html">Home</a><span>/</span>B2B</div>
-    <span class="tag-pill reveal">B2B Solutions</span>
-    <h1 class="reveal d1" style="margin-top:14px">Grow Your Business,<br><span class="spectrum-text">On Purpose.</span></h1>
-    <p class="lead reveal d2">We've built a creative studio from zero. Now we partner with businesses and brands to craft the strategy to grow — and the systems to scale.</p>
-    <div class="hero-actions reveal d3" style="margin-top:28px"><a href="contact.html" class="btn btn-accent btn-lg">Book a Strategy Call {ARR}</a></div>
+    <div class="page-hero-inner">
+      <div class="page-hero-copy">
+        <div class="crumbs reveal"><a href="index.html">Home</a><span>/</span>B2B</div>
+        <span class="tag-pill reveal">B2B Solutions</span>
+        <h1 class="reveal d1" style="margin-top:14px">Grow Your Business,<br><span class="spectrum-text">On Purpose.</span></h1>
+        <p class="lead reveal d2">We've built a creative studio from zero. Now we partner with businesses and brands to craft the strategy to grow — and the systems to scale.</p>
+        <div class="hero-actions reveal d3" style="margin-top:28px"><a href="contact.html" class="btn btn-accent btn-lg">Book a Strategy Call {ARR}</a></div>
+      </div>
+      <div class="page-hero-hud reveal d2" aria-hidden="true">
+        <div class="ph-biz">
+          <div class="ph-chart">
+            <div class="ph-chart-lbl">REVENUE GROWTH · 12M</div>
+            <div class="ph-chart-val">+312%</div>
+            <svg class="ph-chart-svg" viewBox="0 0 400 140" fill="none" preserveAspectRatio="none">
+              <defs><linearGradient id="b2bFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="rgba(34,224,122,0.2)"/><stop offset="100%" stop-color="rgba(34,224,122,0)"/></linearGradient></defs>
+              <line x1="0" y1="35" x2="400" y2="35" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+              <line x1="0" y1="70" x2="400" y2="70" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+              <line x1="0" y1="105" x2="400" y2="105" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+              <path d="M0,110 C40,105 80,100 120,85 C160,68 200,60 240,45 C280,30 320,22 400,10 L400,140 L0,140 Z" fill="url(#b2bFill)"/>
+              <path d="M0,110 C40,105 80,100 120,85 C160,68 200,60 240,45 C280,30 320,22 400,10" stroke="#22e07a" stroke-width="2"/>
+              <circle cx="120" cy="85" r="4" fill="#22e07a" opacity=".8"/>
+              <circle cx="240" cy="45" r="4" fill="#22e07a" opacity=".8"/>
+              <circle cx="400" cy="10" r="5" fill="#22e07a"/>
+            </svg>
+          </div>
+          <div class="ph-biz-metrics">
+            <div class="ph-biz-m"><div class="ph-biz-m-val">3.2×</div><div class="ph-biz-m-lbl">Avg. ROI</div><div class="ph-biz-m-tr">↑ vs last yr</div></div>
+            <div class="ph-biz-m"><div class="ph-biz-m-val">10+</div><div class="ph-biz-m-lbl">Countries</div><div class="ph-biz-m-tr">↑ expanding</div></div>
+            <div class="ph-biz-m"><div class="ph-biz-m-val">48h</div><div class="ph-biz-m-lbl">Turnaround</div><div class="ph-biz-m-tr">↓ faster</div></div>
+            <div class="ph-biz-m"><div class="ph-biz-m-val">98%</div><div class="ph-biz-m-lbl">Retention</div><div class="ph-biz-m-tr">↑ steady</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -633,9 +807,36 @@ PAGES["blog.html"] = dict(
  body=f"""
 <section class="page-hero">
   <div class="wrap">
-    <div class="crumbs reveal"><a href="index.html">Home</a><span>/</span>Blog</div>
-    <h1 class="reveal d1">The <span class="spectrum-text">Journal</span></h1>
-    <p class="lead reveal d2">Tutorials, behind-the-scenes breakdowns and hard-won lessons on craft and the creative business.</p>
+    <div class="page-hero-inner">
+      <div class="page-hero-copy">
+        <div class="crumbs reveal"><a href="index.html">Home</a><span>/</span>Blog</div>
+        <h1 class="reveal d1">The <span class="spectrum-text">Journal</span></h1>
+        <p class="lead reveal d2">Tutorials, behind-the-scenes breakdowns and hard-won lessons on craft and the creative business.</p>
+      </div>
+      <div class="page-hero-hud reveal d2" aria-hidden="true">
+        <div class="ph-term">
+          <div class="ph-term-bar">
+            <div class="ph-term-dot" style="background:#ff5f57"></div>
+            <div class="ph-term-dot" style="background:#febc2e"></div>
+            <div class="ph-term-dot" style="background:#28c840"></div>
+            <span style="font-size:.56rem;color:rgba(255,255,255,0.3);font-family:'Courier New',monospace;margin-left:8px">journal@optimityfx ~ latest posts</span>
+          </div>
+          <div class="ph-term-body">
+            <div class="ph-term-line"><span class="ph-term-prompt">›</span><span class="ph-term-cat ph-tc-tut">TUTORIAL</span><span class="ph-term-txt">How to build a cinematic grade from scratch in DaVinci</span><span class="ph-term-time">8 min</span></div>
+            <div class="ph-term-line"><span class="ph-term-prompt">›</span><span class="ph-term-cat ph-tc-ai">AI</span><span class="ph-term-txt">Veo3 just changed music video production forever</span><span class="ph-term-time">5 min</span></div>
+            <div class="ph-term-line"><span class="ph-term-prompt">›</span><span class="ph-term-cat ph-tc-biz">BUSINESS</span><span class="ph-term-txt">Why we stopped pricing by the hour — and tripled revenue</span><span class="ph-term-time">6 min</span></div>
+            <div class="ph-term-line"><span class="ph-term-prompt">›</span><span class="ph-term-cat ph-tc-craft">CRAFT</span><span class="ph-term-txt">The retention edit: why viewers stop watching at 0:08</span><span class="ph-term-time">4 min</span></div>
+            <div class="ph-term-line"><span class="ph-term-prompt">›</span><span class="ph-term-cat ph-tc-ai">AI</span><span class="ph-term-txt">AI slop is good news for editors who actually care<span class="ph-cursor"></span></span><span class="ph-term-time">3 min</span></div>
+          </div>
+          <div class="ph-term-stats">
+            <div class="ph-term-stat"><b>24</b> POSTS</div>
+            <div class="ph-term-stat"><b>5</b> CATEGORIES</div>
+            <div class="ph-term-stat"><b>~5min</b> AVG READ</div>
+            <div class="ph-term-stat">UPDATED <b>DAILY</b></div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 <section class="section"><div class="wrap">

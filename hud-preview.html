@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HUD Hero Previews v2</title>
+<link rel="stylesheet" href="css/style.css?v=20260609">
+<style>
+*{box-sizing:border-box}
+body { background:#07090c; color:#fff; font-family:'Inter',sans-serif; margin:0; }
+.preview-label { font-size:.65rem; letter-spacing:3px; text-transform:uppercase; color:rgba(99,179,255,0.5); padding:32px 40px 0; font-family:'Courier New',monospace; }
+.preview-section { min-height:420px; border-bottom:1px solid rgba(255,255,255,0.06); display:grid; grid-template-columns:1fr 1fr; align-items:center; padding:60px 40px; gap:40px; overflow:hidden; }
+.preview-copy h1 { font-size:clamp(2rem,3.5vw,3.2rem); font-weight:800; text-transform:uppercase; letter-spacing:-1.5px; line-height:.95; margin-bottom:18px; }
+.preview-copy p  { font-size:1rem; color:rgba(255,255,255,0.5); max-width:48ch; line-height:1.6; }
+.preview-hud     { position:relative; height:360px; }
+
+/* =============================================
+   01 · SERVICES — Pipeline Flow (updated)
+   ============================================= */
+.pipe-wrap { display:flex; flex-direction:column; gap:0; position:absolute; inset:0; justify-content:center; padding:0 10px; }
+.pipe-row  { display:flex; align-items:center; gap:0; }
+.pipe-node { background:rgba(10,12,20,0.85); border:1px solid rgba(99,179,255,0.2); border-radius:8px; padding:10px 12px; min-width:90px; flex-shrink:0; }
+.pipe-node-label { font-size:.52rem; letter-spacing:2px; color:rgba(99,179,255,0.5); text-transform:uppercase; margin-bottom:3px; font-family:'Courier New',monospace; }
+.pipe-node-val   { font-size:.82rem; font-weight:700; color:#fff; }
+.pipe-node.active { border-color:rgba(99,179,255,0.6); box-shadow:0 0 16px rgba(99,179,255,0.15); }
+.pipe-node.done   { border-color:rgba(34,224,122,0.4); }
+.pipe-node.done .pipe-node-val { color:#22e07a; }
+.pipe-line { flex:1; height:1px; background:linear-gradient(90deg,rgba(99,179,255,0.3),rgba(99,179,255,0.1)); position:relative; }
+.pipe-line::after { content:'▶'; position:absolute; right:-4px; top:-8px; font-size:.6rem; color:rgba(99,179,255,0.4); }
+.pipe-status-bar { margin-top:24px; }
+.pipe-status-label { font-size:.52rem; letter-spacing:2px; color:rgba(255,255,255,0.3); font-family:'Courier New',monospace; margin-bottom:6px; }
+.pipe-bar { height:4px; background:rgba(255,255,255,0.06); border-radius:2px; overflow:hidden; }
+.pipe-fill { height:100%; border-radius:2px; background:linear-gradient(90deg,#63b3ff,#a855f7); animation:pipePulse 2s ease-in-out infinite; }
+@keyframes pipePulse { 0%,100%{opacity:1} 50%{opacity:.5} }
+.pipe-metrics { display:flex; gap:18px; margin-top:18px; flex-wrap:wrap; }
+.pipe-metric  { display:flex; flex-direction:column; }
+.pipe-metric b { font-size:1.3rem; font-weight:800; color:#fff; }
+.pipe-metric span { font-size:.55rem; color:rgba(255,255,255,0.35); letter-spacing:1px; text-transform:uppercase; font-family:'Courier New',monospace; }
+.pipe-hdr-badge { display:inline-flex; align-items:center; gap:6px; background:rgba(255,200,50,0.1); border:1px solid rgba(255,200,50,0.3); border-radius:4px; padding:4px 10px; font-size:.58rem; letter-spacing:2px; color:#ffc832; font-family:'Courier New',monospace; margin-top:14px; }
+.pipe-hdr-dot { width:6px; height:6px; border-radius:50%; background:#ffc832; box-shadow:0 0 6px #ffc832; animation:pipePulse 1.5s ease-in-out infinite; }
+
+/* =============================================
+   02 · WORK — Cinematic Monitor (REDESIGN)
+   ============================================= */
+.monitor-wrap { position:absolute; inset:0; display:flex; flex-direction:column; gap:8px; }
+.monitor-screen {
+  flex:1; border-radius:10px; border:1px solid rgba(255,255,255,0.1);
+  background:#000; position:relative; overflow:hidden;
+}
+/* Widescreen letterbox bars */
+.monitor-screen::before,.monitor-screen::after {
+  content:''; position:absolute; left:0; right:0; height:14%; background:#000; z-index:2;
+}
+.monitor-screen::before { top:0; }
+.monitor-screen::after  { bottom:0; }
+.monitor-bg { position:absolute; inset:0; background:linear-gradient(135deg,#0d1020 0%,#1a0830 40%,#0a1a10 100%); }
+.monitor-scan { position:absolute; left:0; right:0; height:2px; background:rgba(99,179,255,0.2); animation:monScan 4s linear infinite; z-index:3; box-shadow:0 0 10px rgba(99,179,255,0.3); }
+@keyframes monScan { 0%{top:14%} 100%{top:86%} }
+.monitor-tc { position:absolute; top:18%; left:14px; font-family:'Courier New',monospace; font-size:.58rem; color:rgba(255,255,255,0.5); z-index:4; letter-spacing:1px; }
+.monitor-proj { position:absolute; top:18%; right:14px; font-family:'Courier New',monospace; font-size:.58rem; color:rgba(99,179,255,0.6); z-index:4; letter-spacing:1px; }
+.monitor-title { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); text-align:center; z-index:4; }
+.monitor-title-main { font-size:1.6rem; font-weight:800; letter-spacing:4px; color:#fff; text-transform:uppercase; }
+.monitor-title-sub  { font-size:.55rem; letter-spacing:3px; color:rgba(255,255,255,0.4); font-family:'Courier New',monospace; margin-top:4px; }
+.monitor-scope { position:absolute; bottom:16%; left:14px; right:14px; height:22px; display:flex; gap:2px; align-items:flex-end; z-index:4; }
+.monitor-scope-bar { flex:1; background:rgba(99,179,255,0.35); border-radius:1px; animation:scopeBar 1.4s ease-in-out infinite; }
+@keyframes scopeBar { 0%,100%{transform:scaleY(.3)} 50%{transform:scaleY(1)} }
+.monitor-corners { position:absolute; inset:0; z-index:4; pointer-events:none; }
+.monitor-corners span { position:absolute; width:14px; height:14px; }
+.monitor-corners span.tl { top:15%; left:10px;  border-top:1px solid rgba(255,255,255,0.4); border-left:1px solid rgba(255,255,255,0.4); }
+.monitor-corners span.tr { top:15%; right:10px; border-top:1px solid rgba(255,255,255,0.4); border-right:1px solid rgba(255,255,255,0.4); }
+.monitor-corners span.bl { bottom:15%; left:10px;  border-bottom:1px solid rgba(255,255,255,0.4); border-left:1px solid rgba(255,255,255,0.4); }
+.monitor-corners span.br { bottom:15%; right:10px; border-bottom:1px solid rgba(255,255,255,0.4); border-right:1px solid rgba(255,255,255,0.4); }
+.monitor-meta { display:flex; gap:8px; }
+.monitor-tag { flex:1; border:1px solid rgba(255,255,255,0.07); border-radius:7px; padding:10px 12px; background:rgba(255,255,255,0.02); display:flex; flex-direction:column; gap:3px; }
+.monitor-tag-type  { font-size:.5rem; letter-spacing:2px; color:rgba(99,179,255,0.5); font-family:'Courier New',monospace; }
+.monitor-tag-count { font-size:1.3rem; font-weight:800; color:#fff; line-height:1; }
+.monitor-tag-label { font-size:.52rem; color:rgba(255,255,255,0.3); }
+
+/* =============================================
+   03 · ACADEMY — Orbital System (REDESIGN)
+   ============================================= */
+.orbit-wrap { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; }
+.orbit-stage { position:relative; width:320px; height:320px; }
+/* Orbit rings */
+.orbit-ring { position:absolute; border-radius:50%; border:1px dashed rgba(99,179,255,0.15); top:50%; left:50%; transform:translate(-50%,-50%); }
+.orbit-ring-1 { width:120px; height:120px; animation:orbitSpin 12s linear infinite; }
+.orbit-ring-2 { width:200px; height:200px; animation:orbitSpin 20s linear infinite reverse; }
+.orbit-ring-3 { width:290px; height:290px; animation:orbitSpin 30s linear infinite; border-style:dotted; border-color:rgba(99,179,255,0.08); }
+@keyframes orbitSpin { from{transform:translate(-50%,-50%) rotate(0deg)} to{transform:translate(-50%,-50%) rotate(360deg)} }
+/* Centre node */
+.orbit-center {
+  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+  width:58px; height:58px; border-radius:50%;
+  background:rgba(138,99,255,0.2); border:1.5px solid rgba(138,99,255,0.6);
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  font-family:'Courier New',monospace; font-size:.52rem; color:#a87fff; letter-spacing:1px;
+  text-align:center; z-index:10;
+  box-shadow:0 0 20px rgba(138,99,255,0.2);
+  animation:centerPulse 3s ease-in-out infinite;
+}
+@keyframes centerPulse { 0%,100%{box-shadow:0 0 20px rgba(138,99,255,0.2)} 50%{box-shadow:0 0 35px rgba(138,99,255,0.4)} }
+/* Orbit nodes — on ring 1 (r=60) */
+.onode {
+  position:absolute; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Courier New',monospace; font-size:.48rem;
+  text-align:center; letter-spacing:.5px; line-height:1.2;
+  z-index:5;
+}
+/* Ring 1 nodes (on 60px orbit) — counter-rotate so label stays upright */
+.orbit-ring-1 .onode { animation:counterSpin 12s linear infinite; }
+@keyframes counterSpin { from{transform:rotate(0deg)} to{transform:rotate(-360deg)} }
+/* Ring 2 nodes — counter-rotate */
+.orbit-ring-2 .onode { animation:counterSpin2 20s linear infinite; }
+@keyframes counterSpin2 { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+
+/* =============================================
+   04 · STORE — LUT Panel (+ motion)
+   ============================================= */
+.lut-panel { position:absolute; inset:0; display:flex; flex-direction:column; gap:10px; padding:4px 0; }
+.lut-screen { flex:1; border-radius:10px; border:1px solid rgba(255,255,255,0.08); display:grid; grid-template-columns:1fr 1fr; overflow:hidden; position:relative; }
+.lut-before { background:linear-gradient(135deg,#2a2a2a 0%,#4a4a4a 100%); position:relative; }
+.lut-after  { background:linear-gradient(135deg,#0d0826 0%,#1a0f40 40%,#c45000 100%); position:relative; }
+.lut-label  { position:absolute; bottom:8px; left:8px; font-size:.52rem; letter-spacing:2px; color:rgba(255,255,255,0.5); font-family:'Courier New',monospace; }
+.lut-divider { position:absolute; top:0; bottom:0; left:50%; width:2px; background:rgba(255,255,255,0.7); z-index:2; animation:lutSlide 4s ease-in-out infinite; }
+@keyframes lutSlide { 0%,100%{left:50%} 40%{left:30%} 70%{left:65%} }
+.lut-divider::before { content:'◆'; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); font-size:.7rem; color:#fff; }
+/* Scan line over screen */
+.lut-screen-scan { position:absolute; left:0; right:0; height:1px; background:rgba(255,255,255,0.15); animation:lutScan 3s linear infinite; z-index:3; top:0; pointer-events:none; }
+@keyframes lutScan { 0%{top:0%} 100%{top:100%} }
+.lut-row { display:flex; gap:8px; }
+.lut-swatch-card { flex:1; border-radius:8px; border:1px solid rgba(255,255,255,0.08); padding:10px; background:rgba(255,255,255,0.03); animation:lutFloat 5s ease-in-out infinite; }
+.lut-swatch-card:nth-child(2){animation-delay:.8s}
+.lut-swatch-card:nth-child(3){animation-delay:1.6s}
+@keyframes lutFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
+.lut-swatch-strip { display:flex; gap:2px; border-radius:3px; overflow:hidden; height:18px; margin-bottom:7px; }
+.lut-swatch-strip span { flex:1; }
+.lut-swatch-name  { font-size:.6rem; font-weight:700; color:#fff; }
+.lut-swatch-meta  { font-size:.52rem; color:rgba(255,255,255,0.35); font-family:'Courier New',monospace; margin-top:2px; }
+.lut-badge { display:inline-block; font-size:.5rem; padding:2px 6px; border-radius:3px; background:rgba(99,179,255,0.15); color:#63b3ff; margin-top:4px; letter-spacing:1px; font-family:'Courier New',monospace; }
+.lut-dl-counter { position:absolute; top:8px; right:10px; font-family:'Courier New',monospace; font-size:.52rem; color:rgba(34,224,122,0.7); letter-spacing:1px; }
+
+/* =============================================
+   05 · B2B — Growth Dashboard
+   ============================================= */
+.biz-hud { position:absolute; inset:0; padding:4px 0; display:flex; flex-direction:column; gap:12px; }
+.biz-chart { flex:1; border:1px solid rgba(255,255,255,0.06); border-radius:10px; position:relative; overflow:hidden; padding:16px; }
+.biz-chart-label { position:absolute; top:10px; left:14px; font-size:.58rem; letter-spacing:2px; color:rgba(99,179,255,0.5); font-family:'Courier New',monospace; }
+.biz-chart-val   { position:absolute; top:8px; right:14px; font-size:1.1rem; font-weight:800; color:#22e07a; }
+.biz-chart-svg   { position:absolute; inset:0; width:100%; height:100%; }
+.biz-metrics { display:flex; gap:8px; }
+.biz-metric { flex:1; border:1px solid rgba(255,255,255,0.07); border-radius:8px; padding:12px; background:rgba(255,255,255,0.02); }
+.biz-metric-val   { font-size:1.3rem; font-weight:800; color:#fff; }
+.biz-metric-label { font-size:.55rem; color:rgba(255,255,255,0.35); letter-spacing:1px; text-transform:uppercase; font-family:'Courier New',monospace; margin-top:3px; }
+.biz-metric-trend { font-size:.6rem; color:#22e07a; margin-top:4px; }
+
+/* =============================================
+   06 · BLOG — Terminal Feed
+   ============================================= */
+.term-wrap { position:absolute; inset:0; border-radius:12px; border:1px solid rgba(99,179,255,0.15); background:rgba(5,8,15,0.9); overflow:hidden; }
+.term-bar  { background:rgba(255,255,255,0.04); padding:9px 14px; display:flex; align-items:center; gap:7px; border-bottom:1px solid rgba(255,255,255,0.06); }
+.term-dot  { width:9px; height:9px; border-radius:50%; }
+.term-body { padding:14px 16px; display:flex; flex-direction:column; gap:10px; }
+.term-line { display:flex; gap:10px; align-items:flex-start; font-family:'Courier New',monospace; font-size:.68rem; }
+.term-prompt { color:rgba(99,179,255,0.6); flex-shrink:0; }
+.term-cat   { flex-shrink:0; padding:1px 6px; border-radius:3px; font-size:.52rem; letter-spacing:1px; }
+.term-cat-tut   { background:rgba(168,85,247,0.2); color:#a855f7; }
+.term-cat-tip   { background:rgba(99,179,255,0.2); color:#63b3ff; }
+.term-cat-story { background:rgba(255,165,50,0.2); color:#ffa532; }
+.term-cat-ai    { background:rgba(34,224,122,0.2); color:#22e07a; }
+.term-text  { color:rgba(255,255,255,0.7); flex:1; }
+.term-time  { color:rgba(255,255,255,0.2); flex-shrink:0; font-size:.55rem; }
+.term-cursor { display:inline-block; width:7px; height:12px; background:rgba(99,179,255,0.7); animation:blink .9s step-end infinite; vertical-align:middle; margin-left:2px; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+.term-stats { display:flex; gap:20px; padding:10px 16px; border-top:1px solid rgba(255,255,255,0.04); }
+.term-stat { font-family:'Courier New',monospace; font-size:.58rem; color:rgba(255,255,255,0.3); }
+.term-stat b { color:rgba(99,179,255,0.7); }
+
+/* =============================================
+   07 · ABOUT — Mission Control Globe (REDESIGN)
+   ============================================= */
+.mc-wrap { position:absolute; inset:0; display:flex; gap:12px; align-items:center; }
+.mc-globe-col { flex:1; position:relative; height:100%; display:flex; align-items:center; justify-content:center; }
+.mc-globe-svg { width:240px; height:240px; }
+.mc-data-col { width:160px; display:flex; flex-direction:column; gap:10px; }
+/* Signal bars */
+.mc-signal { border:1px solid rgba(255,255,255,0.06); border-radius:8px; padding:10px 12px; background:rgba(255,255,255,0.02); }
+.mc-signal-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; }
+.mc-signal-name { font-size:.55rem; letter-spacing:1.5px; color:rgba(255,255,255,0.5); font-family:'Courier New',monospace; }
+.mc-signal-status { font-size:.5rem; color:#22e07a; font-family:'Courier New',monospace; }
+.mc-signal-bar { height:3px; border-radius:2px; background:rgba(255,255,255,0.06); overflow:hidden; margin-bottom:4px; }
+.mc-signal-fill { height:100%; border-radius:2px; animation:sigPulse 2s ease-in-out infinite; }
+@keyframes sigPulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+.mc-signal-coords { font-size:.48rem; color:rgba(99,179,255,0.4); font-family:'Courier New',monospace; letter-spacing:.5px; }
+/* Status header */
+.mc-header { font-size:.52rem; letter-spacing:2.5px; color:rgba(99,179,255,0.4); font-family:'Courier New',monospace; padding-bottom:8px; border-bottom:1px solid rgba(255,255,255,0.05); }
+.mc-header b { color:rgba(34,224,122,0.8); }
+/* Ping dots on globe */
+.mc-ping { animation:mcPing 2s ease-out infinite; }
+@keyframes mcPing { 0%{r:4;opacity:.9} 100%{r:14;opacity:0} }
+</style>
+</head>
+<body>
+
+<!-- ========== 01 · SERVICES ========== -->
+<div class="preview-label">01 · SERVICES — Production Pipeline</div>
+<div class="preview-section">
+  <div class="preview-copy">
+    <h1>Our <span class="spectrum-text">Services</span></h1>
+    <p>One studio, every creative discipline. We handle the entire pipeline — so your story stays consistent from concept to final delivery.</p>
+  </div>
+  <div class="preview-hud">
+    <div class="pipe-wrap">
+      <div class="pipe-row">
+        <div class="pipe-node done"><div class="pipe-node-label">Stage 01</div><div class="pipe-node-val">Brief</div></div>
+        <div class="pipe-line"></div>
+        <div class="pipe-node done"><div class="pipe-node-label">Stage 02</div><div class="pipe-node-val">Edit</div></div>
+        <div class="pipe-line"></div>
+        <div class="pipe-node active"><div class="pipe-node-label">Stage 03</div><div class="pipe-node-val">Grade</div></div>
+        <div class="pipe-line"></div>
+        <div class="pipe-node"><div class="pipe-node-label">Stage 04</div><div class="pipe-node-val">AI</div></div>
+        <div class="pipe-line"></div>
+        <div class="pipe-node"><div class="pipe-node-label">Stage 05</div><div class="pipe-node-val">Deliver</div></div>
+      </div>
+      <div class="pipe-status-bar">
+        <div class="pipe-status-label">PIPELINE ACTIVE · 3 PROJECTS IN PROGRESS</div>
+        <div class="pipe-bar"><div class="pipe-fill" style="width:62%"></div></div>
+      </div>
+      <div class="pipe-metrics">
+        <div class="pipe-metric"><b>9</b><span>Services</span></div>
+        <div class="pipe-metric"><b>48h</b><span>Avg. Turn</span></div>
+        <div class="pipe-metric"><b>98%</b><span>Satisfaction</span></div>
+        <div class="pipe-metric"><b>8K</b><span>Max Res.</span></div>
+      </div>
+      <div class="pipe-hdr-badge">
+        <span class="pipe-hdr-dot"></span>
+        HDR · DOLBY VISION · HLG · PQ SUPPORTED
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 02 · WORK — Cinematic Monitor ========== -->
+<div class="preview-label">02 · WORK — Cinematic Monitor</div>
+<div class="preview-section">
+  <div class="preview-copy">
+    <h1>Our <span class="spectrum-text">Work</span></h1>
+    <p>500+ projects delivered across 10+ countries. Filter by craft and explore the stories we've brought to life.</p>
+  </div>
+  <div class="preview-hud">
+    <div class="monitor-wrap">
+      <div class="monitor-screen">
+        <div class="monitor-bg"></div>
+        <div class="monitor-scan"></div>
+        <div class="monitor-corners">
+          <span class="tl"></span><span class="tr"></span>
+          <span class="bl"></span><span class="br"></span>
+        </div>
+        <div class="monitor-tc">TC 00:03:24:12</div>
+        <div class="monitor-proj">PROJ_MV_2847 · 4K HDR</div>
+        <div class="monitor-title">
+          <div class="monitor-title-main">500<span style="color:#63b3ff">+</span></div>
+          <div class="monitor-title-sub">PROJECTS · 10+ COUNTRIES</div>
+        </div>
+        <div class="monitor-scope">
+          <div class="monitor-scope-bar" style="height:40%;animation-delay:.0s"></div>
+          <div class="monitor-scope-bar" style="height:60%;animation-delay:.05s"></div>
+          <div class="monitor-scope-bar" style="height:80%;animation-delay:.1s"></div>
+          <div class="monitor-scope-bar" style="height:100%;animation-delay:.15s"></div>
+          <div class="monitor-scope-bar" style="height:90%;animation-delay:.2s"></div>
+          <div class="monitor-scope-bar" style="height:70%;animation-delay:.25s"></div>
+          <div class="monitor-scope-bar" style="height:50%;animation-delay:.3s"></div>
+          <div class="monitor-scope-bar" style="height:80%;animation-delay:.35s"></div>
+          <div class="monitor-scope-bar" style="height:100%;animation-delay:.4s"></div>
+          <div class="monitor-scope-bar" style="height:60%;animation-delay:.45s"></div>
+          <div class="monitor-scope-bar" style="height:40%;animation-delay:.5s"></div>
+          <div class="monitor-scope-bar" style="height:70%;animation-delay:.55s"></div>
+          <div class="monitor-scope-bar" style="height:90%;animation-delay:.6s"></div>
+          <div class="monitor-scope-bar" style="height:50%;animation-delay:.65s"></div>
+          <div class="monitor-scope-bar" style="height:30%;animation-delay:.7s"></div>
+          <div class="monitor-scope-bar" style="height:60%;animation-delay:.75s"></div>
+          <div class="monitor-scope-bar" style="height:80%;animation-delay:.8s"></div>
+          <div class="monitor-scope-bar" style="height:40%;animation-delay:.85s"></div>
+          <div class="monitor-scope-bar" style="height:70%;animation-delay:.9s"></div>
+          <div class="monitor-scope-bar" style="height:100%;animation-delay:.95s"></div>
+        </div>
+        <div class="lut-dl-counter">▶ REC</div>
+      </div>
+      <div class="monitor-meta">
+        <div class="monitor-tag">
+          <div class="monitor-tag-type">Music Video</div>
+          <div class="monitor-tag-count">142</div>
+          <div class="monitor-tag-label">Projects</div>
+        </div>
+        <div class="monitor-tag">
+          <div class="monitor-tag-type">Commercial</div>
+          <div class="monitor-tag-count">98</div>
+          <div class="monitor-tag-label">Projects</div>
+        </div>
+        <div class="monitor-tag">
+          <div class="monitor-tag-type">AI Content</div>
+          <div class="monitor-tag-count">130</div>
+          <div class="monitor-tag-label">Projects</div>
+        </div>
+        <div class="monitor-tag">
+          <div class="monitor-tag-type">Color Grade</div>
+          <div class="monitor-tag-count">130+</div>
+          <div class="monitor-tag-label">Projects</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 03 · ACADEMY — Orbital System ========== -->
+<div class="preview-label">03 · ACADEMY — Orbital Skill System</div>
+<div class="preview-section">
+  <div class="preview-copy">
+    <h1>Skill Up. <span class="spectrum-text">Level Up.</span></h1>
+    <p>Learn directly from working professionals. Live and recorded courses across editing, color, music, AI and the workflows the industry actually uses.</p>
+  </div>
+  <div class="preview-hud">
+    <div class="orbit-wrap">
+      <div class="orbit-stage">
+        <!-- Static outer ring (no spin, just reference) -->
+        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:290px;height:290px;border-radius:50%;border:1px dotted rgba(99,179,255,0.07)"></div>
+
+        <!-- Ring 3 — outermost orbiting -->
+        <div class="orbit-ring orbit-ring-3" style="width:280px;height:280px;border-color:rgba(99,179,255,0.1)">
+          <!-- Node at top of ring -->
+          <div class="onode" style="position:absolute;top:-18px;left:50%;transform:translateX(-50%);width:36px;height:36px;background:rgba(99,179,255,0.08);border:1px solid rgba(99,179,255,0.25);color:rgba(99,179,255,0.7)">
+            <span>MUSIC</span>
+          </div>
+          <!-- Node at right -->
+          <div class="onode" style="position:absolute;top:50%;right:-18px;transform:translateY(-50%);width:36px;height:36px;background:rgba(255,165,50,0.08);border:1px solid rgba(255,165,50,0.25);color:rgba(255,165,50,0.7)">
+            <span>VFX</span>
+          </div>
+          <!-- Node at bottom -->
+          <div class="onode" style="position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);width:36px;height:36px;background:rgba(34,224,122,0.08);border:1px solid rgba(34,224,122,0.25);color:rgba(34,224,122,0.7)">
+            <span>BIZ</span>
+          </div>
+        </div>
+
+        <!-- Ring 2 — mid orbit -->
+        <div class="orbit-ring orbit-ring-2" style="width:190px;height:190px">
+          <div class="onode" style="position:absolute;top:-20px;left:50%;transform:translateX(-50%);width:40px;height:40px;background:rgba(99,179,255,0.12);border:1px solid rgba(99,179,255,0.4);color:#63b3ff">
+            <span>EDIT</span>
+          </div>
+          <div class="onode" style="position:absolute;bottom:-20px;left:50%;transform:translateX(-50%);width:40px;height:40px;background:rgba(34,224,122,0.12);border:1px solid rgba(34,224,122,0.4);color:#22e07a">
+            <span>AI</span>
+          </div>
+        </div>
+
+        <!-- Ring 1 — inner orbit -->
+        <div class="orbit-ring orbit-ring-1" style="width:110px;height:110px;border-color:rgba(138,99,255,0.25)">
+          <div class="onode" style="position:absolute;top:-19px;left:50%;transform:translateX(-50%);width:38px;height:38px;background:rgba(138,99,255,0.15);border:1px solid rgba(138,99,255,0.5);color:#a87fff">
+            <span>COLOR</span>
+          </div>
+        </div>
+
+        <!-- Centre -->
+        <div class="orbit-center">
+          <span style="font-size:.55rem">CREATIVE</span>
+          <span style="font-size:.55rem">CORE</span>
+        </div>
+
+        <!-- Static label bottom -->
+        <div style="position:absolute;bottom:0;left:50%;transform:translateX(-50%);font-family:'Courier New',monospace;font-size:.52rem;letter-spacing:2px;color:rgba(99,179,255,0.25);white-space:nowrap">UNLOCK YOUR FULL STACK</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 04 · STORE — LUT Panel ========== -->
+<div class="preview-label">04 · STORE — LUT Preview Panel</div>
+<div class="preview-section">
+  <div class="preview-copy">
+    <h1>Digital <span class="spectrum-text">Store</span></h1>
+    <p>The exact LUTs, presets, templates and courses we use on client work — ready to download and drop into your projects.</p>
+  </div>
+  <div class="preview-hud">
+    <div class="lut-panel">
+      <div class="lut-screen">
+        <div class="lut-before"><div class="lut-label">RAW</div></div>
+        <div class="lut-after"><div class="lut-label">GRADED</div></div>
+        <div class="lut-divider"></div>
+        <div class="lut-screen-scan"></div>
+        <div class="lut-dl-counter" style="top:8px;right:10px;z-index:5">↓ <span id="dlCount">1,284</span></div>
+      </div>
+      <div class="lut-row">
+        <div class="lut-swatch-card">
+          <div class="lut-swatch-strip">
+            <span style="background:#0d0020"></span><span style="background:#1a0040"></span>
+            <span style="background:#3d0080"></span><span style="background:#6600cc"></span>
+            <span style="background:#9933ff"></span><span style="background:#cc66ff"></span>
+          </div>
+          <div class="lut-swatch-name">NEON NOIR</div>
+          <div class="lut-swatch-meta">.cube · 33-point</div>
+          <div class="lut-badge">BESTSELLER</div>
+        </div>
+        <div class="lut-swatch-card">
+          <div class="lut-swatch-strip">
+            <span style="background:#1a0800"></span><span style="background:#3d1a00"></span>
+            <span style="background:#7a3500"></span><span style="background:#b35200"></span>
+            <span style="background:#e06b00"></span><span style="background:#ffaa33"></span>
+          </div>
+          <div class="lut-swatch-name">GOLDEN HOUR</div>
+          <div class="lut-swatch-meta">.cube · 33-point</div>
+          <div class="lut-badge">NEW</div>
+        </div>
+        <div class="lut-swatch-card">
+          <div class="lut-swatch-strip">
+            <span style="background:#001a1a"></span><span style="background:#003333"></span>
+            <span style="background:#006666"></span><span style="background:#009999"></span>
+            <span style="background:#00cccc"></span><span style="background:#33ffff"></span>
+          </div>
+          <div class="lut-swatch-name">ARCTIC TEAL</div>
+          <div class="lut-swatch-meta">.cube · 33-point</div>
+          <div class="lut-badge">POPULAR</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 05 · B2B — Growth Dashboard ========== -->
+<div class="preview-label">05 · B2B — Growth Dashboard</div>
+<div class="preview-section">
+  <div class="preview-copy">
+    <h1>Grow On <span class="spectrum-text">Purpose.</span></h1>
+    <p>We've built a creative studio from zero. Now we partner with businesses to craft the strategy to grow — and the systems to scale.</p>
+  </div>
+  <div class="preview-hud">
+    <div class="biz-hud">
+      <div class="biz-chart">
+        <div class="biz-chart-label">REVENUE GROWTH · 12M</div>
+        <div class="biz-chart-val">+312%</div>
+        <svg class="biz-chart-svg" viewBox="0 0 400 140" fill="none" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="chartFill" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="rgba(34,224,122,0.2)"/>
+              <stop offset="100%" stop-color="rgba(34,224,122,0)"/>
+            </linearGradient>
+          </defs>
+          <line x1="0" y1="35"  x2="400" y2="35"  stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+          <line x1="0" y1="70"  x2="400" y2="70"  stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+          <line x1="0" y1="105" x2="400" y2="105" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+          <path d="M0,110 C40,105 80,100 120,85 C160,68 200,60 240,45 C280,30 320,22 400,10 L400,140 L0,140 Z" fill="url(#chartFill)"/>
+          <path d="M0,110 C40,105 80,100 120,85 C160,68 200,60 240,45 C280,30 320,22 400,10" stroke="#22e07a" stroke-width="2"/>
+          <circle cx="120" cy="85" r="4" fill="#22e07a" opacity=".8"/>
+          <circle cx="240" cy="45" r="4" fill="#22e07a" opacity=".8"/>
+          <circle cx="400" cy="10" r="5" fill="#22e07a"/>
+        </svg>
+      </div>
+      <div class="biz-metrics">
+        <div class="biz-metric"><div class="biz-metric-val">3.2×</div><div class="biz-metric-label">Avg. ROI</div><div class="biz-metric-trend">↑ vs last yr</div></div>
+        <div class="biz-metric"><div class="biz-metric-val">10+</div><div class="biz-metric-label">Countries</div><div class="biz-metric-trend">↑ expanding</div></div>
+        <div class="biz-metric"><div class="biz-metric-val">48h</div><div class="biz-metric-label">Turnaround</div><div class="biz-metric-trend">↓ faster</div></div>
+        <div class="biz-metric"><div class="biz-metric-val">98%</div><div class="biz-metric-label">Retention</div><div class="biz-metric-trend">↑ steady</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 06 · BLOG — Terminal Feed ========== -->
+<div class="preview-label">06 · BLOG — Terminal Feed</div>
+<div class="preview-section">
+  <div class="preview-copy">
+    <h1>The <span class="spectrum-text">Journal</span></h1>
+    <p>Tutorials, behind-the-scenes breakdowns and hard-won lessons on craft and the creative business.</p>
+  </div>
+  <div class="preview-hud">
+    <div class="term-wrap">
+      <div class="term-bar">
+        <div class="term-dot" style="background:#ff5f57"></div>
+        <div class="term-dot" style="background:#febc2e"></div>
+        <div class="term-dot" style="background:#28c840"></div>
+        <span style="font-size:.58rem;color:rgba(255,255,255,0.3);font-family:'Courier New',monospace;margin-left:8px">journal@optimityfx ~ latest posts</span>
+      </div>
+      <div class="term-body">
+        <div class="term-line"><span class="term-prompt">›</span><span class="term-cat term-cat-tut">TUTORIAL</span><span class="term-text">How to build a cinematic grade from scratch in DaVinci</span><span class="term-time">8 min</span></div>
+        <div class="term-line"><span class="term-prompt">›</span><span class="term-cat term-cat-ai">AI</span><span class="term-text">Veo3 just changed music video production forever</span><span class="term-time">5 min</span></div>
+        <div class="term-line"><span class="term-prompt">›</span><span class="term-cat term-cat-story">BUSINESS</span><span class="term-text">Why we stopped pricing by the hour — and tripled revenue</span><span class="term-time">6 min</span></div>
+        <div class="term-line"><span class="term-prompt">›</span><span class="term-cat term-cat-tip">CRAFT</span><span class="term-text">The retention edit: why viewers stop watching at 0:08</span><span class="term-time">4 min</span></div>
+        <div class="term-line"><span class="term-prompt">›</span><span class="term-cat term-cat-ai">AI</span><span class="term-text">AI slop is good news for editors who actually care<span class="term-cursor"></span></span><span class="term-time">3 min</span></div>
+      </div>
+      <div class="term-stats">
+        <div class="term-stat"><b>24</b> POSTS</div>
+        <div class="term-stat"><b>5</b> CATEGORIES</div>
+        <div class="term-stat"><b>~5min</b> AVG READ</div>
+        <div class="term-stat">UPDATED <b>DAILY</b></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 07 · ABOUT — Mission Control Globe ========== -->
+<div class="preview-label">07 · ABOUT — Mission Control</div>
+<div class="preview-section">
+  <div class="preview-copy">
+    <h1>We Turn Vision<br>Into <span class="spectrum-text">Visuals</span></h1>
+    <p>OptimityFX began with a simple belief: world-class creative shouldn't be reserved for the few. Today we're a global studio helping brands and creators look extraordinary.</p>
+  </div>
+  <div class="preview-hud">
+    <div class="mc-wrap">
+      <div class="mc-globe-col">
+        <svg class="mc-globe-svg" viewBox="0 0 240 240" fill="none">
+          <!-- Outer glow ring -->
+          <circle cx="120" cy="120" r="108" stroke="rgba(99,179,255,0.06)" stroke-width="8"/>
+          <!-- Globe -->
+          <circle cx="120" cy="120" r="100" stroke="rgba(99,179,255,0.15)" stroke-width="1" fill="rgba(99,179,255,0.02)"/>
+          <!-- Latitude lines -->
+          <ellipse cx="120" cy="120" rx="100" ry="28" stroke="rgba(99,179,255,0.08)" stroke-width="1"/>
+          <ellipse cx="120" cy="120" rx="100" ry="62" stroke="rgba(99,179,255,0.06)" stroke-width="1"/>
+          <ellipse cx="120" cy="120" rx="100" ry="90" stroke="rgba(99,179,255,0.05)" stroke-width="1"/>
+          <!-- Longitude lines -->
+          <ellipse cx="120" cy="120" rx="30"  ry="100" stroke="rgba(99,179,255,0.07)" stroke-width="1"/>
+          <ellipse cx="120" cy="120" rx="70"  ry="100" stroke="rgba(99,179,255,0.06)" stroke-width="1"/>
+          <!-- Signal arcs between locations -->
+          <path d="M152 72 Q180 40 162 82" stroke="rgba(99,179,255,0.3)" stroke-width="1" stroke-dasharray="3 3"/>
+          <path d="M98 68 Q80 35 64 75"   stroke="rgba(99,179,255,0.25)" stroke-width="1" stroke-dasharray="3 3"/>
+          <path d="M152 72 Q165 120 134 135" stroke="rgba(34,224,122,0.2)" stroke-width="1" stroke-dasharray="2 4"/>
+          <!-- Ping rings for India -->
+          <circle cx="152" cy="74" r="4" fill="#63b3ff" opacity=".9"/>
+          <circle class="mc-ping" cx="152" cy="74" r="4" fill="none" stroke="#63b3ff" stroke-width="1"/>
+          <circle class="mc-ping" cx="152" cy="74" r="4" fill="none" stroke="#63b3ff" stroke-width="1" style="animation-delay:.6s"/>
+          <!-- UK -->
+          <circle cx="100" cy="68" r="3.5" fill="#63b3ff" opacity=".75">
+            <animate attributeName="opacity" values=".75;.2;.75" dur="2.2s" repeatCount="indefinite"/>
+          </circle>
+          <!-- USA -->
+          <circle cx="62"  cy="78" r="3" fill="#a87fff" opacity=".65">
+            <animate attributeName="opacity" values=".65;.2;.65" dur="1.9s" repeatCount="indefinite"/>
+          </circle>
+          <!-- AUS -->
+          <circle cx="134" cy="138" r="3.5" fill="#22e07a" opacity=".7">
+            <animate attributeName="opacity" values=".7;.2;.7" dur="2.5s" repeatCount="indefinite"/>
+          </circle>
+          <!-- Labels -->
+          <text x="158" y="70"  fill="rgba(99,179,255,0.7)"  font-size="6.5" font-family="Courier New">INDIA</text>
+          <text x="105" y="64"  fill="rgba(99,179,255,0.55)" font-size="6.5" font-family="Courier New">UK</text>
+          <text x="40"  y="74"  fill="rgba(168,85,247,0.65)" font-size="6.5" font-family="Courier New">USA</text>
+          <text x="138" y="134" fill="rgba(34,224,122,0.65)" font-size="6.5" font-family="Courier New">AUS</text>
+          <!-- Centre cross -->
+          <line x1="117" y1="120" x2="123" y2="120" stroke="rgba(99,179,255,0.4)" stroke-width="1"/>
+          <line x1="120" y1="117" x2="120" y2="123" stroke="rgba(99,179,255,0.4)" stroke-width="1"/>
+          <!-- Corner HUD brackets -->
+          <path d="M14 28 L14 14 L28 14" stroke="rgba(99,179,255,0.4)" stroke-width="1.5"/>
+          <path d="M212 14 L226 14 L226 28" stroke="rgba(99,179,255,0.4)" stroke-width="1.5"/>
+          <path d="M14 212 L14 226 L28 226" stroke="rgba(99,179,255,0.4)" stroke-width="1.5"/>
+          <path d="M212 226 L226 226 L226 212" stroke="rgba(99,179,255,0.4)" stroke-width="1.5"/>
+          <!-- Coordinate readout -->
+          <text x="120" y="232" fill="rgba(99,179,255,0.25)" font-size="5.5" font-family="Courier New" text-anchor="middle" letter-spacing="1">28°N 77°E · SIGNAL LOCKED</text>
+        </svg>
+      </div>
+
+      <div class="mc-data-col">
+        <div class="mc-header">STUDIO NETWORK · <b>ONLINE</b></div>
+        <div class="mc-signal">
+          <div class="mc-signal-head">
+            <span class="mc-signal-name">INDIA HQ</span>
+            <span class="mc-signal-status">● LIVE</span>
+          </div>
+          <div class="mc-signal-bar"><div class="mc-signal-fill" style="width:95%;background:#63b3ff"></div></div>
+          <div class="mc-signal-coords">28°N 77°E · PRIMARY</div>
+        </div>
+        <div class="mc-signal">
+          <div class="mc-signal-head">
+            <span class="mc-signal-name">UK NODE</span>
+            <span class="mc-signal-status" style="color:#63b3ff">● SYNC</span>
+          </div>
+          <div class="mc-signal-bar"><div class="mc-signal-fill" style="width:78%;background:#63b3ff;animation-delay:.4s"></div></div>
+          <div class="mc-signal-coords">51°N 0°W · RELAY</div>
+        </div>
+        <div class="mc-signal">
+          <div class="mc-signal-head">
+            <span class="mc-signal-name">USA NODE</span>
+            <span class="mc-signal-status" style="color:#a87fff">● SYNC</span>
+          </div>
+          <div class="mc-signal-bar"><div class="mc-signal-fill" style="width:65%;background:#a855f7;animation-delay:.8s"></div></div>
+          <div class="mc-signal-coords">40°N 74°W · RELAY</div>
+        </div>
+        <div class="mc-signal">
+          <div class="mc-signal-head">
+            <span class="mc-signal-name">AUS NODE</span>
+            <span class="mc-signal-status" style="color:#22e07a">● SYNC</span>
+          </div>
+          <div class="mc-signal-bar"><div class="mc-signal-fill" style="width:55%;background:#22e07a;animation-delay:1.2s"></div></div>
+          <div class="mc-signal-coords">33°S 151°E · RELAY</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Download counter for Store
+const dlEl = document.getElementById('dlCount');
+if(dlEl){ let v=1284; setInterval(()=>{ if(Math.random()>.7){v++;dlEl.textContent=v.toLocaleString();} },2200); }
+</script>
+</body>
+</html>

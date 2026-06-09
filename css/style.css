@@ -703,6 +703,150 @@ body.menu-open .m-drawer { transform: translateX(0); }
 .page-hero h1 { font-size: clamp(2.6rem,6vw,4.6rem); font-style: normal; font-weight: 800; text-transform: uppercase; letter-spacing: -1.5px; margin-bottom: 18px; }
 .page-hero p { max-width: 62ch; font-size: 1.1rem; }
 
+/* ---------- Page-hero two-column HUD layout ---------- */
+.page-hero-inner { display: grid; grid-template-columns: 52% 48%; align-items: center; gap: 0; }
+.page-hero-copy  { max-width: 620px; }
+.page-hero-hud   { position: relative; height: 340px; }
+@media (max-width: 900px) { .page-hero-inner { grid-template-columns: 1fr; } .page-hero-hud { display: none; } }
+
+/* -- 01 Services: Pipeline -- */
+.ph-pipe { display: flex; flex-direction: column; gap: 0; position: absolute; inset: 0; justify-content: center; padding: 0 8px; }
+.ph-pipe-row { display: flex; align-items: center; gap: 0; }
+.ph-node { background: rgba(10,12,20,.85); border: 1px solid rgba(99,179,255,.2); border-radius: 8px; padding: 9px 11px; min-width: 80px; flex-shrink: 0; }
+.ph-node-lbl { font-size: .5rem; letter-spacing: 2px; color: rgba(99,179,255,.5); text-transform: uppercase; margin-bottom: 3px; font-family: 'Courier New',monospace; }
+.ph-node-val { font-size: .78rem; font-weight: 700; color: #fff; }
+.ph-node.active { border-color: rgba(99,179,255,.6); box-shadow: 0 0 14px rgba(99,179,255,.15); }
+.ph-node.done .ph-node-val { color: #22e07a; }
+.ph-node.done { border-color: rgba(34,224,122,.4); }
+.ph-pipe-line { flex: 1; height: 1px; background: linear-gradient(90deg,rgba(99,179,255,.3),rgba(99,179,255,.1)); position: relative; }
+.ph-pipe-line::after { content: '▶'; position: absolute; right: -4px; top: -8px; font-size: .58rem; color: rgba(99,179,255,.4); }
+.ph-bar-wrap { margin-top: 20px; }
+.ph-bar-lbl { font-size: .5rem; letter-spacing: 2px; color: rgba(255,255,255,.3); font-family: 'Courier New',monospace; margin-bottom: 5px; }
+.ph-bar { height: 4px; background: rgba(255,255,255,.06); border-radius: 2px; overflow: hidden; }
+.ph-bar-fill { height: 100%; border-radius: 2px; background: linear-gradient(90deg,#63b3ff,#a855f7); animation: phBarPulse 2s ease-in-out infinite; }
+@keyframes phBarPulse { 0%,100%{opacity:1} 50%{opacity:.45} }
+.ph-metrics { display: flex; gap: 16px; margin-top: 16px; flex-wrap: wrap; }
+.ph-metric b { font-size: 1.25rem; font-weight: 800; color: #fff; display: block; }
+.ph-metric span { font-size: .52rem; color: rgba(255,255,255,.35); letter-spacing: 1px; text-transform: uppercase; font-family: 'Courier New',monospace; }
+.ph-hdr { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,200,50,.1); border: 1px solid rgba(255,200,50,.3); border-radius: 4px; padding: 4px 10px; font-size: .55rem; letter-spacing: 2px; color: #ffc832; font-family: 'Courier New',monospace; margin-top: 12px; }
+.ph-hdr-dot { width: 5px; height: 5px; border-radius: 50%; background: #ffc832; box-shadow: 0 0 6px #ffc832; animation: phBarPulse 1.5s ease-in-out infinite; }
+
+/* -- 02 Work: Cinematic Monitor -- */
+.ph-monitor { position: absolute; inset: 0; display: flex; flex-direction: column; gap: 8px; }
+.ph-screen { flex: 1; border-radius: 10px; border: 1px solid rgba(255,255,255,.1); background: #000; position: relative; overflow: hidden; }
+.ph-screen::before,.ph-screen::after { content:''; position:absolute; left:0; right:0; height:13%; background:#000; z-index:2; }
+.ph-screen::before { top:0; } .ph-screen::after { bottom:0; }
+.ph-screen-bg { position:absolute; inset:0; background:linear-gradient(135deg,#0d1020 0%,#1a0830 40%,#0a1a10 100%); }
+.ph-scan { position:absolute; left:0; right:0; height:2px; background:rgba(99,179,255,.18); animation:phScan 4s linear infinite; z-index:3; box-shadow:0 0 8px rgba(99,179,255,.25); }
+@keyframes phScan { 0%{top:13%} 100%{top:87%} }
+.ph-tc  { position:absolute; top:17%; left:12px; font-family:'Courier New',monospace; font-size:.54rem; color:rgba(255,255,255,.5); z-index:4; }
+.ph-prj { position:absolute; top:17%; right:12px; font-family:'Courier New',monospace; font-size:.54rem; color:rgba(99,179,255,.6); z-index:4; }
+.ph-big { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); text-align:center; z-index:4; }
+.ph-big-n { font-size:1.5rem; font-weight:800; letter-spacing:4px; color:#fff; }
+.ph-big-s { font-size:.52rem; letter-spacing:3px; color:rgba(255,255,255,.4); font-family:'Courier New',monospace; margin-top:3px; }
+.ph-scope { position:absolute; bottom:15%; left:12px; right:12px; height:20px; display:flex; gap:2px; align-items:flex-end; z-index:4; }
+.ph-scope span { flex:1; background:rgba(99,179,255,.3); border-radius:1px; animation:phScope 1.4s ease-in-out infinite; }
+@keyframes phScope { 0%,100%{transform:scaleY(.25)} 50%{transform:scaleY(1)} }
+.ph-corners { position:absolute; inset:0; z-index:4; pointer-events:none; }
+.ph-corners b { position:absolute; width:12px; height:12px; }
+.ph-corners b.tl { top:14%; left:8px;  border-top:1px solid rgba(255,255,255,.4); border-left:1px solid rgba(255,255,255,.4); }
+.ph-corners b.tr { top:14%; right:8px; border-top:1px solid rgba(255,255,255,.4); border-right:1px solid rgba(255,255,255,.4); }
+.ph-corners b.bl { bottom:14%; left:8px;  border-bottom:1px solid rgba(255,255,255,.4); border-left:1px solid rgba(255,255,255,.4); }
+.ph-corners b.br { bottom:14%; right:8px; border-bottom:1px solid rgba(255,255,255,.4); border-right:1px solid rgba(255,255,255,.4); }
+.ph-meta { display:flex; gap:7px; }
+.ph-tag { flex:1; border:1px solid rgba(255,255,255,.07); border-radius:7px; padding:9px 10px; background:rgba(255,255,255,.02); }
+.ph-tag-type { font-size:.48rem; letter-spacing:2px; color:rgba(99,179,255,.5); font-family:'Courier New',monospace; }
+.ph-tag-n { font-size:1.1rem; font-weight:800; color:#fff; line-height:1; }
+.ph-tag-l { font-size:.5rem; color:rgba(255,255,255,.3); }
+
+/* -- 03 Academy: Orbital -- */
+.ph-orbit { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; }
+.ph-orbit-stage { position:relative; width:300px; height:300px; }
+.ph-ring { position:absolute; border-radius:50%; border:1px dashed rgba(99,179,255,.15); top:50%; left:50%; transform:translate(-50%,-50%); }
+.ph-ring-1 { width:110px; height:110px; animation:phSpin 12s linear infinite; border-color:rgba(138,99,255,.25); }
+.ph-ring-2 { width:186px; height:186px; animation:phSpin 20s linear infinite reverse; }
+.ph-ring-3 { width:272px; height:272px; animation:phSpin 30s linear infinite; border-style:dotted; border-color:rgba(99,179,255,.08); }
+@keyframes phSpin { from{transform:translate(-50%,-50%) rotate(0deg)} to{transform:translate(-50%,-50%) rotate(360deg)} }
+.ph-center { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:54px; height:54px; border-radius:50%; background:rgba(138,99,255,.2); border:1.5px solid rgba(138,99,255,.6); display:flex; flex-direction:column; align-items:center; justify-content:center; font-family:'Courier New',monospace; font-size:.5rem; color:#a87fff; letter-spacing:1px; text-align:center; z-index:10; box-shadow:0 0 18px rgba(138,99,255,.2); animation:phCenterPulse 3s ease-in-out infinite; }
+@keyframes phCenterPulse { 0%,100%{box-shadow:0 0 18px rgba(138,99,255,.2)} 50%{box-shadow:0 0 32px rgba(138,99,255,.4)} }
+.ph-onode { position:absolute; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Courier New',monospace; font-size:.46rem; text-align:center; letter-spacing:.5px; line-height:1.2; z-index:5; }
+.ph-ring-1 .ph-onode { animation:phCounter 12s linear infinite; }
+.ph-ring-2 .ph-onode { animation:phCounter2 20s linear infinite; }
+@keyframes phCounter  { from{transform:rotate(0deg)} to{transform:rotate(-360deg)} }
+@keyframes phCounter2 { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+
+/* -- 04 Store: LUT Panel -- */
+.ph-lut { position:absolute; inset:0; display:flex; flex-direction:column; gap:9px; padding:2px 0; }
+.ph-lut-screen { flex:1; border-radius:10px; border:1px solid rgba(255,255,255,.08); display:grid; grid-template-columns:1fr 1fr; overflow:hidden; position:relative; }
+.ph-lut-before { background:linear-gradient(135deg,#2a2a2a 0%,#4a4a4a 100%); position:relative; }
+.ph-lut-after  { background:linear-gradient(135deg,#0d0826 0%,#1a0f40 40%,#c45000 100%); position:relative; }
+.ph-lut-lbl { position:absolute; bottom:7px; left:7px; font-size:.5rem; letter-spacing:2px; color:rgba(255,255,255,.5); font-family:'Courier New',monospace; }
+.ph-lut-div { position:absolute; top:0; bottom:0; left:50%; width:2px; background:rgba(255,255,255,.7); z-index:2; animation:phLutSlide 4s ease-in-out infinite; }
+@keyframes phLutSlide { 0%,100%{left:50%} 40%{left:30%} 70%{left:65%} }
+.ph-lut-div::before { content:'◆'; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); font-size:.65rem; color:#fff; }
+.ph-lut-scan { position:absolute; left:0; right:0; height:1px; background:rgba(255,255,255,.12); animation:phLutScan 3s linear infinite; z-index:3; top:0; }
+@keyframes phLutScan { 0%{top:0%} 100%{top:100%} }
+.ph-lut-dl { position:absolute; top:7px; right:9px; font-family:'Courier New',monospace; font-size:.5rem; color:rgba(34,224,122,.7); z-index:5; }
+.ph-lut-row { display:flex; gap:7px; }
+.ph-swatch { flex:1; border-radius:8px; border:1px solid rgba(255,255,255,.08); padding:9px; background:rgba(255,255,255,.03); animation:phFloat 5s ease-in-out infinite; }
+.ph-swatch:nth-child(2){animation-delay:.8s} .ph-swatch:nth-child(3){animation-delay:1.6s}
+@keyframes phFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
+.ph-swatch-strip { display:flex; gap:2px; border-radius:3px; overflow:hidden; height:16px; margin-bottom:6px; }
+.ph-swatch-strip span { flex:1; }
+.ph-swatch-name { font-size:.58rem; font-weight:700; color:#fff; }
+.ph-swatch-meta { font-size:.5rem; color:rgba(255,255,255,.35); font-family:'Courier New',monospace; margin-top:2px; }
+.ph-swatch-badge { display:inline-block; font-size:.48rem; padding:2px 5px; border-radius:3px; background:rgba(99,179,255,.15); color:#63b3ff; margin-top:3px; letter-spacing:1px; font-family:'Courier New',monospace; }
+
+/* -- 05 B2B: Growth Chart -- */
+.ph-biz { position:absolute; inset:0; padding:2px 0; display:flex; flex-direction:column; gap:10px; }
+.ph-chart { flex:1; border:1px solid rgba(255,255,255,.06); border-radius:10px; position:relative; overflow:hidden; padding:14px; }
+.ph-chart-lbl { position:absolute; top:9px; left:12px; font-size:.55rem; letter-spacing:2px; color:rgba(99,179,255,.5); font-family:'Courier New',monospace; }
+.ph-chart-val { position:absolute; top:7px; right:12px; font-size:1rem; font-weight:800; color:#22e07a; }
+.ph-chart-svg { position:absolute; inset:0; width:100%; height:100%; }
+.ph-biz-metrics { display:flex; gap:7px; }
+.ph-biz-m { flex:1; border:1px solid rgba(255,255,255,.07); border-radius:8px; padding:10px; background:rgba(255,255,255,.02); }
+.ph-biz-m-val { font-size:1.2rem; font-weight:800; color:#fff; }
+.ph-biz-m-lbl { font-size:.52rem; color:rgba(255,255,255,.35); letter-spacing:1px; text-transform:uppercase; font-family:'Courier New',monospace; margin-top:2px; }
+.ph-biz-m-tr { font-size:.58rem; color:#22e07a; margin-top:3px; }
+
+/* -- 06 Blog: Terminal -- */
+.ph-term { position:absolute; inset:0; border-radius:12px; border:1px solid rgba(99,179,255,.15); background:rgba(5,8,15,.9); overflow:hidden; }
+.ph-term-bar { background:rgba(255,255,255,.04); padding:8px 13px; display:flex; align-items:center; gap:7px; border-bottom:1px solid rgba(255,255,255,.06); }
+.ph-term-dot { width:8px; height:8px; border-radius:50%; }
+.ph-term-body { padding:12px 14px; display:flex; flex-direction:column; gap:9px; }
+.ph-term-line { display:flex; gap:9px; align-items:flex-start; font-family:'Courier New',monospace; font-size:.65rem; }
+.ph-term-prompt { color:rgba(99,179,255,.6); flex-shrink:0; }
+.ph-term-cat { flex-shrink:0; padding:1px 6px; border-radius:3px; font-size:.5rem; letter-spacing:1px; }
+.ph-tc-tut  { background:rgba(168,85,247,.2); color:#a855f7; }
+.ph-tc-ai   { background:rgba(34,224,122,.2); color:#22e07a; }
+.ph-tc-biz  { background:rgba(255,165,50,.2); color:#ffa532; }
+.ph-tc-craft{ background:rgba(99,179,255,.2); color:#63b3ff; }
+.ph-term-txt { color:rgba(255,255,255,.7); flex:1; }
+.ph-term-time{ color:rgba(255,255,255,.2); flex-shrink:0; font-size:.52rem; }
+.ph-cursor { display:inline-block; width:6px; height:11px; background:rgba(99,179,255,.7); animation:phBlink .9s step-end infinite; vertical-align:middle; margin-left:2px; }
+@keyframes phBlink { 0%,100%{opacity:1} 50%{opacity:0} }
+.ph-term-stats { display:flex; gap:18px; padding:9px 14px; border-top:1px solid rgba(255,255,255,.04); }
+.ph-term-stat { font-family:'Courier New',monospace; font-size:.56rem; color:rgba(255,255,255,.3); }
+.ph-term-stat b { color:rgba(99,179,255,.7); }
+
+/* -- 07 About: Mission Control Globe -- */
+.ph-mc { position:absolute; inset:0; display:flex; gap:11px; align-items:center; }
+.ph-mc-globe { flex:1; position:relative; height:100%; display:flex; align-items:center; justify-content:center; }
+.ph-mc-svg { width:220px; height:220px; }
+.ph-mc-data { width:150px; display:flex; flex-direction:column; gap:9px; }
+.ph-mc-head { font-size:.5rem; letter-spacing:2.5px; color:rgba(99,179,255,.4); font-family:'Courier New',monospace; padding-bottom:7px; border-bottom:1px solid rgba(255,255,255,.05); }
+.ph-mc-head b { color:rgba(34,224,122,.8); }
+.ph-mc-sig { border:1px solid rgba(255,255,255,.06); border-radius:7px; padding:9px 11px; background:rgba(255,255,255,.02); }
+.ph-mc-sig-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:5px; }
+.ph-mc-sig-name { font-size:.52rem; letter-spacing:1.5px; color:rgba(255,255,255,.5); font-family:'Courier New',monospace; }
+.ph-mc-sig-st { font-size:.48rem; color:#22e07a; font-family:'Courier New',monospace; }
+.ph-mc-sig-bar { height:3px; border-radius:2px; background:rgba(255,255,255,.06); overflow:hidden; margin-bottom:3px; }
+.ph-mc-sig-fill { height:100%; border-radius:2px; animation:phSigPulse 2s ease-in-out infinite; }
+@keyframes phSigPulse { 0%,100%{opacity:1} 50%{opacity:.35} }
+.ph-mc-coords { font-size:.46rem; color:rgba(99,179,255,.4); font-family:'Courier New',monospace; }
+.ph-mc-ping { animation:phMcPing 2s ease-out infinite; }
+@keyframes phMcPing { 0%{r:3;opacity:.9} 100%{r:13;opacity:0} }
+
 /* ---------- Footer ---------- */
 .footer { border-top: 1px solid var(--line-soft); padding: 70px 0 30px; position: relative; z-index: 1; background: var(--bg-2); }
 .footer-top { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr 1.2fr; gap: 40px; padding-bottom: 50px; border-bottom: 1px solid var(--line-soft); }
