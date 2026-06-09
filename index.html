@@ -28,7 +28,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="css/style.css?v=20260607">
+<link rel="stylesheet" href="css/style.css?v=20260609">
 
 <!-- Structured data: Organization -->
 <script type="application/ld+json">
@@ -130,22 +130,135 @@
 <!-- ===== HERO ===== -->
 <section class="hero">
   <div class="wrap">
-    <div class="hero-badge reveal"><span class="dot"></span> Trusted by T-Series, Zee Music & Tata</div>
-    <h1 class="display reveal d1">Your Vision<br><span class="spectrum-text">— Graded.</span></h1>
-    <p class="lead reveal d2">A premium creative studio crafting cinematic edits, world-class color grades, and AI-powered content that makes brands impossible to scroll past.</p>
-    <div class="hero-actions reveal d3">
-      <a href="portfolio.html" class="btn btn-primary btn-lg">View Our Work
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-      <a href="contact.html" class="btn btn-ghost btn-lg">Book a Free Call</a>
-    </div>
-    <div class="hero-strip reveal d4">
-      <div class="hs"><b data-count="2000" data-suffix="+">0</b><span>Projects Delivered</span></div>
-      <div class="sep"></div>
-      <div class="hs"><b data-count="10" data-suffix="+">0</b><span>Countries Served</span></div>
-      <div class="sep"></div>
-      <div class="hs"><b data-count="150" data-suffix="+">0</b><span>Brands & Creators</span></div>
-      <div class="sep"></div>
-      <div class="hs"><b data-count="8" data-suffix=" yrs">0</b><span>Of Craft</span></div>
+    <div class="hero-inner">
+      <!-- LEFT: copy -->
+      <div class="hero-copy">
+        <div class="hero-badge reveal"><span class="dot"></span> Trusted by T-Series, Zee Music & Tata</div>
+        <h1 class="display reveal d1">We Gave AI<br><span class="spectrum-text">A Creative Soul.</span></h1>
+        <p class="lead reveal d2">Music videos. Commercials. AI content. Color grades.<br>A premium creative studio — made by humans, accelerated by intelligence.</p>
+        <div class="hero-actions reveal d3">
+          <a href="portfolio.html" class="btn btn-primary btn-lg">See Our Work
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <a href="contact.html" class="btn btn-ghost btn-lg">Book a Free Call</a>
+        </div>
+        <div class="hero-strip reveal d4">
+          <div class="hs"><b data-count="2000" data-suffix="+">0</b><span>Projects Delivered</span></div>
+          <div class="sep"></div>
+          <div class="hs"><b data-count="10" data-suffix="+">0</b><span>Countries Served</span></div>
+          <div class="sep"></div>
+          <div class="hs"><b data-count="150" data-suffix="+">0</b><span>Brands & Creators</span></div>
+          <div class="sep"></div>
+          <div class="hs"><b data-count="8" data-suffix=" yrs">0</b><span>Of Craft</span></div>
+        </div>
+      </div>
+
+      <!-- RIGHT: HUD -->
+      <div class="hero-hud reveal d2" aria-hidden="true">
+
+        <!-- Radar sweep glow -->
+        <canvas class="hud-radar" id="hudRadar" width="400" height="400"></canvas>
+
+        <!-- Rings SVG -->
+        <div class="hud-rings">
+          <svg class="hud-svg" viewBox="0 0 400 400" fill="none">
+            <!-- Tick marks outer ring -->
+            <g class="hud-ticks" stroke="rgba(99,179,255,0.25)" stroke-width="1">
+              <line x1="200" y1="10"  x2="200" y2="22"/>
+              <line x1="200" y1="378" x2="200" y2="390"/>
+              <line x1="10"  y1="200" x2="22"  y2="200"/>
+              <line x1="378" y1="200" x2="390" y2="200"/>
+              <line x1="62"  y1="62"  x2="70"  y2="70"/>
+              <line x1="330" y1="62"  x2="338" y2="70"/>
+              <line x1="62"  y1="338" x2="70"  y2="330"/>
+              <line x1="330" y1="338" x2="338" y2="330"/>
+            </g>
+            <!-- Rings -->
+            <circle cx="200" cy="200" r="180" stroke="rgba(99,179,255,0.08)" stroke-width="1" stroke-dasharray="5 6"/>
+            <circle cx="200" cy="200" r="140" stroke="rgba(99,179,255,0.14)" stroke-width="1" stroke-dasharray="2 8"/>
+            <circle cx="200" cy="200" r="95"  stroke="rgba(99,179,255,0.20)" stroke-width="1"/>
+            <circle cx="200" cy="200" r="48"  stroke="rgba(99,179,255,0.12)" stroke-width="1" stroke-dasharray="3 3"/>
+            <!-- Crosshair -->
+            <line x1="200" y1="155" x2="200" y2="185" stroke="rgba(99,179,255,0.3)" stroke-width="1"/>
+            <line x1="200" y1="215" x2="200" y2="245" stroke="rgba(99,179,255,0.3)" stroke-width="1"/>
+            <line x1="155" y1="200" x2="185" y2="200" stroke="rgba(99,179,255,0.3)" stroke-width="1"/>
+            <line x1="215" y1="200" x2="245" y2="200" stroke="rgba(99,179,255,0.3)" stroke-width="1"/>
+            <circle cx="200" cy="200" r="4" fill="rgba(99,179,255,0.4)"/>
+            <!-- Corner brackets -->
+            <path d="M22 52 L22 22 L52 22"   stroke="rgba(99,179,255,0.5)" stroke-width="1.5"/>
+            <path d="M348 22 L378 22 L378 52" stroke="rgba(99,179,255,0.5)" stroke-width="1.5"/>
+            <path d="M22 348 L22 378 L52 378" stroke="rgba(99,179,255,0.5)" stroke-width="1.5"/>
+            <path d="M348 378 L378 378 L378 348" stroke="rgba(99,179,255,0.5)" stroke-width="1.5"/>
+          </svg>
+        </div>
+
+        <!-- System labels -->
+        <div class="hud-sys-label hud-tl">AI CORE · ACTIVE</div>
+        <div class="hud-sys-label hud-tr">QUEUE: 3</div>
+        <div class="hud-sys-label hud-bl">24.0 fps</div>
+        <div class="hud-sys-label hud-br">SYS <span id="hudSys">100</span>%</div>
+
+        <!-- Card 1: Music Video -->
+        <div class="hud-card hud-card-1">
+          <div class="hud-card-head">
+            <span class="hud-tag hud-tag-music">▶ MUSIC VIDEO</span>
+            <span class="hud-status-dot"></span>
+          </div>
+          <div class="hud-card-client">PROJ_MV_2847</div>
+          <div class="hud-card-meta">NEON_NOIR_04 · 4K HDR · 3m 42s</div>
+          <div class="hud-grade-strip">
+            <span style="background:#0a0a1a"></span><span style="background:#1a0530"></span>
+            <span style="background:#2d1060"></span><span style="background:#5b21b6"></span>
+            <span style="background:#7c3aed"></span><span style="background:#a855f7"></span>
+            <span style="background:#c084fc"></span><span style="background:#e879f9"></span>
+          </div>
+          <div class="hud-card-footer">Delivered <span class="hud-check">✓</span></div>
+        </div>
+
+        <!-- Card 2: AI Content -->
+        <div class="hud-card hud-card-2">
+          <div class="hud-card-head">
+            <span class="hud-tag hud-tag-ai">◈ AI CONTENT</span>
+            <span class="hud-status-dot hud-dot-pulse"></span>
+          </div>
+          <div class="hud-card-client">PROJ_AI_1093</div>
+          <div class="hud-card-meta">Brand Campaign · 30s TVC · 1080p</div>
+          <div class="hud-render-bar">
+            <div class="hud-render-fill" id="hudRender"></div>
+            <span class="hud-render-pct" id="hudRenderPct">78%</span>
+          </div>
+          <div class="hud-card-footer hud-live">● Rendering</div>
+        </div>
+
+        <!-- Card 3: Color Grade -->
+        <div class="hud-card hud-card-3">
+          <div class="hud-card-head">
+            <span class="hud-tag hud-tag-comm">■ COMMERCIAL</span>
+            <span class="hud-status-dot"></span>
+          </div>
+          <div class="hud-card-client">PROJ_TVC_0381</div>
+          <div class="hud-card-meta">GOLDEN_HOUR_02 · Dolby Vision</div>
+          <div class="hud-grade-strip">
+            <span style="background:#0c0800"></span><span style="background:#1f1200"></span>
+            <span style="background:#3d2400"></span><span style="background:#7c4a00"></span>
+            <span style="background:#b45309"></span><span style="background:#d97706"></span>
+            <span style="background:#f59e0b"></span><span style="background:#fcd34d"></span>
+          </div>
+          <div class="hud-card-footer">Delivered <span class="hud-check">✓</span></div>
+        </div>
+
+        <!-- Waveform bar -->
+        <div class="hud-waveform" id="hudWave">
+          <span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+
+        <!-- Frame counter -->
+        <div class="hud-frame-counter">
+          <span class="hud-fc-label">FRAMES PROCESSED</span>
+          <span class="hud-fc-val" id="hudFrames">000000</span>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -428,6 +541,73 @@
   </div>
 </footer>
 
+<script>
+(function(){
+  // Frame counter
+  const el = document.getElementById('hudFrames');
+  if(el){
+    let val = Math.floor(Math.random()*200000)+800000;
+    setInterval(()=>{ val+=Math.floor(Math.random()*24)+12; el.textContent=String(val).padStart(6,'0'); },42);
+  }
+
+  // Render bar animation
+  const fill = document.getElementById('hudRender');
+  const pct  = document.getElementById('hudRenderPct');
+  if(fill && pct){
+    let p = 72;
+    setInterval(()=>{
+      p += (Math.random()-.3) * .6;
+      p = Math.max(60, Math.min(98, p));
+      fill.style.width = p.toFixed(1)+'%';
+      pct.textContent  = Math.round(p)+'%';
+    }, 900);
+  }
+
+  // SYS % flicker
+  const sys = document.getElementById('hudSys');
+  if(sys) setInterval(()=>{ sys.textContent = (98+Math.floor(Math.random()*3)); }, 1800);
+
+  // Radar canvas sweep
+  const canvas = document.getElementById('hudRadar');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const cx=200, cy=200, r=178;
+  let angle = -Math.PI/2;
+  function draw(){
+    ctx.clearRect(0,0,400,400);
+    // Sweep gradient (conic trail)
+    const trail = ctx.createConicalGradient ? null : null;
+    // Use arc-based sweep glow instead
+    const sweepLen = Math.PI * 0.65;
+    for(let i=0;i<60;i++){
+      const a = angle - (sweepLen/60)*i;
+      const alpha = (1 - i/60) * 0.18;
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.arc(cx, cy, r, a, a+0.06);
+      ctx.closePath();
+      ctx.fillStyle = `rgba(99,179,255,${alpha})`;
+      ctx.fill();
+    }
+    // Sweep line
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.lineTo(cx + Math.cos(angle)*r, cy + Math.sin(angle)*r);
+    ctx.strokeStyle = 'rgba(99,179,255,0.55)';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+    // Tip glow
+    ctx.beginPath();
+    ctx.arc(cx + Math.cos(angle)*r, cy + Math.sin(angle)*r, 3, 0, Math.PI*2);
+    ctx.fillStyle = 'rgba(99,179,255,0.9)';
+    ctx.fill();
+
+    angle += 0.018;
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.0/dist/umd/supabase.min.js"></script>
 <script src="js/config.js?v=20260608"></script>
 <script src="js/auth.js?v=20260611"></script>
