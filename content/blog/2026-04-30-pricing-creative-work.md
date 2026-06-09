@@ -10,7 +10,7 @@ keywords: pricing creative work, freelance rates, video editing pricing, value b
 date: Apr 30, 2026
 iso: 2026-04-30
 read: 7 min
-image: assets/blog/pricing-creative-work.jpg
+image: assets/blog/pricing-creative-work.webp
 status: published
 cta_h: Working With A Studio Instead?
 cta_p: Tell us your scope and budget — we'll send a clear, tiered quote within 24 hours.

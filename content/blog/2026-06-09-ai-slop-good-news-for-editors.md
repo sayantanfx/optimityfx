@@ -10,7 +10,7 @@ keywords: AI video editing, cinematic AI, AI slop, professional video editing, A
 date: Jun 9, 2026
 iso: 2026-06-09
 read: 5 min
-image: assets/blog/ai-slop-good-news-for-editors.jpg
+image: assets/blog/ai-slop-good-news-for-editors.webp
 status: published
 cta_h: Want Content On The Right Side Of That Line?
 cta_p: Send us your next campaign and get a free cinematic test cut.

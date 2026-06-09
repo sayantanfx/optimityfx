@@ -10,7 +10,7 @@ keywords: video retention, hook editing, first 3 seconds, short form editing, sc
 date: May 12, 2026
 iso: 2026-05-12
 read: 5 min
-image: assets/blog/retention-edit.jpg
+image: assets/blog/retention-edit.webp
 status: published
 cta_h: Want Edits That Hold Attention?
 cta_p: Send us a raw cut and we'll show you what a retention edit does to it.
