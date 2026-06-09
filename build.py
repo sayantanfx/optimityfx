@@ -1215,14 +1215,6 @@ def service_page(sid):
   </div>
 </section>
 
-<section class="section">
-  <div class="wrap">
-    <div class="reveal" style="border-radius:20px;overflow:hidden;border:1px solid var(--line);max-height:440px;margin-bottom:0">
-      <img src="{mid_img}" alt="{svc_title} production at OptimityFX" style="width:100%;height:100%;object-fit:cover;display:block" loading="lazy" width="1000" height="563">
-    </div>
-  </div>
-</section>
-
 <section class="section" style="background:var(--bg-2);padding-top:40px">
   <div class="wrap">
     <div class="grid g-3">
