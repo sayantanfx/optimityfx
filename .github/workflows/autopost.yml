@@ -1,7 +1,7 @@
 name: OptimityFX Auto Journal
 on:
   schedule:
-    - cron: "17 */6 * * *"     # every 6 hours (UTC)
+        - cron: "23 3 * * *"       # once daily ~8:53 AM IST
   workflow_dispatch: {}         # manual "Run" button
 permissions:
   contents: write
