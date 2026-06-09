@@ -65,7 +65,7 @@ def _svc_icon(sid):
     return f'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">{SVC_ICON[sid]}</svg>'
 def _drop_item(sid,t,d,ai):
     tag = ' <span class="ai-tag">AI POWERED</span>' if ai else ''
-    return (f'          <a href="services.html#{sid}"><span class="di">{_svc_icon(sid)}</span>'
+    return (f'          <a href="service-{sid}.html"><span class="di">{_svc_icon(sid)}</span>'
             f'<span><span class="dt">{t}{tag}</span><span class="dd">{d}</span></span></a>')
 SERVICES_DROP = '<div class="drop">\n' + "\n".join(_drop_item(*s) for s in SERVICES) + '\n        </div>'
 
@@ -106,7 +106,7 @@ FOOTER = """<footer class="footer">
           <a href="https://vimeo.com/optimityfx" target="_blank" rel="noopener" aria-label="OptimityFX on Vimeo"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 7.4c-.1 2.1-1.6 5-4.4 8.6-2.9 3.8-5.4 5.7-7.4 5.7-1.2 0-2.3-1.2-3.1-3.5C6 16.5 5.4 11 4.3 9.6c-.4-.5-.9-.5-1.6-.1l-1-1.3c1.7-1.5 3.4-3.2 4.4-3.3 1.2-.1 2 .7 2.3 2.5.4 2.4.7 3.9.9 4.5.5 2.3 1 2.3 1.6 1.3.4-.8.7-2 .7-3.6 0-1.3-.5-1.9-1.5-1.9-.4 0-1 .1-1.4.3.8-2.7 2.4-4 4.7-3.9 1.7.1 2.5 1.2 2.4 3.3z"/></svg></a>
         </div>
       </div>
-      <div><h5>Services</h5><ul><li><a href="services.html#editing">Video Editing</a></li><li><a href="services.html#grading">Color Grading</a></li><li><a href="services.html#design">Graphic Design</a></li><li><a href="services.html#ai-music">AI Music Video</a></li><li><a href="services.html#ugc">AI UGC</a></li><li><a href="services.html#commercial">AI Product Commercial</a></li><li><a href="services.html#ai-tvc">AI TV Advertisement</a></li><li><a href="services.html#ai-influencer">AI Influencer</a></li><li><a href="services.html#ai-vfx">AI VFX</a></li></ul></div>
+      <div><h5>Services</h5><ul><li><a href="service-editing.html">Video Editing</a></li><li><a href="service-grading.html">Color Grading</a></li><li><a href="service-design.html">Graphic Design</a></li><li><a href="service-ai-music.html">AI Music Video</a></li><li><a href="service-ugc.html">AI UGC</a></li><li><a href="service-commercial.html">AI Product Commercial</a></li><li><a href="service-ai-tvc.html">AI TV Advertisement</a></li><li><a href="service-ai-influencer.html">AI Influencer</a></li><li><a href="service-ai-vfx.html">AI VFX</a></li></ul></div>
       <div><h5>Explore</h5><ul><li><a href="portfolio.html">Portfolio</a></li><li><a href="academy.html">NextGen Academy</a></li><li><a href="store.html">Digital Store</a></li><li><a href="b2b.html">B2B Solutions</a></li><li><a href="blog.html">Blog</a></li></ul></div>
       <div><h5>Company</h5><ul><li><a href="about.html">About Us</a></li><li><a href="about.html#team">Our Team</a></li><li><a href="contact.html">Contact</a></li><li><a href="privacy.html">Privacy Policy</a></li><li><a href="terms.html">Terms & Conditions</a></li></ul></div>
       <div class="footer-brand">
@@ -869,6 +869,439 @@ PAGES["privacy.html"] = legal("privacy.html",
   ("Changes to This Policy","<p>We may update this Privacy Policy periodically. The 'Last updated' date reflects the latest revision.</p>"),
  ])
 
+# ===== SERVICE DETAIL PAGES =====
+# Hero image: use dedicated hero if present, otherwise fall back to existing service image.
+def _svc_hero(sid):
+    hero = f"assets/services/service-{sid}-hero.webp"
+    if os.path.exists(hero):
+        return hero
+    return f"assets/services/{sid}.webp"
+
+# Rich per-service data: (title, tagline, h1_main, h1_accent, lead, includes, process, for_whom, faqs, related, cta_label, cta_url, meta_desc, keywords, is_ai)
+SVC_DETAIL = {
+ "editing": (
+  "Video Editing", "01 — Video Editing",
+  "Edits That Hold", "Attention",
+  "We cut for story, pacing and retention. Every reel, ad film, documentary or long-form piece gets sound design, motion graphics, captions and an obsessive eye for the frame that makes viewers stay.",
+  [
+   ("Short-form & long-form", "Reels, Shorts, TikTok, YouTube, ad films, documentaries and podcasts."),
+   ("Motion graphics & titles", "Animated lower-thirds, openers, kinetic type and branded end cards."),
+   ("Sound design & audio cleanup", "Dialogue levelling, music sync, SFX layering and noise removal."),
+   ("Subtitles & captions", "Burned-in or SRT/VTT, multi-language on request."),
+   ("Multi-format delivery", "16:9, 9:16, 1:1 — one project, every platform."),
+  ],
+  [("Brief & References","You share the footage, goals and inspiration."),
+   ("Rough Cut","We assemble the story, pacing and arc."),
+   ("Revisions","Your feedback, applied until it's perfect."),
+   ("Final Delivery","All formats delivered via WeTransfer or Drive."),],
+  ["Brands & D2C companies","Music artists & labels","YouTube creators","Ad agencies & media houses"],
+  [("How long does a typical edit take?","Most short-form pieces (under 3 min) are delivered within 48–72 hours. Long-form and series work is scoped per project, usually 4–7 days."),
+   ("What footage formats do you accept?","We work with any codec — Sony, Canon, Blackmagic RAW, ProRes, h.264/h.265, DJI D-Log and more."),
+   ("Do you provide music?","We source royalty-free tracks or work with tracks you supply. For client work requiring sync licensing, we can advise."),
+   ("Can you repurpose one video into multiple formats?","Absolutely — repurposing a hero film into Reels, Stories and a YouTube cut is a common request and is quoted as a bundle."),],
+  [("grading","Color Grading","Make every frame look cinematic."),("design","Graphic Design","Thumbnails & key art that get clicked."),("ugc","AI UGC","Scale your content with AI-powered UGC.")],
+  "Get a Quote","contact.html",
+  "Professional video editing service — reels, ad films, documentaries & long-form. Motion graphics, sound design and multi-format delivery by OptimityFX.",
+  "professional video editing service, hire video editor, cinematic video editing, reel editing, ad film editing, YouTube video editing",
+  False,
+ ),
+ "grading": (
+  "Color Grading", "02 — Color Grading",
+  "A Million-Dollar", "Look",
+  "Primary & secondary correction, shot matching, film emulation and custom cinematic looks in DaVinci Resolve. We make every frame intentional — your footage deserves colour that actually means something.",
+  [
+   ("LOG / RAW primary grading", "S-Log, C-Log, BRAW, ARRI LogC — we work in your native colour science."),
+   ("Shot matching & continuity", "Consistent look across every angle, lighting condition and camera."),
+   ("Custom LUT creation", "Bespoke .cube LUTs built around your camera, story and brand."),
+   ("Film emulation & grain", "Kodak, Fuji and ARRI-inspired looks applied with restraint."),
+   ("Skin-tone & beauty work", "Precision secondary masks to protect and enhance talent."),
+  ],
+  [("Footage Handoff","Deliver your RAW/LOG files, LUT preferences and references."),
+   ("Primary Grade","We establish exposure, white balance and base contrast."),
+   ("Secondary & Look","Selective colour, window masks, creative grade applied."),
+   ("Export & Delivery","Graded DPX / ProRes masters + a custom LUT for the edit."),],
+  ["Film & documentary directors","Music video producers","Wedding & event videographers","Brand & commercial teams"],
+  [("What NLE / grading software do you use?","DaVinci Resolve is our primary tool, using Fusion and Color pages. We can also deliver XML or CDL round-trips for Premiere Pro timelines."),
+   ("Do you work with flat / LOG footage?","Yes — we require LOG or RAW files for the best results. We can work with h.264 if LOG is unavailable, but final quality depends on source."),
+   ("Can I get a custom LUT as a deliverable?","Yes. Custom LUT creation is included in most grading packages or available as a standalone add-on."),
+   ("How do revisions work?","We include 2 rounds of revisions as standard. Unlimited revisions are available on retainer."),],
+  [("editing","Video Editing","Full pipeline from cut to grade."),("ai-vfx","AI VFX","Add impossible shots to your grade."),("design","Graphic Design","Key art to match your cinematic look.")],
+  "Get a Grade","contact.html",
+  "Professional color grading service in DaVinci Resolve — LOG/RAW grading, shot matching, custom LUTs and film emulation by OptimityFX.",
+  "professional color grading service, DaVinci Resolve colorist, hire colorist, LOG grading, custom LUT creation, cinematic color grade",
+  False,
+ ),
+ "design": (
+  "Graphic Design", "03 — Graphic Design",
+  "Designed To Be", "Clicked",
+  "Click-magnet thumbnails, key art, posters, brand identities and social media kits engineered for attention — and built around your brand system so every asset feels like it belongs.",
+  [
+   ("YouTube thumbnails & channel art", "High-contrast, data-informed designs that improve CTR."),
+   ("Brand identity & logo systems", "Wordmarks, symbols, colour palettes and usage guidelines."),
+   ("Posters & key art", "Film posters, event key art, album covers and OOH assets."),
+   ("Social media kits", "Story, feed and Reel templates — on-brand, ready to edit."),
+   ("Presentation & pitch decks", "Investor and brand decks that communicate clearly and look premium."),
+  ],
+  [("Brief & Moodboard","You share your vision, audience and references."),
+   ("Concepts","2–3 initial directions for you to react to."),
+   ("Refinement","We develop your chosen direction to pixel-perfect."),
+   ("Asset Delivery","Layered PSDs, SVGs and export-ready files in all sizes."),],
+  ["YouTubers & podcasters","Music artists & event organisers","Startups & D2C brands","Film & production companies"],
+  [("What file formats do you deliver?","We deliver print-ready PDFs, layered PSDs or AI files, and web-optimised PNGs/SVGs. Any format you need, just ask."),
+   ("Do you work with existing brand guidelines?","Yes — we always work within your existing brand system first. If you don't have one yet, we'll create it."),
+   ("How many concepts do I get?","Standard packages include 2–3 initial concepts. We develop the chosen direction through as many rounds as needed."),
+   ("Can you design for print and digital?","Absolutely. All designs are set up for both screen and print at full resolution from the start."),],
+  [("editing","Video Editing","Put your brand assets in motion."),("grading","Color Grading","Colour-match your design to your film."),("ai-tvc","AI TV Advertisement","Bring your brand into a full AI ad film.")],
+  "Start a Brief","contact.html",
+  "Professional graphic design studio — YouTube thumbnails, brand identity, key art, posters and social media kits by OptimityFX.",
+  "graphic design studio, YouTube thumbnail design, brand identity design, key art design, social media kit, poster design service",
+  False,
+ ),
+ "ai-music": (
+  "AI Music Video", "04 — AI Music Video",
+  "Imagination,", "Rendered",
+  "From concept and storyboard to generative visuals and final edit — striking AI music videos that match your sound, build a world around it and stand out on every platform.",
+  [
+   ("Concept & storyboard", "We translate your track's mood into a visual treatment and scene-by-scene storyboard."),
+   ("Generative visuals", "AI-produced imagery and sequences with a consistent, locked-in visual style."),
+   ("Beat-synced editing", "Every cut, transition and effect is timed to the music."),
+   ("Colour grade & finishing", "Cinematic grade and final delivery in broadcast resolution."),
+   ("Multi-platform cuts", "Lyric video, short-form teaser and full video from one production."),
+  ],
+  [("Track & Brief","Share your audio, mood references and visual ideas."),
+   ("Storyboard & Style","We map the scenes and lock the visual language."),
+   ("AI Generation & Edit","Visuals are generated, cut and graded."),
+   ("Delivery","Final video + platform cuts delivered in 5–10 days."),],
+  ["Independent artists","Record labels","Music producers","Podcasters & audiobook publishers"],
+  [("Do I need to supply any footage?","No — we generate everything from scratch using AI. You supply the audio and your creative vision."),
+   ("How long does production take?","Most AI music videos are delivered within 5–10 business days, depending on length and complexity."),
+   ("What length of track works best?","We work with tracks from 1 minute to 5+ minutes. Longer tracks are scoped individually."),
+   ("Can I use the video on YouTube & streaming platforms?","Yes. We deliver broadcast-ready files cleared for YouTube, Spotify Canvas, Apple Music and social."),],
+  [("editing","Video Editing","Human-crafted editing to complement your AI visuals."),("grading","Color Grading","A signature cinematic grade for your video."),("ai-vfx","AI VFX","Add next-level effects to your music video.")],
+  "Discuss Your Track","contact.html",
+  "AI music video production — concept, storyboard, generative visuals and beat-synced editing by OptimityFX. Delivered in days, not weeks.",
+  "AI music video production, generative music video, AI video for artists, AI visual music video, music video without film crew",
+  True,
+ ),
+ "ugc": (
+  "AI UGC", "05 — AI UGC",
+  "Content That", "Converts",
+  "Authentic creator-style UGC and AI-generated avatars at scale — hook-first scripts, multiple variations and every aspect ratio, ready to run as performance ads across every platform.",
+  [
+   ("Real-creator & AI-avatar UGC", "Choose human creators, AI avatars or a blend — same quality, different cost profiles."),
+   ("Hook-first scripting", "Every video leads with a scroll-stopping hook, tested across your audience."),
+   ("Multiple creative variations", "3–6 hooks per product, so you can split-test and scale winners."),
+   ("Multi-platform aspect ratios", "9:16, 1:1 and 16:9 delivered from every production."),
+   ("Post-production finishing", "Captions, music, SFX, colour and brand overlays included."),
+  ],
+  [("Brief & Product","You share the product, audience and key messaging."),
+   ("Scripts & Hooks","We write hook-first scripts and submit for approval."),
+   ("Production","AI or real-creator shoots, edited and polished."),
+   ("Delivery & Scale","Variations delivered, ready to test and scale winners."),],
+  ["D2C & e-commerce brands","Performance marketing teams","Apps & SaaS products","Health, beauty & lifestyle brands"],
+  [("What's the difference between real-creator and AI UGC?","Real-creator UGC uses actual human talent filmed on-location. AI UGC uses generative avatars and voice synthesis to produce creator-style content without a film crew."),
+   ("How many variations do I get?","Standard packages deliver 3–6 hook variations per product. Volume bundles are available for scaling."),
+   ("Can you match a specific creator persona or style?","Yes — we build consistent AI personas or match real-creator styles for brand alignment across all variations."),
+   ("Do you handle ad platform uploads?","We deliver files ready for Meta, TikTok and Google Ads. Platform upload can be added as a managed service."),],
+  [("commercial","AI Product Commercial","Full cinematic product ads without a crew."),("ai-influencer","AI Influencer","A persistent AI brand spokesperson."),("ai-tvc","AI TV Advertisement","Scale up to broadcast-grade AI ad films.")],
+  "Scale Your UGC","contact.html",
+  "AI UGC production at scale — hook-first scripts, AI avatars and real-creator content for D2C brands and performance marketers by OptimityFX.",
+  "AI UGC production, user generated content ads, AI avatar UGC, performance ad content, D2C UGC service, creator style ads",
+  True,
+ ),
+ "commercial": (
+  "AI Product Commercial", "06 — AI Product Commercial",
+  "Ads Without A", "Film Crew",
+  "Premium, photorealistic product commercials generated with AI — hero shots, lifestyle scenes and dynamic motion. Delivered in days, at a fraction of the cost of a traditional production.",
+  [
+   ("Photoreal product hero shots", "Studio-grade hero imagery and 360° renders without a physical shoot."),
+   ("Lifestyle & environment scenes", "AI-generated lifestyle contexts that place your product in the perfect setting."),
+   ("Motion, VFX & sound design", "Dynamic product reveal animations, particle effects and a full audio mix."),
+   ("Voiceover & music", "Professional VO and licensed or original score included."),
+   ("Ready for ads, web & retail", "Delivered in 16:9, 9:16 and 1:1 — ready for every channel."),
+  ],
+  [("Product Brief","You share product images, brand guidelines and campaign goals."),
+   ("Storyboard & Concept","We design the visual world for your commercial."),
+   ("AI Production","Scenes generated, assembled, graded and mixed."),
+   ("Final Delivery","Campaign-ready cuts in all formats within 5–7 days."),],
+  ["E-commerce & D2C brands","Consumer electronics companies","Luxury & beauty brands","Startups launching new products"],
+  [("Do you need the physical product?","No physical product is required. High-resolution product photos or a 3D model (if available) give us the best results."),
+   ("Can the commercial run on Meta and Google Ads?","Yes. All deliverables are formatted and compressed for Meta, Google, YouTube and programmatic display."),
+   ("How is this different from a regular product photoshoot?","We generate motion video, not static images — and deliver it in days, not weeks, at a significantly lower cost than a traditional studio or film production."),
+   ("Do you offer product photography as well?","Yes — our sister skill 'AI Product Photoshoot' covers static imagery. Ask us about bundling both."),],
+  [("ugc","AI UGC","Add creator-style UGC to your product launch."),("ai-tvc","AI TV Advertisement","Scale your commercial to broadcast TV."),("grading","Color Grading","A premium cinematic grade for every frame.")],
+  "Get a Commercial","contact.html",
+  "AI product commercial production — photorealistic hero shots, lifestyle scenes, motion and sound design, delivered in days by OptimityFX.",
+  "AI product commercial, AI advertising production, product video without film crew, AI product ad, photorealistic product video",
+  True,
+ ),
+ "ai-tvc": (
+  "AI TV Advertisement", "07 — AI TV Advertisement",
+  "Broadcast-Ready,", "AI-Made",
+  "Full TV commercials produced with AI — from script and storyboard to a polished, broadcast-grade ad film. Big-screen impact without the big-screen production budget.",
+  [
+   ("Script, storyboard & concept", "A full creative treatment developed from your brief and brand guidelines."),
+   ("AI scene generation", "Cinematic, high-fidelity scenes generated at broadcast resolution."),
+   ("Voiceover & music composition", "Professional VO casting or AI voice, plus original or licensed score."),
+   ("Sound design & mix", "Full Dolby-compliant audio mix ready for broadcast playout."),
+   ("Broadcast & OTT-ready delivery", "Delivered to AMPP, AS-11, ProRes or any spec required by your broadcaster."),
+  ],
+  [("Brief & Brand Guidelines","You share the campaign objective, brand standards and any existing assets."),
+   ("Script & Storyboard","We write the script and map every scene for approval."),
+   ("AI Production & Grade","Scenes generated, assembled, graded and fully mixed."),
+   ("Broadcast Delivery","Playout-ready masters delivered in your broadcaster's required spec."),],
+  ["Enterprise brands & CMOs","Media buyers & agencies","OTT & streaming advertisers","Political & public-awareness campaigns"],
+  [("Can an AI TV commercial run on national broadcast?","Yes. We deliver to broadcast-compliant specs including AS-11, AMPP and ProRes masters that meet the technical requirements of major broadcasters."),
+   ("What campaign lengths do you produce?","We produce 15s, 30s and 60s commercials as standard. Custom lengths available."),
+   ("Do you handle media buying?","We focus on production excellence. For media planning and buying, we can refer trusted partners."),
+   ("How does cost compare to a traditional TVC?","AI production typically costs 70–90% less than a traditional film production of equivalent visual quality."),],
+  [("commercial","AI Product Commercial","Shorter, social-first product ads."),("ugc","AI UGC","Creator-style performance content at scale."),("ai-vfx","AI VFX","Add impossible VFX shots to your TVC.")],
+  "Plan a TV Ad","contact.html",
+  "AI TV commercial production — broadcast-ready ad films with script, storyboard, AI scenes, VO and full mix by OptimityFX. 70–90% less than traditional TVC costs.",
+  "AI TV commercial production, broadcast AI advertisement, AI TVC service, AI ad film, television commercial without film crew",
+  True,
+ ),
+ "ai-influencer": (
+  "AI Influencer", "08 — AI Influencer",
+  "A Face That", "Never Sleeps",
+  "Build a custom AI influencer or brand spokesperson — a consistent, fully controllable digital persona that posts, presents and promotes around the clock, in any language, on every platform.",
+  [
+   ("Custom persona design", "Appearance, personality, voice and backstory crafted around your brand."),
+   ("Talking-head & lifestyle content", "Scripted product reviews, tutorials, announcements and day-in-the-life content."),
+   ("Multi-language & multi-platform", "The same persona speaks to audiences in their language, natively."),
+   ("Consistent visual identity", "Every piece of content maintains the same face, style and brand voice."),
+   ("Content calendar & batch delivery", "Weekly or monthly content packs delivered ready to post."),
+  ],
+  [("Persona Brief","You define the role, tone, audience and platform goals."),
+   ("Character Creation","We design the AI persona's look, voice and personality."),
+   ("Content Production","Scripts written, content generated and finished."),
+   ("Ongoing Delivery","Weekly or monthly packs, posting-ready."),],
+  ["D2C & e-commerce brands","SaaS & app companies","Media & entertainment properties","Influencer marketing agencies"],
+  [("Does the AI influencer look photorealistic?","Yes — our AI influencers are generated to be photorealistic and consistent across all content, indistinguishable from human creators to the casual viewer."),
+   ("Can one AI influencer post in multiple languages?","Yes. The same persona can be adapted to English, Hindi, Spanish, Arabic and most major languages without any loss of visual consistency."),
+   ("Who owns the AI influencer persona?","You do. We transfer full IP ownership of the character design, voice model and all generated content upon final payment."),
+   ("Can the AI influencer promote different products?","Absolutely — one persona can be scripted to promote your full product range, seasonal campaigns or third-party partnerships."),],
+  [("ugc","AI UGC","Scalable creator-style performance ads."),("commercial","AI Product Commercial","Hero product ads for your influencer to promote."),("ai-tvc","AI TV Advertisement","Put your AI persona in a broadcast commercial.")],
+  "Create an AI Influencer","contact.html",
+  "AI influencer creation service — custom digital personas, talking-head content and multilingual brand spokespeople at scale by OptimityFX.",
+  "AI influencer creation, digital avatar influencer, AI brand spokesperson, virtual influencer service, AI content creator",
+  True,
+ ),
+ "ai-vfx": (
+  "AI VFX", "09 — AI VFX",
+  "Impossible Shots,", "Made Possible",
+  "AI-powered visual effects and compositing — set extensions, object removal, relighting and effects that used to need a full VFX house, delivered faster, leaner and at a fraction of the cost.",
+  [
+   ("Set extensions & environments", "Expand or replace backgrounds with photoreal AI-generated environments."),
+   ("Object removal & cleanup", "Remove rigs, wires, crew and unwanted elements frame-by-frame."),
+   ("Relighting & colour", "Re-light scenes in post — change time of day, add drama, match locations."),
+   ("Rotoscoping & compositing", "Precise mattes and seamless layer compositing for any shot."),
+   ("Generative effects & enhancements", "Particles, weather, fire, smoke and energy effects generated and composited."),
+  ],
+  [("Shot List & Brief","You share the footage, problem frames and the desired result."),
+   ("VFX Breakdown","We scope each shot and confirm the approach."),
+   ("AI Processing & Compositing","Effects generated, layered and integrated into the edit."),
+   ("QC & Delivery","Frame-by-frame QC, then graded masters delivered."),],
+  ["Film & commercial directors","Post-production houses","Music video producers","Documentary & branded content teams"],
+  [("What types of VFX do you handle with AI?","Set extensions, clean-up, background replacement, atmospheric effects (rain, smoke, fire), relighting and compositing. Complex simulations (fluid dynamics, destruction) are scoped individually."),
+   ("Do you need original RAW files for VFX work?","Ideally yes — higher-quality source files produce better compositing results. We can work with finished exports in some cases."),
+   ("Can you integrate AI VFX into an existing edit?","Yes. We work directly inside your existing timeline (Premiere, Resolve, Avid) and return the composited sequence ready to render."),
+   ("How is pricing structured for VFX?","VFX is quoted per shot. We provide a full breakdown after reviewing the footage, so there are no surprises."),],
+  [("grading","Color Grading","Grade your composited shots to perfection."),("editing","Video Editing","Full post-production pipeline with VFX baked in."),("ai-tvc","AI TV Advertisement","VFX-heavy broadcast ad films.")],
+  "Discuss VFX","contact.html",
+  "AI VFX service — set extensions, object removal, relighting, rotoscoping and generative effects composited into your footage by OptimityFX.",
+  "AI VFX service, AI visual effects, AI set extension, AI compositing, object removal video, generative VFX, AI post production",
+  True,
+ ),
+}
+
+def service_page(sid):
+    (svc_title, tag_num, h1_main, h1_accent, lead, includes, process,
+     for_whom, faqs, related, cta_label, cta_url, meta_desc, keywords, is_ai) = SVC_DETAIL[sid]
+    ai_badge = ' <span class="ai-tag">AI POWERED</span>' if is_ai else ''
+    hero_img = _svc_hero(sid)
+    mid_img  = f"assets/services/service-{sid}-mid.webp"
+    slug = f"service-{sid}.html"
+    og_img = f"https://optimityfx.com/{hero_img}"
+    svc_url = f"https://optimityfx.com/{slug}"
+
+    # Split includes: first 3 cards before mid image, remaining after
+    inc_before = "".join(
+        f'<div class="card reveal"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">{SVC_ICON[sid]}</svg></div>'
+        f'<h3>{t}</h3><p>{d}</p></div>'
+        for t, d in includes[:3]
+    )
+    inc_after = "".join(
+        f'<div class="card reveal"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">{SVC_ICON[sid]}</svg></div>'
+        f'<h3>{t}</h3><p>{d}</p></div>'
+        for t, d in includes[3:]
+    )
+
+    # process HTML
+    proc_items = "".join(
+        f'<div class="card reveal d{i}"><div class="ic">0{i+1}</div><h3>{t}</h3><p>{d}</p></div>'
+        for i,(t,d) in enumerate(process)
+    )
+
+    # for-whom pills
+    for_pills = "".join(
+        f'<span class="trust-badge">{CHK} {w}</span>'
+        for w in for_whom
+    )
+
+    # FAQ accordion
+    faq_items = "".join(
+        f'<div class="acc-item"><button class="acc-q">{q} <span class="pm"></span></button>'
+        f'<div class="acc-a"><p>{a}</p></div></div>'
+        for q,a in faqs
+    )
+
+    # Related services grid
+    rel_cards = "".join(
+        f'<div class="card reveal"><div class="ic">{_svc_icon(r)}</div>'
+        f'<h3><a href="service-{r}.html" style="color:inherit;text-decoration:none">{rt}</a></h3>'
+        f'<p>{rd}</p>'
+        f'<a href="service-{r}.html" class="card-link">Learn more {ARR}</a></div>'
+        for r,rt,rd in related
+    )
+
+    jsonld = (
+        '<script type="application/ld+json">{"@context":"https://schema.org","@type":"Service",'
+        f'"name":"{svc_title}","serviceType":"{svc_title}",'
+        '"provider":{"@type":"Organization","name":"OptimityFX","url":"https://optimityfx.com"},'
+        f'"url":"{svc_url}","description":"{meta_desc}",'
+        '"areaServed":"Worldwide",'
+        f'"image":"{og_img}",'
+        '"offers":{"@type":"Offer","price":"0","priceCurrency":"INR","description":"Custom quote on request"}}'
+        '</script>'
+        '\n<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":['
+        '{"@type":"ListItem","position":1,"name":"Home","item":"https://optimityfx.com/"},'
+        '{"@type":"ListItem","position":2,"name":"Services","item":"https://optimityfx.com/services.html"},'
+        f'{{"@type":"ListItem","position":3,"name":"{svc_title}","item":"{svc_url}"}}'
+        ']}</script>'
+    )
+
+    body = f"""
+<section class="page-hero">
+  <div class="wrap">
+    <div class="crumbs reveal"><a href="index.html">Home</a><span>/</span><a href="services.html">Services</a><span>/</span>{svc_title}</div>
+    <span class="tag-pill reveal">{tag_num}{ai_badge}</span>
+    <h1 class="reveal d1" style="margin-top:14px">{h1_main}<br><span class="spectrum-text">{h1_accent}</span></h1>
+    <p class="lead reveal d2">{lead}</p>
+    <div class="hero-actions reveal d3" style="margin-top:28px">
+      <a href="{cta_url}" class="btn btn-accent btn-lg">{cta_label} {ARR}</a>
+      <a href="portfolio.html" class="btn btn-ghost btn-lg">See Our Work</a>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0">
+  <div class="wrap">
+    <div class="reveal" style="border-radius:20px;overflow:hidden;border:1px solid var(--line);max-height:500px">
+      <img src="{hero_img}" alt="{svc_title} — OptimityFX" style="width:100%;height:100%;object-fit:cover;display:block" loading="eager" width="1280" height="720">
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background:var(--bg-2)">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <span class="eyebrow center-eb">What's Included</span>
+      <h2 class="h-sec">Everything You <span class="grad-text">Need</span></h2>
+    </div>
+    <div class="grid g-3">
+{inc_before}
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="reveal" style="border-radius:20px;overflow:hidden;border:1px solid var(--line);max-height:440px;margin-bottom:0">
+      <img src="{mid_img}" alt="{svc_title} production at OptimityFX" style="width:100%;height:100%;object-fit:cover;display:block" loading="lazy" width="1000" height="563">
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background:var(--bg-2);padding-top:40px">
+  <div class="wrap">
+    <div class="grid g-3">
+{inc_after}
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <span class="eyebrow center-eb">How We Work</span>
+      <h2 class="h-sec">A Simple, <span class="grad-text">Transparent</span> Process</h2>
+    </div>
+    <div class="grid g-4">
+{proc_items}
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background:var(--bg-2)">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <span class="eyebrow center-eb">Who It's For</span>
+      <h2 class="h-sec">Built For <span class="grad-text">Ambitious Creators</span></h2>
+    </div>
+    <div class="trust-row reveal" style="justify-content:center;flex-wrap:wrap;gap:14px">
+{for_pills}
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap" style="max-width:820px">
+    <div class="sec-head reveal">
+      <span class="eyebrow">FAQ</span>
+      <h2 class="h-sec">Common <span class="grad-text">Questions</span></h2>
+    </div>
+    <div class="reveal">
+{faq_items}
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background:var(--bg-2)">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <span class="eyebrow center-eb">Also Consider</span>
+      <h2 class="h-sec">Related <span class="grad-text">Services</span></h2>
+    </div>
+    <div class="grid g-3">
+{rel_cards}
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="cta-band center reveal">
+      <h2>Ready To Get Started?</h2>
+      <p style="margin-inline:auto">Tell us about your project and we'll reply with a tailored quote within 24 hours.</p>
+      <a href="{cta_url}" class="btn btn-accent btn-lg">{cta_label} {ARR}</a>
+    </div>
+  </div>
+</section>
+"""
+    return dict(
+        title=f"{svc_title} Service — {h1_main} {h1_accent} | OptimityFX",
+        desc=meta_desc,
+        keywords=keywords,
+        active="services.html",
+        og_image=og_img,
+        jsonld=jsonld,
+        body=body,
+    )
+
+for _sid in SVC_DETAIL:
+    PAGES[f"service-{_sid}.html"] = service_page(_sid)
+
 # ===== generate =====
 for slug, cfg in PAGES.items():
     page(slug, cfg["title"], cfg["desc"], cfg.get("keywords",""), cfg["active"], cfg["body"], cfg.get("jsonld",""), cfg.get("og_image"))
@@ -882,6 +1315,15 @@ def write_sitemap():
         ("about.html", "monthly", "0.7"), ("blog.html", "weekly", "0.8"),
         ("app.html", "monthly", "0.6"), ("contact.html", "monthly", "0.8"),
         ("terms.html", "yearly", "0.3"), ("privacy.html", "yearly", "0.3"),
+        ("service-editing.html", "monthly", "0.85"),
+        ("service-grading.html", "monthly", "0.85"),
+        ("service-design.html", "monthly", "0.85"),
+        ("service-ai-music.html", "monthly", "0.85"),
+        ("service-ugc.html", "monthly", "0.85"),
+        ("service-commercial.html", "monthly", "0.85"),
+        ("service-ai-tvc.html", "monthly", "0.85"),
+        ("service-ai-influencer.html", "monthly", "0.85"),
+        ("service-ai-vfx.html", "monthly", "0.85"),
     ]
     rows = []
     for loc, freq, pri in static:

@@ -12,6 +12,15 @@
   <url><loc>https://optimityfx.com/contact.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://optimityfx.com/terms.html</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
   <url><loc>https://optimityfx.com/privacy.html</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://optimityfx.com/service-editing.html</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://optimityfx.com/service-grading.html</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://optimityfx.com/service-design.html</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://optimityfx.com/service-ai-music.html</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://optimityfx.com/service-ugc.html</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://optimityfx.com/service-commercial.html</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://optimityfx.com/service-ai-tvc.html</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://optimityfx.com/service-ai-influencer.html</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://optimityfx.com/service-ai-vfx.html</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://optimityfx.com/blog-ai-slop-good-news-for-editors.html</loc><lastmod>2026-06-09</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://optimityfx.com/blog-veo3-ai-audio-video-music-production.html</loc><lastmod>2026-06-09</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://optimityfx.com/blog-cinematic-looks.html</loc><lastmod>2026-06-02</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
