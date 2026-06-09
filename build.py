@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """OptimityFX static site generator — wraps page bodies in a shared shell.
 Produces plain static HTML. Run: python3 build.py"""
-import os
+import os, re, glob
 
 HEAD = """<!DOCTYPE html>
 <html lang="en">
@@ -539,23 +539,76 @@ PAGES["b2b.html"] = dict(
 """)
 
 # ---------- BLOG ----------
-def post_card(kw, cat, title, ex, date, read, lock):
-    return f"""<article class="post-card reveal" data-cat="{cat.lower()}">
-      <a href="blog-post.html" class="pimg"><img src="{IMG(kw,640,400,lock=lock)}" alt="{title}" loading="lazy"></a>
-      <div class="pc-body"><span class="pc-cat">{cat}</span>
-        <h3><a href="blog-post.html">{title}</a></h3>
-        <p class="pc-ex">{ex}</p>
-        <div class="pc-meta"><span>{date}</span><span>·</span><span>{read} read</span></div>
+# Posts are authored as Markdown files in content/blog/*.md (frontmatter + body).
+# Set `status: draft` to keep a post out of the build until approved (1-click publish).
+BLOG_DIR = "content/blog"
+
+def _md_inline(t):
+    t = re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', t)
+    t = re.sub(r'(?<!\*)\*(?!\*)(.+?)(?<!\*)\*(?!\*)', r'<em>\1</em>', t)
+    t = re.sub(r'\[(.+?)\]\((.+?)\)', r'<a href="\2" style="color:var(--accent)">\1</a>', t)
+    return t
+
+def md_to_html(md):
+    out = []
+    for block in re.split(r'\n\s*\n', md.strip()):
+        block = block.strip()
+        if not block:
+            continue
+        if block.startswith('### '):
+            out.append(f"<h3>{_md_inline(block[4:].strip())}</h3>")
+        elif block.startswith('## '):
+            out.append(f"<h2>{_md_inline(block[3:].strip())}</h2>")
+        elif block.startswith('> '):
+            quote = " ".join(l[2:].strip() for l in block.splitlines())
+            out.append(f"<blockquote>{_md_inline(quote)}</blockquote>")
+        elif all(l.strip().startswith('- ') for l in block.splitlines()):
+            lis = "".join(f"<li>{_md_inline(l.strip()[2:])}</li>" for l in block.splitlines())
+            out.append(f'<ul class="dot">{lis}</ul>')
+        else:
+            out.append(f"<p>{_md_inline(block)}</p>")
+    return "\n  ".join(out)
+
+def parse_post(path):
+    raw = open(path, encoding="utf-8").read()
+    m = re.match(r'^---\n(.*?)\n---\n(.*)$', raw, re.S)
+    fm, body = (m.group(1), m.group(2)) if m else ("", raw)
+    meta = {}
+    for line in fm.splitlines():
+        if ':' in line:
+            k, v = line.split(':', 1)
+            meta[k.strip()] = v.strip()
+    meta['body'] = body
+    return meta
+
+def load_posts():
+    items = []
+    for p in sorted(glob.glob(f"{BLOG_DIR}/*.md")):
+        meta = parse_post(p)
+        if meta.get("status", "published").lower() != "published":
+            continue
+        items.append(meta)
+    items.sort(key=lambda m: m.get("iso", ""), reverse=True)
+    return items
+
+def _post_hero(meta, w, h):
+    img = meta.get("image", "").strip()
+    if img:
+        return img
+    return IMG(meta.get("hero_kw", "cinema,film"), w, h)
+
+def post_card(meta):
+    url = f"blog-{meta['slug']}.html"
+    return f"""<article class="post-card reveal" data-cat="{meta.get('filter','all')}">
+      <a href="{url}" class="pimg"><img src="{_post_hero(meta,640,400)}" alt="{meta['title']}" loading="lazy"></a>
+      <div class="pc-body"><span class="pc-cat">{meta.get('category','')}</span>
+        <h3><a href="{url}">{meta['title']}</a></h3>
+        <p class="pc-ex">{meta.get('excerpt','')}</p>
+        <div class="pc-meta"><span>{meta.get('date','')}</span><span>·</span><span>{meta.get('read','5 min')} read</span></div>
       </div></article>"""
-posts = [
- ("color,cinema","Color Grading","5 Cinematic Looks You Can Steal Today","Break down the recipes behind teal-orange, bleach bypass and moody film looks.","Jun 2, 2026","6 min",601),
- ("neon,technology","AI Tools","How We Make AI Music Videos That Don't Look AI","Our end-to-end pipeline for consistent, premium generative visuals.","May 24, 2026","8 min",602),
- ("video,editing","Editing","The Retention Edit: Cutting for the First 3 Seconds","Why your hook matters more than your whole video — and how to nail it.","May 12, 2026","5 min",603),
- ("office,desk","Business","Pricing Your Creative Work Without Underselling","A simple framework to value projects and raise your rates with confidence.","Apr 30, 2026","7 min",604),
- ("smartphone,influencer","UGC","The Anatomy of a High-Converting UGC Ad","Hooks, pacing and proof — the structure behind UGC that sells.","Apr 18, 2026","6 min",605),
- ("computer,studio","Workflow","Our DaVinci Resolve Project Setup, Explained","Node structure, color management and the LUTs we actually use.","Apr 5, 2026","9 min",606),
-]
-posts_html = "\n".join(post_card(*p) for p in posts)
+
+POSTS = load_posts()
+posts_html = "\n".join(post_card(m) for m in POSTS)
 PAGES["blog.html"] = dict(
  title="Blog — Color Grading, Editing & Creator Business Tips | OptimityFX",
  desc="Tutorials, breakdowns and strategy from the OptimityFX studio: color grading, video editing, AI tools, UGC and growing your creative business.",
@@ -589,43 +642,56 @@ PAGES["blog.html"] = dict(
   </form></div></div></section>
 """)
 
-# ---------- BLOG POST ----------
-PAGES["blog-post.html"] = dict(
- title="5 Cinematic Looks You Can Steal Today | OptimityFX Blog",
- desc="A practical breakdown of five cinematic color grading looks — teal & orange, bleach bypass, moody film and more — with recipes you can apply now.",
- keywords="cinematic color grading, teal and orange, bleach bypass, film look tutorial",
- active="blog.html",
- jsonld='<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"5 Cinematic Looks You Can Steal Today","author":{"@type":"Organization","name":"OptimityFX"},"datePublished":"2026-06-02","image":"https://optimityfx.com/assets/og-image.jpg","publisher":{"@type":"Organization","name":"OptimityFX","logo":{"@type":"ImageObject","url":"https://optimityfx.com/assets/logo-mark.svg"}}}</script>',
- body=f"""
+# ---------- BLOG POSTS (one unique URL per post, generated from content/blog/*.md) ----------
+def post_page(meta):
+    cat = meta.get("category", "")
+    crumb = meta.get("crumb", cat or "Article")
+    hero = _post_hero(meta, 1200, 620)
+    iso = meta.get("iso", "")
+    cta_h = meta.get("cta_h", "Want Us To Elevate Your Next Project?")
+    cta_p = meta.get("cta_p", "Send us your footage and get a free grading or editing test.")
+    jsonld = (
+        '<script type="application/ld+json">{"@context":"https://schema.org",'
+        '"@type":"BlogPosting","headline":"' + meta["title"].replace('"', "'") + '",'
+        '"author":{"@type":"Organization","name":"OptimityFX"},'
+        '"datePublished":"' + iso + '","dateModified":"' + iso + '",'
+        '"image":"' + (hero if hero.startswith("http") else "https://optimityfx.com/" + hero) + '",'
+        '"description":"' + meta.get("meta_desc", meta.get("excerpt", "")).replace('"', "'") + '",'
+        '"mainEntityOfPage":"https://optimityfx.com/blog-' + meta["slug"] + '.html",'
+        '"publisher":{"@type":"Organization","name":"OptimityFX","logo":{"@type":"ImageObject","url":"https://optimityfx.com/assets/logo-mark.svg"}}}</script>'
+    )
+    body = f"""
 <section class="page-hero" style="padding-bottom:30px">
   <div class="wrap" style="max-width:780px">
-    <div class="crumbs reveal"><a href="index.html">Home</a><span>/</span><a href="blog.html">Blog</a><span>/</span>Cinematic Looks</div>
-    <span class="pc-cat reveal" style="color:var(--accent);font-weight:600;letter-spacing:2px;text-transform:uppercase;font-size:.72rem">Color Grading</span>
-    <h1 class="reveal d1" style="font-size:clamp(2.2rem,5vw,3.4rem);margin:14px 0">5 Cinematic Looks You Can Steal Today</h1>
-    <div class="pc-meta reveal d2" style="display:flex;gap:14px;color:var(--dim);font-size:.85rem"><span>By OptimityFX</span><span>·</span><span>Jun 2, 2026</span><span>·</span><span>6 min read</span></div>
+    <div class="crumbs reveal"><a href="index.html">Home</a><span>/</span><a href="blog.html">Blog</a><span>/</span>{crumb}</div>
+    <span class="pc-cat reveal" style="color:var(--accent);font-weight:600;letter-spacing:2px;text-transform:uppercase;font-size:.72rem">{cat}</span>
+    <h1 class="reveal d1" style="font-size:clamp(2.2rem,5vw,3.4rem);margin:14px 0">{meta['title']}</h1>
+    <div class="pc-meta reveal d2" style="display:flex;gap:14px;color:var(--dim);font-size:.85rem"><span>By OptimityFX</span><span>·</span><span>{meta.get('date','')}</span><span>·</span><span>{meta.get('read','5 min')} read</span></div>
   </div>
 </section>
 <section class="section" style="padding-top:30px"><div class="wrap"><div class="article reveal">
-  <img src="{IMG('color,grading,cinema',1200,620,lock=620)}" alt="Color grading reference">
-  <p>Great color grading isn't magic — it's a series of repeatable decisions. In this breakdown we'll demystify five of the most-loved cinematic looks and give you a starting recipe for each. Drop these into DaVinci Resolve or your editor of choice and adjust to taste.</p>
-  <h2>1. Teal &amp; Orange</h2>
-  <p>The workhorse of blockbuster cinema. Push skin tones toward warm orange and shadows toward teal to create separation between subject and background.</p>
-  <blockquote>Contrast in color is just as powerful as contrast in light. Teal &amp; orange works because it splits the color wheel.</blockquote>
-  <h2>2. Bleach Bypass</h2>
-  <p>A gritty, desaturated, high-contrast look made famous by war and thriller films. Lower saturation, crush the blacks slightly, and lift mid-contrast.</p>
-  <ul class="dot"><li>Reduce saturation to ~40-60%</li><li>Increase contrast and clarity</li><li>Add a subtle cool tint to shadows</li></ul>
-  <h2>3. Moody Film</h2>
-  <p>Soft, faded blacks with muted greens — perfect for emotional storytelling and music videos. Lift the shadows and roll off the highlights for that filmic curve.</p>
-  <h3>Pro tip: build it on nodes</h3>
-  <p>Keep correction and creative looks on separate nodes so you can tweak one without breaking the other. Your future self will thank you.</p>
-  <h2>4. Warm Vintage</h2>
-  <p>Golden-hour warmth with gentle grain. Add a touch of halation around highlights to sell the analog feel.</p>
-  <h2>5. Clean Commercial</h2>
-  <p>Bright, punchy and true-to-life — ideal for product and brand work. Prioritize accurate skin tones and clean whites, then add just enough saturation to pop.</p>
-  <p>Want these as ready-to-use LUTs? Grab our <a href="store.html" style="color:var(--accent)">Cinematic LUT Pack</a> in the store, or <a href="academy.html" style="color:var(--accent)">learn the full workflow</a> in NextGen Academy.</p>
+  <img src="{hero}" alt="{meta['title']}">
+  {md_to_html(meta['body'])}
 </div></div></section>
-<section class="section section--tight"><div class="wrap"><div class="cta-band center reveal"><h2>Want Us To Grade Your Footage?</h2><p style="margin-inline:auto">Send us your project and get a free grading test.</p><a href="contact.html" class="btn btn-accent btn-lg">Start a Project {ARR}</a></div></div></section>
-""")
+<section class="section section--tight"><div class="wrap"><div class="cta-band center reveal"><h2>{cta_h}</h2><p style="margin-inline:auto">{cta_p}</p><a href="contact.html" class="btn btn-accent btn-lg">Start a Project {ARR}</a></div></div></section>
+"""
+    return dict(
+        title=f"{meta['title']} | OptimityFX Blog",
+        desc=meta.get("meta_desc", meta.get("excerpt", "")),
+        keywords=meta.get("keywords", ""),
+        active="blog.html",
+        jsonld=jsonld,
+        body=body,
+    )
+
+for _m in POSTS:
+    PAGES[f"blog-{_m['slug']}.html"] = post_page(_m)
+
+# Backward-compat: old single blog-post.html now redirects to the blog index.
+PAGES["blog-post.html"] = dict(
+    title="OptimityFX Blog", desc="OptimityFX Journal", keywords="", active="blog.html",
+    jsonld='<meta http-equiv="refresh" content="0; url=blog.html"><link rel="canonical" href="https://optimityfx.com/blog.html">',
+    body='<section class="section"><div class="wrap"><p>Redirecting to the <a href="blog.html" style="color:var(--accent)">OptimityFX Journal</a>…</p></div></section>')
 
 # ---------- CONTACT ----------
 PAGES["contact.html"] = dict(
@@ -787,4 +853,27 @@ PAGES["privacy.html"] = legal("privacy.html",
 # ===== generate =====
 for slug, cfg in PAGES.items():
     page(slug, cfg["title"], cfg["desc"], cfg.get("keywords",""), cfg["active"], cfg["body"], cfg.get("jsonld",""))
+
+# ===== sitemap.xml (static pages + every published blog post) =====
+def write_sitemap():
+    static = [
+        ("", "weekly", "1.0"), ("services.html", "monthly", "0.9"),
+        ("portfolio.html", "weekly", "0.9"), ("academy.html", "weekly", "0.8"),
+        ("store.html", "weekly", "0.8"), ("b2b.html", "monthly", "0.7"),
+        ("about.html", "monthly", "0.7"), ("blog.html", "weekly", "0.8"),
+        ("app.html", "monthly", "0.6"), ("contact.html", "monthly", "0.8"),
+        ("terms.html", "yearly", "0.3"), ("privacy.html", "yearly", "0.3"),
+    ]
+    rows = []
+    for loc, freq, pri in static:
+        rows.append(f'  <url><loc>https://optimityfx.com/{loc}</loc><changefreq>{freq}</changefreq><priority>{pri}</priority></url>')
+    for m in POSTS:
+        lastmod = f"<lastmod>{m.get('iso','')}</lastmod>" if m.get("iso") else ""
+        rows.append(f'  <url><loc>https://optimityfx.com/blog-{m["slug"]}.html</loc>{lastmod}<changefreq>monthly</changefreq><priority>0.6</priority></url>')
+    xml = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + "\n".join(rows) + '\n</urlset>\n'
+    with open("sitemap.xml", "w") as f:
+        f.write(xml)
+    print(f"wrote sitemap.xml ({len(static)} pages + {len(POSTS)} posts)")
+
+write_sitemap()
 print("Done.")

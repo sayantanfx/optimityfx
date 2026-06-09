@@ -7,10 +7,16 @@
   <url><loc>https://optimityfx.com/store.html</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://optimityfx.com/b2b.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://optimityfx.com/about.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://optimityfx.com/blog.html</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://optimityfx.com/blog-post.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://optimityfx.com/blog.html</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://optimityfx.com/app.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://optimityfx.com/contact.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://optimityfx.com/terms.html</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
   <url><loc>https://optimityfx.com/privacy.html</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://optimityfx.com/blog-ai-slop-good-news-for-editors.html</loc><lastmod>2026-06-09</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://optimityfx.com/blog-cinematic-looks.html</loc><lastmod>2026-06-02</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://optimityfx.com/blog-ai-music-videos.html</loc><lastmod>2026-05-24</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://optimityfx.com/blog-retention-edit.html</loc><lastmod>2026-05-12</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://optimityfx.com/blog-pricing-creative-work.html</loc><lastmod>2026-04-30</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://optimityfx.com/blog-ugc-anatomy.html</loc><lastmod>2026-04-18</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://optimityfx.com/blog-davinci-setup.html</loc><lastmod>2026-04-05</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
 </urlset>

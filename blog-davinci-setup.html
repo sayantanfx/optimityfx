@@ -3,22 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OptimityFX Blog</title>
-<meta name="description" content="OptimityFX Journal">
-<meta name="keywords" content="">
+<title>Our DaVinci Resolve Project Setup, Explained | OptimityFX Blog</title>
+<meta name="description" content="A look inside the OptimityFX DaVinci Resolve setup — color management, node structure and the LUT workflow we use on every project.">
+<meta name="keywords" content="DaVinci Resolve setup, node structure, color management, Resolve color workflow, LUT workflow">
 <meta name="author" content="OptimityFX">
-<link rel="canonical" href="https://optimityfx.com/blog-post.html">
+<link rel="canonical" href="https://optimityfx.com/blog-davinci-setup.html">
 <meta name="robots" content="index, follow">
 <meta name="theme-color" content="#07090C">
 <meta property="og:type" content="website">
-<meta property="og:title" content="OptimityFX Blog">
-<meta property="og:description" content="OptimityFX Journal">
-<meta property="og:url" content="https://optimityfx.com/blog-post.html">
+<meta property="og:title" content="Our DaVinci Resolve Project Setup, Explained | OptimityFX Blog">
+<meta property="og:description" content="A look inside the OptimityFX DaVinci Resolve setup — color management, node structure and the LUT workflow we use on every project.">
+<meta property="og:url" content="https://optimityfx.com/blog-davinci-setup.html">
 <meta property="og:image" content="https://optimityfx.com/assets/og-image.jpg">
 <meta property="og:site_name" content="OptimityFX">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="OptimityFX Blog">
-<meta name="twitter:description" content="OptimityFX Journal">
+<meta name="twitter:title" content="Our DaVinci Resolve Project Setup, Explained | OptimityFX Blog">
+<meta name="twitter:description" content="A look inside the OptimityFX DaVinci Resolve setup — color management, node structure and the LUT workflow we use on every project.">
 <meta name="twitter:image" content="https://optimityfx.com/assets/og-image.jpg">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="assets/favicon.svg">
@@ -26,7 +26,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="css/style.css?v=20260607">
-<meta http-equiv="refresh" content="0; url=blog.html"><link rel="canonical" href="https://optimityfx.com/blog.html">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Our DaVinci Resolve Project Setup, Explained","author":{"@type":"Organization","name":"OptimityFX"},"datePublished":"2026-04-05","dateModified":"2026-04-05","image":"https://loremflickr.com/1200/620/computer,studio,monitor?lock=14","description":"A look inside the OptimityFX DaVinci Resolve setup — color management, node structure and the LUT workflow we use on every project.","mainEntityOfPage":"https://optimityfx.com/blog-davinci-setup.html","publisher":{"@type":"Organization","name":"OptimityFX","logo":{"@type":"ImageObject","url":"https://optimityfx.com/assets/logo-mark.svg"}}}</script>
 </head>
 <body>
 <div class="progress"></div>
@@ -52,7 +52,33 @@
 </header>
 <div class="m-drawer"><a href="services.html">Services</a><a href="portfolio.html">Work</a><a href="academy.html">Academy</a><a href="store.html">Store</a><a href="b2b.html">B2B</a><a href="blog.html">Blog</a><a href="about.html">About</a><a href="contact.html" class="btn btn-accent">Start a Project</a></div>
 <main>
-<section class="section"><div class="wrap"><p>Redirecting to the <a href="blog.html" style="color:var(--accent)">OptimityFX Journal</a>…</p></div></section>
+
+<section class="page-hero" style="padding-bottom:30px">
+  <div class="wrap" style="max-width:780px">
+    <div class="crumbs reveal"><a href="index.html">Home</a><span>/</span><a href="blog.html">Blog</a><span>/</span>Resolve Setup</div>
+    <span class="pc-cat reveal" style="color:var(--accent);font-weight:600;letter-spacing:2px;text-transform:uppercase;font-size:.72rem">Workflow</span>
+    <h1 class="reveal d1" style="font-size:clamp(2.2rem,5vw,3.4rem);margin:14px 0">Our DaVinci Resolve Project Setup, Explained</h1>
+    <div class="pc-meta reveal d2" style="display:flex;gap:14px;color:var(--dim);font-size:.85rem"><span>By OptimityFX</span><span>·</span><span>Apr 5, 2026</span><span>·</span><span>9 min read</span></div>
+  </div>
+</section>
+<section class="section" style="padding-top:30px"><div class="wrap"><div class="article reveal">
+  <img src="https://loremflickr.com/1200/620/computer,studio,monitor?lock=14" alt="Our DaVinci Resolve Project Setup, Explained">
+  <p>A clean Resolve project saves hours and prevents the kind of late-night mistakes that ruin a grade. Here's the setup we use on every job, from a single reel to a full campaign.</p>
+  <h2>Start with color management</h2>
+  <p>Before touching a wheel, we set the project to a managed color pipeline so every clip — phone, cinema camera, AI-generated — lands in the same color space. Garbage in, garbage out: managed color is how you make mismatched sources gradeable.</p>
+  <ul class="dot"><li>Set input color space per source, not globally</li><li>Work in a wide timeline space, deliver to Rec.709</li><li>Trust the scopes over your monitor</li></ul>
+  <h2>A node structure you can actually navigate</h2>
+  <p>We keep every grade on a consistent node tree so anyone on the team can open a project and understand it instantly:</p>
+  <ul class="dot"><li><strong>Node 1 — Balance:</strong> neutralize, set exposure and white balance</li><li><strong>Node 2 — Contrast:</strong> shape the curve</li><li><strong>Node 3 — Creative look:</strong> the signature grade lives here</li><li><strong>Node 4 — Secondaries:</strong> skin, sky, product isolation</li><li><strong>Node 5 — Output:</strong> final trim and safety</li></ul>
+  <blockquote>Separate correction from creative. When the client asks for "a little warmer," you change one node — not the whole grade.</blockquote>
+  <h2>LUTs as a starting point, never the finish</h2>
+  <p>We do use LUTs — including our own <a href="store.html" style="color:var(--accent)">Cinematic LUT Pack</a> — but always as a <em>base</em> on the creative node, dialed back and adjusted to the footage. A LUT applied at full strength on raw footage is how you get that flat, over-baked look.</p>
+  <h2>Stay organized or pay for it later</h2>
+  <p>Color-code clips, name your nodes, and version your timelines. The discipline feels slow on day one and saves you on delivery day.</p>
+  <p>Want this workflow applied to your footage — or to learn it yourself? <a href="contact.html" style="color:var(--accent)">Start a project</a> or explore <a href="academy.html" style="color:var(--accent)">NextGen Academy</a>.</p>
+</div></div></section>
+<section class="section section--tight"><div class="wrap"><div class="cta-band center reveal"><h2>Want Our Grade On Your Project?</h2><p style="margin-inline:auto">Send us your footage and we'll set it up and grade a free test shot.</p><a href="contact.html" class="btn btn-accent btn-lg">Start a Project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div></div></section>
+
 </main>
 <footer class="footer">
   <div class="wrap">
