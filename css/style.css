@@ -255,11 +255,11 @@ body.menu-open .m-drawer { transform: translateX(0); }
 .hero h1 { margin-bottom: 24px; }
 .hero .lead { margin-bottom: 36px; }
 .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
-.hero-strip { margin-top: 60px; display: flex; gap: 38px; flex-wrap: wrap; align-items: center; }
+.hero-strip { margin-top: 60px; display: flex; gap: 22px; flex-wrap: nowrap; align-items: center; }
 .hero-strip .hs { display: flex; flex-direction: column; }
-.hero-strip .hs b { font-family: var(--head); font-style: normal; font-weight: 800; font-size: 2.1rem; color: var(--white); line-height: 1; }
-.hero-strip .hs span { font-size: .78rem; color: var(--dim); letter-spacing: .5px; margin-top: 4px; }
-.hero-strip .sep { width: 1px; height: 38px; background: var(--line); }
+.hero-strip .hs b { font-family: var(--head); font-style: normal; font-weight: 800; font-size: 1.7rem; color: var(--white); line-height: 1; }
+.hero-strip .hs span { font-size: .72rem; color: var(--dim); letter-spacing: .5px; margin-top: 4px; white-space: nowrap; }
+.hero-strip .sep { width: 1px; height: 32px; background: var(--line); flex-shrink: 0; }
 
 /* ---------- Hero two-col + HUD ---------- */
 .hero-inner { display: grid; grid-template-columns: 55% 45%; align-items: center; gap: 0; }
