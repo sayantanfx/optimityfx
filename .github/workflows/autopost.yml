@@ -1,0 +1,33 @@
+name: OptimityFX Auto Journal
+on:
+  schedule:
+    - cron: "17 */6 * * *"     # every 6 hours (UTC)
+  workflow_dispatch: {}         # manual "Run" button
+permissions:
+  contents: write
+concurrency:
+  group: autopost
+  cancel-in-progress: false
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install anthropic requests
+      - name: Generate and publish a new journal post
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          WHATSAPP_WEBHOOK_URL: ${{ secrets.WHATSAPP_WEBHOOK_URL }}
+        run: python3 scripts/autopost.py
+      - name: Commit and push (triggers Vercel deploy)
+        run: |
+          git config user.name  "OptimityFX Autobot"
+          git config user.email "autobot@optimityfx.com"
+          git add -A
+          if git diff --cached --quiet; then echo "No changes."; else
+            git commit -m "blog: automated journal ($(date -u +%Y-%m-%dT%H:%MZ))"
+            git push
+          fi
