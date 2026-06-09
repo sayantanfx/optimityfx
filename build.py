@@ -19,12 +19,12 @@ HEAD = """<!DOCTYPE html>
 <meta property="og:title" content="{title}">
 <meta property="og:description" content="{desc}">
 <meta property="og:url" content="https://optimityfx.com/{slug}">
-<meta property="og:image" content="https://optimityfx.com/assets/og-image.jpg">
+<meta property="og:image" content="{og_image}">
 <meta property="og:site_name" content="OptimityFX">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{title}">
 <meta name="twitter:description" content="{desc}">
-<meta name="twitter:image" content="https://optimityfx.com/assets/og-image.jpg">
+<meta name="twitter:image" content="{og_image}">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="assets/favicon.svg">
 <link rel="manifest" href="manifest.json">
@@ -154,8 +154,11 @@ def AVATAR(seed):
             "&accessories=prescription01,prescription02,round&accessoriesProbability=45&accessoriesColor=262e33,3c4f5c"
             "&eyes=default,happy&eyebrows=default,defaultNatural,raisedExcited&mouth=smile,default")
 
-def page(slug, title, desc, keywords, active, body, jsonld=""):
-    html = HEAD.format(title=title, desc=desc, keywords=keywords, slug=slug, jsonld=jsonld)
+OG_DEFAULT = "https://optimityfx.com/assets/og-image.jpg"
+
+def page(slug, title, desc, keywords, active, body, jsonld="", og_image=None):
+    img = og_image if og_image else OG_DEFAULT
+    html = HEAD.format(title=title, desc=desc, keywords=keywords, slug=slug, jsonld=jsonld, og_image=img)
     html += nav(active) + "<main>\n" + body + "\n</main>\n" + FOOTER
     with open(slug, "w") as f:
         f.write(html)
@@ -681,6 +684,7 @@ def post_page(meta):
 </div></div></section>
 <section class="section section--tight"><div class="wrap"><div class="cta-band center reveal"><h2>{cta_h}</h2><p style="margin-inline:auto">{cta_p}</p><a href="contact.html" class="btn btn-accent btn-lg">Start a Project {ARR}</a></div></div></section>
 """
+    og_img = hero if hero.startswith("http") else "https://optimityfx.com/" + hero
     return dict(
         title=f"{meta['title']} | OptimityFX Blog",
         desc=meta.get("meta_desc", meta.get("excerpt", "")),
@@ -688,6 +692,7 @@ def post_page(meta):
         active="blog.html",
         jsonld=jsonld,
         body=body,
+        og_image=og_img,
     )
 
 for _m in POSTS:
@@ -858,7 +863,7 @@ PAGES["privacy.html"] = legal("privacy.html",
 
 # ===== generate =====
 for slug, cfg in PAGES.items():
-    page(slug, cfg["title"], cfg["desc"], cfg.get("keywords",""), cfg["active"], cfg["body"], cfg.get("jsonld",""))
+    page(slug, cfg["title"], cfg["desc"], cfg.get("keywords",""), cfg["active"], cfg["body"], cfg.get("jsonld",""), cfg.get("og_image"))
 
 # ===== sitemap.xml (static pages + every published blog post) =====
 def write_sitemap():
