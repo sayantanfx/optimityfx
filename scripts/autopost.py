@@ -13,7 +13,7 @@ import anthropic, requests
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 BLOG_DIR = ROOT / "content" / "blog"
 IMG_DIR = ROOT / "assets" / "blog"
-MODEL = "claude-opus-4-8"
+MODEL = "claude-sonnet-4-6"
 
 BRAND = """OptimityFX (optimityfx.com) is a premium Indian creative studio: video editing,
 color grading, graphic design, AI content production (AI music videos, UGC, product
