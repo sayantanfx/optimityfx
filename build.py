@@ -30,7 +30,7 @@ HEAD = """<!DOCTYPE html>
 <link rel="manifest" href="manifest.json">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="css/style.css?v=20260610">
+<link rel="stylesheet" href="css/style.css?v=20260610b">
 {jsonld}
 </head>
 <body>
