@@ -584,6 +584,8 @@ def parse_post(path):
 def load_posts():
     items = []
     for p in sorted(glob.glob(f"{BLOG_DIR}/*.md")):
+        if os.path.basename(p).upper().startswith("README"):
+            continue
         meta = parse_post(p)
         if meta.get("status", "published").lower() != "published":
             continue
