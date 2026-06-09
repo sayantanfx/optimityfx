@@ -10,7 +10,7 @@ keywords: UGC ad, high converting UGC, UGC structure, AI UGC, performance creati
 date: Apr 18, 2026
 iso: 2026-04-18
 read: 6 min
-hero_kw: smartphone,creator,product
+image: assets/blog/ugc-anatomy.jpg
 status: published
 cta_h: Need UGC That Performs?
 cta_p: Tell us about your product and we'll script and produce a test batch.

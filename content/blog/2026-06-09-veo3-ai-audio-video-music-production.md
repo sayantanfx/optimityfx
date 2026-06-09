@@ -11,7 +11,7 @@ date: Jun 9, 2026
 iso: 2026-06-09
 read: 7 min
 status: published
-hero_kw: cinema,film,studio
+image: assets/blog/veo3-ai-audio-video-music-production.jpg
 ---
 ## The Moment AI Video Stopped Being Silent
 

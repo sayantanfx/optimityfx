@@ -10,7 +10,7 @@ keywords: cinematic color grading, teal and orange, bleach bypass, film look tut
 date: Jun 2, 2026
 iso: 2026-06-02
 read: 6 min
-hero_kw: color,grading,cinema
+image: assets/blog/cinematic-looks.jpg
 status: published
 cta_h: Want Us To Grade Your Footage?
 cta_p: Send us your project and get a free grading test.

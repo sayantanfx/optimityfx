@@ -10,7 +10,7 @@ keywords: AI music video, generative video, consistent AI characters, cinematic 
 date: May 24, 2026
 iso: 2026-05-24
 read: 8 min
-hero_kw: neon,music,studio
+image: assets/blog/ai-music-videos.jpg
 status: published
 cta_h: Have A Track That Needs A Video?
 cta_p: Send us the song and a reference board — we'll pitch a concept and a test frame.

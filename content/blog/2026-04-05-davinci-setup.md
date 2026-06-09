@@ -10,7 +10,7 @@ keywords: DaVinci Resolve setup, node structure, color management, Resolve color
 date: Apr 5, 2026
 iso: 2026-04-05
 read: 9 min
-hero_kw: computer,studio,monitor
+image: assets/blog/davinci-setup.jpg
 status: published
 cta_h: Want Our Grade On Your Project?
 cta_p: Send us your footage and we'll set it up and grade a free test shot.
