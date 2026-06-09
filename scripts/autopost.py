@@ -90,16 +90,24 @@ The iso date is {today.isoformat()} and the display date is {today.strftime('%b 
 
 def make_image(prompt, slug):
     IMG_DIR.mkdir(parents=True, exist_ok=True)
-    out = IMG_DIR / f"{slug}.jpg"
+    tmp = IMG_DIR / f"{slug}.tmp.jpg"
+    out = IMG_DIR / f"{slug}.webp"
     q = urllib.parse.quote(f"cinematic, {prompt}, high detail, no text, no watermark")
     url = f"https://image.pollinations.ai/prompt/{q}?width=1200&height=630&nologo=true&model=flux"
     try:
         r = requests.get(url, timeout=120)
         if r.ok and len(r.content) > 5000:
-            out.write_bytes(r.content)
-            return f"assets/blog/{slug}.jpg"
+            tmp.write_bytes(r.content)
+            # convert to WebP: resize to 1280px wide, quality 82, method 6 (best compression)
+            from PIL import Image as PILImage
+            img = PILImage.open(tmp)
+            img.thumbnail((1280, 720), PILImage.LANCZOS)
+            img.save(out, "WEBP", quality=82, method=6)
+            tmp.unlink(missing_ok=True)
+            return f"assets/blog/{slug}.webp"
     except Exception as e:
         print("image generation failed:", e)
+        tmp.unlink(missing_ok=True)
     return None  # caller falls back to hero_kw placeholder
 
 def write_post(data):
@@ -131,7 +139,7 @@ def notify_whatsapp(data, slug):
         "title": data["title"],
         "url": f"https://www.optimityfx.com/blog-{slug}.html",
         "excerpt": data.get("excerpt", ""),
-        "image": f"https://www.optimityfx.com/assets/blog/{slug}.jpg",
+        "image": f"https://www.optimityfx.com/assets/blog/{slug}.webp",
         "instagram_caption": data.get("instagram_caption", ""),
         "linkedin_post": data.get("linkedin_post", ""),
     }
