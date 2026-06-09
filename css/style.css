@@ -183,6 +183,9 @@ p { color: var(--muted); }
 .nav-links > li > a:hover,
 .nav-links > li > a.active { color: var(--white); background: rgba(255,255,255,.05); }
 .nav-links a.active { color: var(--white); }
+.nav-home { padding: 9px 10px !important; }
+.nav-home svg { width: 17px; height: 17px; display: block; }
+.nav-home.active svg { stroke: var(--white); }
 .caret { width: 9px; height: 9px; opacity: .6; transition: transform .3s; }
 
 /* dropdown */

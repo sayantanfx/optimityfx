@@ -30,7 +30,7 @@ HEAD = """<!DOCTYPE html>
 <link rel="manifest" href="manifest.json">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="css/style.css?v=20260610b">
+<link rel="stylesheet" href="css/style.css?v=20260610c">
 {jsonld}
 </head>
 <body>
@@ -72,13 +72,16 @@ SERVICES_DROP = '<div class="drop">\n' + "\n".join(_drop_item(*s) for s in SERVI
 def nav(active):
     items = [("services.html","Services"),("portfolio.html","Work"),("academy.html","Academy"),
              ("store.html","Store"),("b2b.html","B2B"),("blog.html","Blog"),("about.html","About")]
+    home_cls = ' class="nav-home active"' if active=="index.html" else ' class="nav-home"'
+    home_icon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5 12 3l9 6.5V20a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1z"/><path d="M9 21V12h6v9"/></svg>'
+    home_li = f'<li><a href="index.html" aria-label="Home"{home_cls}>{home_icon}</a></li>'
     def li(h,t):
         cls = ' class="active"' if h==active else ''
         if h == "services.html":
             caret = '<svg class="caret" viewBox="0 0 12 8" fill="none"><path d="M1 1.5 6 6.5 11 1.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>'
             return f'<li class="has-drop"><a href="{h}"{cls}>{t} {caret}</a>{SERVICES_DROP}</li>'
         return f'<li><a href="{h}"{cls}>{t}</a></li>'
-    links = "".join(li(h,t) for h,t in items)
+    links = home_li + "".join(li(h,t) for h,t in items)
     drawer = "".join(f'<a href="{h}">{t}</a>' for h,t in items)
     return f"""<header class="nav">
   <div class="wrap nav-inner">
