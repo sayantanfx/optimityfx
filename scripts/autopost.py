@@ -72,7 +72,7 @@ The iso date is {today.isoformat()} and the display date is {today.strftime('%b 
     for _ in range(6):  # allow server-tool pause_turn continuations
         resp = client.messages.create(
             model=MODEL, max_tokens=16000, system=system,
-            thinking={"type": "adaptive"}, output_config={"effort": "high"},
+            thinking={"type": "adaptive"}, output_config={"effort": "low"},
             tools=tools, messages=messages,
         )
         if resp.stop_reason == "pause_turn":
