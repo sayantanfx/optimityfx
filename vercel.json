@@ -9,6 +9,10 @@
     {
       "source": "/team(.*)",
       "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
+    },
+    {
+      "source": "/(login|register|dashboard|checkout|course|certificate|quiz|forgot-password).html",
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
     }
   ],
   "rewrites": [
