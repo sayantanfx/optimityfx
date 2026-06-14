@@ -264,6 +264,15 @@ body.menu-open .m-drawer { transform: translateX(0); }
 .hero-strip .hs span { font-size: .72rem; color: var(--dim); letter-spacing: .5px; margin-top: 4px; white-space: nowrap; }
 .hero-strip .sep { width: 1px; height: 32px; background: var(--line); flex-shrink: 0; }
 
+.flag-strip { margin-top: 22px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.flag-strip-label { font-size: .7rem; color: var(--dim); letter-spacing: 1px; text-transform: uppercase; white-space: nowrap; }
+.flag-strip-flags { font-size: 1.05rem; letter-spacing: 4px; opacity: .85; }
+@media (max-width: 560px) {
+  .flag-strip { margin-top: 16px; gap: 8px 0; }
+  .flag-strip-label { flex: 1 1 100%; }
+  .flag-strip-flags { flex: 1 1 100%; font-size: .95rem; letter-spacing: 3px; line-height: 1.8; white-space: normal; word-spacing: 2px; }
+}
+
 /* ---------- Hero two-col + HUD ---------- */
 .hero-inner { display: grid; grid-template-columns: 55% 45%; align-items: center; gap: 0; }
 .hero-copy { max-width: 640px; }
@@ -556,9 +565,25 @@ body.menu-open .m-drawer { transform: translateX(0); }
 .quote p { color: var(--text); font-size: 1rem; margin: 6px 0 22px; }
 .quote .stars { color: #FFC23D; font-size: .9rem; letter-spacing: 2px; margin-bottom: 14px; }
 .who { display: flex; align-items: center; gap: 13px; }
-.who .av { width: 44px; height: 44px; border-radius: 50%; background: var(--grad-cool); display: grid; place-items: center; font-weight: 700; color: #02151c; font-size: .95rem; }
+.who .av { width: 44px; height: 44px; border-radius: 50%; background: var(--grad-cool); display: grid; place-items: center; font-weight: 700; color: #02151c; font-size: .95rem; flex-shrink: 0; }
 .who b { font-size: .9rem; color: var(--white); }
 .who span { font-size: .76rem; color: var(--dim); display: block; }
+
+.t-marquee { overflow: hidden; padding: 14px 0; -webkit-mask-image: linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent); mask-image: linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent); }
+.t-marquee-track { display: flex; gap: 20px; width: max-content; animation: scroll 70s linear infinite; }
+.t-marquee-track.reverse { animation-direction: reverse; animation-duration: 80s; }
+.t-marquee:hover .t-marquee-track { animation-play-state: paused; }
+.t-chip { display: flex; flex-direction: column; gap: 12px; width: 320px; flex-shrink: 0; background: linear-gradient(180deg,var(--panel),var(--bg-2)); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px; }
+.t-chip .stars { color: #FFC23D; font-size: .8rem; letter-spacing: 2px; }
+.t-chip p { color: var(--text); font-size: .9rem; line-height: 1.5; margin: 0; }
+.t-chip .who .av { width: 36px; height: 36px; font-size: .82rem; }
+.t-chip .who b { font-size: .84rem; }
+.t-chip .who span { font-size: .72rem; }
+.t-tag { display: inline-flex; align-items: center; gap: 6px; font-size: .7rem; font-weight: 700; letter-spacing: .5px; text-transform: uppercase; color: var(--accent); background: rgba(0,212,255,.08); border: 1px solid rgba(0,212,255,.25); border-radius: 999px; padding: 4px 11px; }
+.t-meta { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.t-flag { display: inline-flex; align-items: center; gap: 5px; font-size: .72rem; font-weight: 600; color: var(--dim); background: var(--bg-2); border: 1px solid var(--line); border-radius: 999px; padding: 4px 10px 4px 6px; white-space: nowrap; }
+
+.t-disclosure { font-size: .72rem; color: var(--dim); display: block; margin-top: 10px; font-style: italic; opacity: .75; }
 
 /* ---------- Pricing / product cards ---------- */
 .price-card { background: linear-gradient(180deg,var(--panel),var(--bg-2)); border: 1px solid var(--line); border-radius: var(--radius); padding: 34px; transition: .4s var(--ease); position: relative; }
