@@ -185,6 +185,38 @@
     });
   });
 
+  /* ---- Contact form: real submission via Web3Forms ---- */
+  document.querySelectorAll('form[data-web3forms]').forEach(form => {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = form.querySelector('[type=submit]');
+      const status = form.querySelector('.form-status');
+      const orig = btn.textContent;
+      btn.textContent = 'Sending…'; btn.disabled = true;
+      if (status) { status.textContent = ''; status.style.color = ''; }
+      try {
+        const res = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify(Object.fromEntries(new FormData(form)))
+        });
+        const data = await res.json();
+        if (data.success) {
+          btn.textContent = '✓ Message Sent';
+          if (status) { status.textContent = "Thanks — we'll be in touch within 24 hours."; status.style.color = 'var(--accent)'; }
+          form.reset();
+        } else {
+          throw new Error(data.message || 'Submission failed');
+        }
+      } catch (err) {
+        btn.textContent = orig;
+        if (status) { status.textContent = 'Something went wrong — please email us directly at optimityfx.studio@gmail.com.'; status.style.color = 'var(--red)'; }
+      } finally {
+        setTimeout(() => { btn.textContent = orig; btn.disabled = false; }, 2600);
+      }
+    });
+  });
+
   /* ---- Magnetic buttons — primary CTAs drift gently toward the cursor ---- */
   if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches && !window.matchMedia('(hover: none)').matches) {
     const PULL = 0.28;     // how much of the offset to follow (0–1)

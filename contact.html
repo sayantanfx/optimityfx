@@ -64,17 +64,21 @@
   <div class="reveal">
     <div class="card">
       <h3 style="margin-bottom:20px">Start a Project</h3>
-      <form data-fake>
+      <form data-web3forms>
+        <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_ACCESS_KEY">
+        <input type="hidden" name="subject" value="New Project Enquiry — OptimityFX Website">
+        <input type="hidden" name="from_name" value="OptimityFX Website">
         <div class="form-row">
-          <div class="field"><label>Name</label><input type="text" required placeholder="Your name"></div>
-          <div class="field"><label>Email</label><input type="email" required placeholder="you@email.com"></div>
+          <div class="field"><label>Name</label><input type="text" name="name" required placeholder="Your name"></div>
+          <div class="field"><label>Email</label><input type="email" name="email" required placeholder="you@email.com"></div>
         </div>
         <div class="form-row">
-          <div class="field"><label>Service</label><select><option>Video Editing</option><option>Color Grading</option><option>Graphic Design</option><option>AI Music Video</option><option>UGC / AI UGC</option><option>AI Product Commercial</option><option>Academy</option><option>B2B Solutions</option></select></div>
-          <div class="field"><label>Budget</label><select><option>Under ₹25k</option><option>₹25k – ₹1L</option><option>₹1L – ₹5L</option><option>₹5L+</option></select></div>
+          <div class="field"><label>Service</label><select name="service"><option>Video Editing</option><option>Color Grading</option><option>Graphic Design</option><option>AI Music Video</option><option>UGC / AI UGC</option><option>AI Product Commercial</option><option>Academy</option><option>B2B Solutions</option></select></div>
+          <div class="field"><label>Budget</label><select name="budget"><option>Under ₹25k</option><option>₹25k – ₹1L</option><option>₹1L – ₹5L</option><option>₹5L+</option></select></div>
         </div>
-        <div class="field"><label>Project Details</label><textarea required placeholder="Tell us about your vision, timeline and references…"></textarea></div>
+        <div class="field"><label>Project Details</label><textarea name="message" required placeholder="Tell us about your vision, timeline and references…"></textarea></div>
         <button type="submit" class="btn btn-accent btn-lg" style="width:100%;justify-content:center">Send Message <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+        <p class="form-status" aria-live="polite" style="margin-top:12px;text-align:center;font-size:.85rem"></p>
         <p class="note" style="margin-top:12px;text-align:center">By submitting you agree to our <a href="privacy.html" style="color:var(--muted)">Privacy Policy</a>.</p>
       </form>
     </div>
@@ -128,6 +132,6 @@
     </div>
   </div>
 </footer>
-<script src="js/main.js?v=20260607"></script>
+<script src="js/main.js?v=20260614"></script>
 </body>
 </html>
