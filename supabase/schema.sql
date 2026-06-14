@@ -478,7 +478,7 @@ VALUES ('LAUNCH25', 'percent', 25, 0, 100, true)
 ON CONFLICT (code) DO NOTHING;
 
 -- Set a user as super_admin (replace with your actual user UUID after registering)
--- UPDATE profiles SET role = 'super_admin' WHERE email = 'optimityfx.studio@gmail.com';
+-- UPDATE profiles SET role = 'super_admin' WHERE email = 'hello@optimityfx.com';
 
 -- ============================================================
 -- STORAGE BUCKET (run separately in Supabase Dashboard > Storage)

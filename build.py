@@ -115,7 +115,7 @@ FOOTER = """<footer class="footer">
       <div class="footer-brand">
         <h5>Get In Touch</h5>
         <ul class="foot-contact">
-          <li><a href="mailto:optimityfx.studio@gmail.com">optimityfx.studio@gmail.com</a></li>
+          <li><a href="mailto:hello@optimityfx.com">hello@optimityfx.com</a></li>
           <li><a href="tel:+917001202156">+91 70012 02156</a></li>
         </ul>
         <a href="contact.html" class="btn btn-accent btn-sm" style="margin-top:16px">Start a Project</a>
@@ -953,7 +953,7 @@ PAGES["contact.html"] = dict(
     <div class="card" style="margin-bottom:22px"><h3 style="margin-bottom:8px">Reach Us Directly</h3>
       <p style="margin-bottom:18px">Prefer email or a quick call? We're here.</p>
       <ul class="check-list" style="margin-top:0">
-        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg> <a href="mailto:optimityfx.studio@gmail.com" style="color:inherit">optimityfx.studio@gmail.com</a></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg> <a href="mailto:hello@optimityfx.com" style="color:inherit">hello@optimityfx.com</a></li>
         <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.6A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.5 2.8.6a2 2 0 0 1 1.7 2z"/></svg> <a href="tel:+917001202156" style="color:inherit">+91 70012 02156</a></li>
         <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Remote-first · Serving 10+ countries</li>
       </ul>
@@ -1032,7 +1032,7 @@ def legal(slug, title, desc, h1, intro, sections):
   <p>{intro}</p>
   {secs}
   <h2>Contact</h2>
-  <p>Questions about this document? Email us at <a href="mailto:optimityfx.studio@gmail.com" style="color:var(--accent)">optimityfx.studio@gmail.com</a>.</p>
+  <p>Questions about this document? Email us at <a href="mailto:hello@optimityfx.com" style="color:var(--accent)">hello@optimityfx.com</a>.</p>
 </div></div></section>
 """)
 
@@ -1067,7 +1067,7 @@ PAGES["privacy.html"] = legal("privacy.html",
   ("Third-Party Services","<p>We use trusted third parties for payments, email, hosting and analytics. These providers process data only as needed to deliver their services and under their own privacy commitments. We do not sell your personal data.</p>"),
   ("Data Retention","<p>We retain personal data only as long as necessary to provide services, comply with legal obligations and resolve disputes.</p>"),
   ("Data Security","<p>We implement reasonable technical and organizational measures to protect your data. However, no method of transmission over the internet is 100% secure.</p>"),
-  ("Your Rights","<p>Depending on your location, you may have the right to access, correct, delete or restrict processing of your personal data, and to withdraw consent. To exercise these rights, contact us at optimityfx.studio@gmail.com.</p>"),
+  ("Your Rights","<p>Depending on your location, you may have the right to access, correct, delete or restrict processing of your personal data, and to withdraw consent. To exercise these rights, contact us at hello@optimityfx.com.</p>"),
   ("Children's Privacy","<p>Our services are not directed to children under 13 (or the minimum age in your jurisdiction). We do not knowingly collect data from children.</p>"),
   ("International Users","<p>As we serve clients across 10+ countries, your data may be processed outside your country of residence. We take steps to ensure appropriate safeguards are in place.</p>"),
   ("Changes to This Policy","<p>We may update this Privacy Policy periodically. The 'Last updated' date reflects the latest revision.</p>"),

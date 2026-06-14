@@ -210,7 +210,7 @@
         }
       } catch (err) {
         btn.textContent = orig;
-        if (status) { status.textContent = 'Something went wrong — please email us directly at optimityfx.studio@gmail.com.'; status.style.color = 'var(--red)'; }
+        if (status) { status.textContent = 'Something went wrong — please email us directly at hello@optimityfx.com.'; status.style.color = 'var(--red)'; }
       } finally {
         setTimeout(() => { btn.textContent = orig; btn.disabled = false; }, 2600);
       }
