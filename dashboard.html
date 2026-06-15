@@ -13,7 +13,7 @@
 <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon-180x180.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="css/style.css?v=20260608">
+<link rel="stylesheet" href="css/style.css?v=20260615b">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-79HL7QZ8GE"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-79HL7QZ8GE');</script>
 </head>
@@ -86,118 +86,186 @@
         </div>
       </div>
 
-      <!-- Tabs -->
-      <div class="dash-tabs">
-        <button class="dash-tab active" data-tab="purchases">Purchases</button>
-        <button class="dash-tab" data-tab="courses">My Courses</button>
-        <button class="dash-tab" data-tab="rewards">Daily Rewards</button>
-        <button class="dash-tab" data-tab="certificates">Certificates</button>
-        <button class="dash-tab" data-tab="profile">Profile</button>
-      </div>
     </div>
   </section>
 
-  <!-- Tab content -->
+  <!-- Account hub -->
   <section class="section--tight" style="padding-top:0">
-    <div class="wrap">
+    <div class="wrap account-layout">
 
-      <!-- Purchases Tab -->
-      <div class="dash-panel active" id="panel-purchases">
-        <div id="purchases-loading">
-          <div class="empty-state">
-            <div class="es-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/></svg></div>
-            <h4>Loading purchases…</h4>
+      <!-- Sidebar -->
+      <aside class="account-nav" aria-label="Account sections">
+        <button class="dash-tab active" data-tab="overview"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg> Overview</button>
+        <button class="dash-tab" data-tab="orders"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6M9 16h6"/></svg> Orders</button>
+        <button class="dash-tab" data-tab="purchases"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18M16 10a4 4 0 0 1-8 0"/></svg> My Library</button>
+        <button class="dash-tab" data-tab="courses"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg> Learning</button>
+        <button class="dash-tab" data-tab="rewards"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Rewards</button>
+        <button class="dash-tab" data-tab="certificates"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg> Certificates</button>
+        <div class="account-nav-sep"></div>
+        <button class="dash-tab" data-tab="profile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg> Profile</button>
+        <button class="dash-tab" data-tab="payments"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg> Payment Methods</button>
+        <button class="dash-tab" data-tab="settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-2.82 1.17V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 8 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 14H4a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 6 8.6a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 11 4.6V4a2 2 0 1 1 4 0v.09c.36.14.7.36.97.65.27.29.49.63.63.97H21a2 2 0 1 1 0 4h-.09c-.36.14-.7.36-.97.65z"/></svg> Settings</button>
+      </aside>
+
+      <!-- Panels -->
+      <div class="account-main">
+
+      <!-- Overview -->
+      <div class="dash-panel active" id="panel-overview">
+        <div class="acc-card profile-completion" id="completion-card">
+          <div class="ring-wrap"><svg viewBox="0 0 80 80" class="ring"><circle cx="40" cy="40" r="34" class="ring-bg"/><circle cx="40" cy="40" r="34" class="ring-fg" id="ring-fg"/></svg><span class="ring-pct" id="ring-pct">0%</span></div>
+          <div class="completion-info">
+            <h3>Complete your profile</h3>
+            <p id="completion-text">Add a few details to get the most out of your account.</p>
+            <ul class="completion-todo" id="completion-todo"></ul>
           </div>
         </div>
+
+        <h3 class="acc-h">Recent activity</h3>
+        <div id="overview-activity">
+          <div class="empty-state" style="padding:30px 0"><h4>Nothing here yet</h4><p>Your orders and rewards will show up here.</p></div>
+        </div>
+      </div>
+
+      <!-- Orders -->
+      <div class="dash-panel" id="panel-orders">
+        <h3 class="acc-h">Order history</h3>
+        <div id="orders-loading"><div class="empty-state"><div class="es-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/></svg></div><h4>Loading orders…</h4></div></div>
+        <div id="orders-list" style="display:none"></div>
+        <div id="orders-empty" style="display:none">
+          <div class="empty-state"><div class="es-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/></svg></div><h4>No orders yet</h4><p>When you check out, your orders appear here.</p><a href="store.html" class="btn btn-accent btn-sm" style="margin-top:18px">Browse Store →</a></div>
+        </div>
+      </div>
+
+      <!-- My Library (purchases) -->
+      <div class="dash-panel" id="panel-purchases">
+        <h3 class="acc-h">Your downloads</h3>
+        <div id="purchases-loading"><div class="empty-state"><div class="es-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/></svg></div><h4>Loading…</h4></div></div>
         <div id="purchases-list" style="display:none"></div>
         <div id="purchases-empty" style="display:none">
-          <div class="empty-state">
-            <div class="es-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18M16 10a4 4 0 0 1-8 0"/></svg></div>
-            <h4>No purchases yet</h4>
-            <p>Explore our store for LUTs, presets, and courses.</p>
-            <a href="store.html" class="btn btn-accent btn-sm" style="margin-top:18px">Browse Store →</a>
-          </div>
+          <div class="empty-state"><div class="es-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18M16 10a4 4 0 0 1-8 0"/></svg></div><h4>No purchases yet</h4><p>Explore our store for LUTs, presets, and courses.</p><a href="store.html" class="btn btn-accent btn-sm" style="margin-top:18px">Browse Store →</a></div>
         </div>
       </div>
 
-      <!-- Courses Tab -->
+      <!-- Learning (courses) -->
       <div class="dash-panel" id="panel-courses">
-        <div id="courses-loading">
-          <div class="empty-state"><div class="es-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></div><h4>Loading courses…</h4></div>
-        </div>
+        <h3 class="acc-h">Your courses</h3>
+        <div id="courses-loading"><div class="empty-state"><div class="es-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></div><h4>Loading…</h4></div></div>
         <div id="courses-list" style="display:none"></div>
         <div id="courses-empty" style="display:none">
-          <div class="empty-state">
-            <div class="es-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/></svg></div>
-            <h4>No courses enrolled</h4>
-            <p>Explore our Academy to start learning.</p>
-            <a href="academy.html" class="btn btn-accent btn-sm" style="margin-top:18px">Explore Academy →</a>
-          </div>
+          <div class="empty-state"><div class="es-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/></svg></div><h4>No courses enrolled</h4><p>Explore our Academy to start learning.</p><a href="academy.html" class="btn btn-accent btn-sm" style="margin-top:18px">Explore Academy →</a></div>
         </div>
       </div>
 
-      <!-- Rewards Tab -->
+      <!-- Rewards -->
       <div class="dash-panel" id="panel-rewards">
-        <h3 style="color:var(--white); font-size:1.05rem; margin-bottom:8px">Login Streak</h3>
+        <h3 class="acc-h">Login streak</h3>
         <p style="font-size:.86rem; margin-bottom:20px">Log in daily to earn credits. 7-day streaks give bonus rewards!</p>
-
-        <div class="streak-display" id="streak-display">
-          <!-- Filled by JS -->
-        </div>
-
-        <h3 style="color:var(--white); font-size:1.05rem; margin:28px 0 14px">Recent Rewards</h3>
+        <div class="streak-display" id="streak-display"></div>
+        <h3 class="acc-h" style="margin-top:28px">Recent rewards</h3>
         <div id="reward-history"></div>
       </div>
 
-      <!-- Certificates Tab -->
+      <!-- Certificates -->
       <div class="dash-panel" id="panel-certificates">
-        <div id="certs-loading">
-          <div class="empty-state"><div class="es-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg></div><h4>Loading certificates…</h4></div>
-        </div>
+        <h3 class="acc-h">Certificates</h3>
+        <div id="certs-loading"><div class="empty-state"><div class="es-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg></div><h4>Loading…</h4></div></div>
         <div id="certs-list" style="display:none"></div>
         <div id="certs-empty" style="display:none">
-          <div class="empty-state">
-            <div class="es-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg></div>
-            <h4>No certificates yet</h4>
-            <p>Complete a course quiz to earn your certificate.</p>
+          <div class="empty-state"><div class="es-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg></div><h4>No certificates yet</h4><p>Complete a course quiz to earn your certificate.</p></div>
+        </div>
+      </div>
+
+      <!-- Profile -->
+      <div class="dash-panel" id="panel-profile">
+        <h3 class="acc-h">Edit profile</h3>
+        <div class="acc-card">
+          <form id="profile-form">
+            <div class="profile-avatar-row">
+              <div class="dash-avatar sm" id="prof-avatar-preview"><span id="prof-avatar-initials">?</span></div>
+              <div style="flex:1">
+                <label class="form-label">Profile photo URL</label>
+                <input class="form-input" type="url" id="prof-avatar" placeholder="https://… (optional)">
+                <span class="form-hint">Paste an image URL, or leave blank to use your initials.</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Full name</label>
+              <input class="form-input" type="text" id="prof-name" placeholder="Your full name">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Phone number</label>
+              <input class="form-input" type="tel" id="prof-phone" placeholder="+91 90000 00000" autocomplete="tel">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email</label>
+              <input class="form-input" type="email" id="prof-email" disabled style="opacity:.6">
+              <span class="form-hint">Change your email in Settings.</span>
+            </div>
+            <button type="submit" class="btn btn-accent" id="save-profile-btn">Save changes</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Payment Methods (deferred) -->
+      <div class="dash-panel" id="panel-payments">
+        <h3 class="acc-h">Payment methods</h3>
+        <div class="acc-card" style="text-align:center; padding:38px 24px">
+          <div class="es-icon" style="margin:0 auto 12px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg></div>
+          <h4 style="color:var(--white)">Cards are handled securely at checkout</h4>
+          <p style="max-width:420px;margin:8px auto 0">For your security, OptimityFX never stores card details. Our payment partner (Razorpay) saves and manages your cards during checkout — saved cards will appear here soon.</p>
+          <a href="store.html" class="btn btn-ghost btn-sm" style="margin-top:18px">Browse Store →</a>
+        </div>
+      </div>
+
+      <!-- Settings -->
+      <div class="dash-panel" id="panel-settings">
+        <h3 class="acc-h">Email address</h3>
+        <div class="acc-card">
+          <form id="change-email-form">
+            <div class="form-group">
+              <label class="form-label">New email</label>
+              <input class="form-input" type="email" id="settings-email" placeholder="you@example.com" autocomplete="email">
+              <span class="form-hint">We'll send a confirmation link to the new address.</span>
+            </div>
+            <button type="submit" class="btn btn-accent" id="change-email-btn">Update email</button>
+            <span class="inline-msg" id="email-msg"></span>
+          </form>
+        </div>
+
+        <h3 class="acc-h" style="margin-top:28px">Password</h3>
+        <div class="acc-card">
+          <form id="change-pwd-form">
+            <div class="form-group">
+              <label class="form-label">New password</label>
+              <input class="form-input" type="password" id="new-password" placeholder="Min. 8 characters" minlength="8" autocomplete="new-password">
+            </div>
+            <button type="submit" class="btn btn-ghost" id="change-pwd-btn">Update password</button>
+            <span class="inline-msg" id="pwd-msg"></span>
+          </form>
+        </div>
+
+        <h3 class="acc-h" style="margin-top:28px">Notifications</h3>
+        <div class="acc-card">
+          <label class="toggle-row"><span>Product updates &amp; new drops</span><input type="checkbox" id="notif-marketing" checked></label>
+          <label class="toggle-row"><span>Order &amp; download receipts</span><input type="checkbox" id="notif-orders" checked></label>
+          <span class="form-hint">Saved on this device for now.</span>
+        </div>
+
+        <h3 class="acc-h" style="margin-top:28px; color:var(--red)">Danger zone</h3>
+        <div class="acc-card" style="border-color:rgba(255,59,87,.25)">
+          <div class="danger-row">
+            <div><strong style="color:var(--white)">Sign out</strong><p style="margin:2px 0 0">End your session on this device.</p></div>
+            <button class="btn btn-ghost btn-sm" id="logout-btn">Sign out</button>
+          </div>
+          <div class="danger-row" style="border-top:1px solid var(--line-soft);margin-top:14px;padding-top:14px">
+            <div><strong style="color:var(--red)">Delete account</strong><p style="margin:2px 0 0">Permanently remove your account and data. This can't be undone.</p></div>
+            <button class="btn btn-ghost btn-sm" id="delete-account-btn" style="border-color:rgba(255,59,87,.3);color:var(--red)">Delete</button>
           </div>
         </div>
       </div>
 
-      <!-- Profile Tab -->
-      <div class="dash-panel" id="panel-profile">
-        <div class="profile-section">
-          <h3>Account Details</h3>
-          <form id="profile-form">
-            <div class="form-group">
-              <label class="form-label">Full Name</label>
-              <input class="form-input" type="text" id="prof-name" placeholder="Your full name">
-            </div>
-            <div class="form-group">
-              <label class="form-label">Email</label>
-              <input class="form-input" type="email" id="prof-email" placeholder="Email" disabled style="opacity:.6">
-              <span class="form-hint">Email cannot be changed here.</span>
-            </div>
-            <button type="submit" class="btn btn-accent" id="save-profile-btn">Save Changes</button>
-          </form>
-
-          <h3 style="margin-top:36px">Change Password</h3>
-          <form id="change-pwd-form">
-            <div class="form-group">
-              <label class="form-label">New Password</label>
-              <input class="form-input" type="password" id="new-password" placeholder="Min. 8 characters" minlength="8" autocomplete="new-password">
-            </div>
-            <button type="submit" class="btn btn-ghost" id="change-pwd-btn">Update Password</button>
-          </form>
-
-          <h3 style="margin-top:36px; color:var(--red)">Danger Zone</h3>
-          <button class="btn btn-ghost" id="logout-btn" style="border-color:rgba(255,59,87,.3); color:var(--red)">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="width:15px;height:15px"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
-            Sign Out
-          </button>
-        </div>
-      </div>
-
+      </div><!-- /account-main -->
     </div><!-- /wrap -->
   </section>
 </main>
@@ -239,21 +307,50 @@ document.addEventListener('DOMContentLoaded', async () => {
   const name  = profile?.full_name || session.user.user_metadata?.full_name || session.user.email?.split('@')[0] || 'User';
   const email = profile?.email     || session.user.email || '';
 
+  const phone = profile?.phone || '';
   document.getElementById('dash-name').textContent  = name;
   document.getElementById('dash-email').textContent = email;
   document.getElementById('wallet-val').textContent  = profile?.wallet_credits || 0;
   document.getElementById('stat-streak').textContent = profile?.login_streak   || 0;
   document.getElementById('prof-name').value  = name;
   document.getElementById('prof-email').value = email;
+  document.getElementById('prof-phone').value = phone;
+  document.getElementById('prof-avatar').value = profile?.avatar_url || '';
+  document.getElementById('settings-email').placeholder = email;
 
   // Avatar initials
   const initials = name.split(' ').filter(Boolean).map(w => w[0]).join('').slice(0,2).toUpperCase() || '?';
   document.getElementById('avatar-initials').textContent = initials;
+  document.getElementById('prof-avatar-initials').textContent = initials;
   if (profile?.avatar_url) {
     const img = document.getElementById('avatar-img');
     img.src = profile.avatar_url; img.style.display = '';
     document.getElementById('avatar-initials').style.display = 'none';
   }
+
+  /* ---- Overview: profile completion + activity ---- */
+  function renderCompletion() {
+    const checks = [
+      { ok: !!(profile?.full_name), label: 'Add your full name' },
+      { ok: !!(profile?.phone),      label: 'Add a phone number' },
+      { ok: !!(profile?.avatar_url), label: 'Add a profile photo' },
+      { ok: true,                    label: 'Email verified' },
+    ];
+    const done = checks.filter(c => c.ok).length;
+    const pct  = Math.round((done / checks.length) * 100);
+    const ring = document.getElementById('ring-fg');
+    const circ = 2 * Math.PI * 34;
+    ring.style.strokeDasharray = circ;
+    ring.style.strokeDashoffset = circ * (1 - pct / 100);
+    document.getElementById('ring-pct').textContent = pct + '%';
+    document.getElementById('completion-text').textContent =
+      pct === 100 ? "You're all set — nice and complete." : 'Add a few details to get the most out of your account.';
+    document.getElementById('completion-todo').innerHTML = checks.map(c =>
+      `<li class="${c.ok ? 'done' : ''}">${c.ok
+        ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg>'
+        : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/></svg>'}${c.label}</li>`).join('');
+  }
+  renderCompletion();
 
   // Show sign-out buttons
   document.getElementById('signout-btn').style.display = '';
@@ -311,12 +408,15 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Get progress for each enrollment
     const html = await Promise.all(list.map(async (e) => {
-      const { data: progress } = await sb.from('lesson_progress')
-        .select('id', { count: 'exact' })
-        .eq('user_id', uid);
-      const done    = progress?.length || 0;
-      const total   = 1; // placeholder — real count comes from lesson join
-      const pct     = total ? Math.round((done / total) * 100) : 0;
+      // Real per-course progress: completed lessons / total lessons in THIS course
+      const { count: total } = await sb.from('lessons')
+        .select('id', { count: 'exact', head: true })
+        .eq('course_id', e.course_id);
+      const { count: done } = await sb.from('lesson_progress')
+        .select('id, lesson:lessons!inner(course_id)', { count: 'exact', head: true })
+        .eq('user_id', uid)
+        .eq('lesson.course_id', e.course_id);
+      const pct = total ? Math.round(((done || 0) / total) * 100) : 0;
       const course  = e.course || {};
       return `<div class="course-prog-card">
         ${course.thumbnail_url ? `<img class="course-prog-thumb" src="${course.thumbnail_url}" alt="${course.title}">` : `<div class="course-prog-thumb" style="display:grid;place-items:center;color:var(--faint)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="24" height="24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/></svg></div>`}
@@ -414,13 +514,30 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.getElementById('profile-form').addEventListener('submit', async (e) => {
     e.preventDefault();
     const btn  = document.getElementById('save-profile-btn');
-    const name = document.getElementById('prof-name').value.trim();
-    if (!name) return;
+    const newName   = document.getElementById('prof-name').value.trim();
+    const newPhone  = document.getElementById('prof-phone').value.trim();
+    const newAvatar = document.getElementById('prof-avatar').value.trim();
+    if (!newName) return;
     btn.textContent = 'Saving…'; btn.disabled = true;
-    await OFXAuth.sb.from('profiles').update({ full_name: name }).eq('id', uid);
-    await OFXAuth.sb.auth.updateUser({ data: { full_name: name } });
+    const { error } = await OFXAuth.sb.from('profiles')
+      .update({ full_name: newName, phone: newPhone || null, avatar_url: newAvatar || null })
+      .eq('id', uid);
+    await OFXAuth.sb.auth.updateUser({ data: { full_name: newName } });
+    if (error) { btn.textContent = 'Error — retry'; btn.disabled = false; return; }
+    profile = { ...(profile || {}), full_name: newName, phone: newPhone, avatar_url: newAvatar };
+    document.getElementById('dash-name').textContent = newName;
+    const ini = newName.split(' ').filter(Boolean).map(w => w[0]).join('').slice(0,2).toUpperCase() || '?';
+    document.getElementById('avatar-initials').textContent = ini;
+    document.getElementById('prof-avatar-initials').textContent = ini;
+    if (newAvatar) {
+      const heroImg = document.getElementById('avatar-img');
+      heroImg.src = newAvatar; heroImg.style.display = '';
+      document.getElementById('avatar-initials').style.display = 'none';
+      document.getElementById('prof-avatar-preview').innerHTML = `<img src="${newAvatar}" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:inherit">`;
+    }
+    renderCompletion();
     btn.textContent = '✓ Saved';
-    setTimeout(() => { btn.textContent = 'Save Changes'; btn.disabled = false; }, 2000);
+    setTimeout(() => { btn.textContent = 'Save changes'; btn.disabled = false; }, 2000);
   });
 
   /* ---- Change password ---- */
@@ -435,6 +552,86 @@ document.addEventListener('DOMContentLoaded', async () => {
     setTimeout(() => { btn.textContent = 'Update Password'; btn.disabled = false; }, 2500);
   });
 
+  /* ---- Load orders + recent activity ---- */
+  async function loadOrders() {
+    const { data } = await sb.from('orders')
+      .select('*, order_items(price, product:products(name))')
+      .eq('user_id', uid)
+      .order('created_at', { ascending: false });
+
+    document.getElementById('orders-loading').style.display = 'none';
+    const list = data || [];
+    if (!list.length) { document.getElementById('orders-empty').style.display = ''; return; }
+
+    const statusBadge = s => {
+      const map = { paid:'ok', pending:'warn', failed:'err', refunded:'muted' };
+      return `<span class="ord-status ${map[s] || 'muted'}">${s}</span>`;
+    };
+    const html = list.map(o => {
+      const d = new Date(o.created_at).toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' });
+      const items = (o.order_items || []).map(i => i.product?.name || 'Item').join(', ') || '—';
+      const shortId = '#' + o.id.slice(0,8).toUpperCase();
+      return `<div class="order-card">
+        <div class="order-top">
+          <button class="order-id" title="Copy order ID" data-copy="${o.id}">${shortId}</button>
+          ${statusBadge(o.status)}
+          <span class="order-date">${d}</span>
+        </div>
+        <div class="order-items">${items}</div>
+        <div class="order-foot">
+          <span class="order-total">₹${Number(o.total).toLocaleString('en-IN')}</span>
+          ${o.razorpay_payment_id ? `<span class="order-pay">Payment: ${o.razorpay_payment_id}</span>` : ''}
+        </div>
+      </div>`;
+    }).join('');
+    document.getElementById('orders-list').innerHTML = html;
+    document.getElementById('orders-list').style.display = '';
+    document.querySelectorAll('.order-id[data-copy]').forEach(b =>
+      b.addEventListener('click', () => { navigator.clipboard?.writeText(b.dataset.copy); OFXAuth.toast('Order ID copied', 'success', 1800); }));
+
+    // Feed the overview activity panel with the latest orders
+    const recent = list.slice(0, 4).map(o => {
+      const d = new Date(o.created_at).toLocaleDateString('en-IN', { day:'numeric', month:'short' });
+      return `<div class="reward-row"><div class="rr-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/></svg></div><div class="rr-info"><span>Order #${o.id.slice(0,8).toUpperCase()} — ${o.status}</span><small>${d}</small></div><span class="rr-credits">₹${Number(o.total).toLocaleString('en-IN')}</span></div>`;
+    }).join('');
+    if (recent) document.getElementById('overview-activity').innerHTML = recent;
+  }
+
+  /* ---- Settings: change email ---- */
+  document.getElementById('change-email-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const msg = document.getElementById('email-msg');
+    const val = document.getElementById('settings-email').value.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)) { msg.textContent = 'Enter a valid email.'; msg.className = 'inline-msg err'; return; }
+    const { error } = await OFXAuth.sb.auth.updateUser({ email: val });
+    msg.textContent = error ? error.message : '✓ Confirmation sent — check both inboxes.';
+    msg.className = 'inline-msg ' + (error ? 'err' : 'ok');
+  });
+
+  /* ---- Settings: notification prefs (local) ---- */
+  ['notif-marketing','notif-orders'].forEach(id => {
+    const el = document.getElementById(id);
+    const saved = localStorage.getItem('ofx_' + id);
+    if (saved !== null) el.checked = saved === '1';
+    el.addEventListener('change', () => localStorage.setItem('ofx_' + id, el.checked ? '1' : '0'));
+  });
+
+  /* ---- Settings: delete account ---- */
+  document.getElementById('delete-account-btn').addEventListener('click', async () => {
+    if (!confirm('Delete your account permanently? This cannot be undone.')) return;
+    // No client-side hard delete (needs admin); flag the profile and sign out.
+    await OFXAuth.sb.from('profiles').update({ role: 'customer', full_name: '[deletion requested]' }).eq('id', uid);
+    OFXAuth.toast('Account deletion requested. Our team will process it shortly.', 'info', 5000);
+    setTimeout(() => OFXAuth.signOut(), 2500);
+  });
+
+  /* ---- Live avatar preview ---- */
+  document.getElementById('prof-avatar').addEventListener('input', (e) => {
+    const v = e.target.value.trim();
+    const prev = document.getElementById('prof-avatar-preview');
+    if (v) prev.innerHTML = `<img src="${v}" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:inherit" onerror="this.remove()">`;
+  });
+
   /* ---- Sign out ---- */
   const handleSignOut = () => OFXAuth.signOut();
   document.getElementById('signout-btn').addEventListener('click', handleSignOut);
@@ -442,6 +639,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.getElementById('logout-btn').addEventListener('click', handleSignOut);
 
   /* ---- Load all data ---- */
+  loadOrders();
   loadPurchases();
   loadCourses();
   loadRewards();
