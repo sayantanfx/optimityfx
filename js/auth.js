@@ -189,10 +189,54 @@
   /* ================================================================
      INIT
   ================================================================ */
+  /* Inject a cart icon + badge into the nav (works from any directory depth) */
+  function ensureCartBtn() {
+    const depth = (window.location.pathname.match(/\//g) || []).length - 1;
+    const prefix = depth > 0 ? '../'.repeat(depth) : '';
+    document.querySelectorAll('.nav-cta').forEach(navCta => {
+      if (navCta.querySelector('.nav-cart-btn')) return;
+      const a = document.createElement('a');
+      a.className = 'nav-cart-btn';
+      a.href = prefix + 'checkout.html';
+      a.setAttribute('aria-label', 'View cart');
+      a.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><span class="cart-badge" style="display:none">0</span>';
+      navCta.insertBefore(a, navCta.firstChild);
+    });
+  }
+
+  /* Delegated "Add to cart" handler — any element with class .add-to-cart and
+     data-id/data-name/data-price (optional data-sale, data-cat, data-img, data-type) */
+  function onAddToCart(e) {
+    const btn = e.target.closest('.add-to-cart');
+    if (!btn) return;
+    e.preventDefault();
+    const d = btn.dataset;
+    if (!d.id) return;
+    const already = Cart.get().some(p => p.id === d.id);
+    if (already) { toast('Already in your cart', 'info'); return; }
+    Cart.add({
+      id:            d.id,
+      name:          d.name || 'Item',
+      price:         parseFloat(d.price) || 0,
+      sale_price:    d.sale ? parseFloat(d.sale) : null,
+      category:      d.cat || d.type || '',
+      thumbnail_url: d.img || '',
+      type:          d.type || 'product',
+    });
+    toast(`Added “${d.name}” to cart`, 'success');
+    const label = btn.querySelector('.atc-label') || btn;
+    const orig = label.textContent;
+    label.textContent = 'Added ✓';
+    btn.classList.add('in-cart');
+    setTimeout(() => { label.textContent = orig; btn.classList.remove('in-cart'); }, 1600);
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
     updateNav();
+    ensureCartBtn();
     Cart.updateBadge();
   });
+  document.addEventListener('click', onAddToCart);
 
   /* ================================================================
      PUBLIC API  —  window.OFXAuth

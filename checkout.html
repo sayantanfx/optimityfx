@@ -13,7 +13,7 @@
 <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon-180x180.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="css/style.css?v=20260608">
+<link rel="stylesheet" href="css/style.css?v=20260615a">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-79HL7QZ8GE"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-79HL7QZ8GE');</script>
 </head>
@@ -128,12 +128,12 @@
 
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.0/dist/umd/supabase.min.js"></script>
-<script src="js/config.js?v=20260608"></script>
-<script src="js/auth.js?v=20260611"></script>
-<script src="js/main.js?v=20260608"></script>
+<script src="js/config.js?v=20260615a"></script>
+<script src="js/auth.js?v=20260615a"></script>
+<script src="js/main.js?v=20260615a"></script>
 <script>
 document.addEventListener('DOMContentLoaded', async () => {
-  const session = await OFXAuth.requireAuth('checkout.html');
+  const session = await OFXAuth.requireAuth('login.html?next=checkout.html');
   if (!session) return;
 
   const sb    = OFXAuth.sb;
