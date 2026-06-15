@@ -313,11 +313,17 @@
       return { data, error };
     },
 
-    async signInWithGoogle() {
+    async signInWithGoogle(next) {
       if (!sb) return;
+      // Return the user where they started (e.g. checkout.html) if a safe
+      // same-site `next` is provided; otherwise land on the dashboard.
+      let dest = OFX.siteUrl + '/dashboard.html';
+      if (next && !/^https?:/i.test(next) && !next.startsWith('//')) {
+        dest = OFX.siteUrl + '/' + next.replace(/^\/+/, '');
+      }
       return sb.auth.signInWithOAuth({
         provider: 'google',
-        options: { redirectTo: OFX.siteUrl + '/dashboard.html' },
+        options: { redirectTo: dest },
       });
     },
 
