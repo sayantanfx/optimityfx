@@ -1,11 +1,11 @@
 ---
-title: Why "AI Slop" Is Actually Good News for Real Editors
+title: Why “AI Slop” Is Actually Good News for Real Editors
 slug: ai-slop-good-news-for-editors
 category: AI Tools
 crumb: AI &amp; Craft
 filter: ai
 excerpt: The internet is drowning in cheap AI video. Here's why that makes genuinely crafted, cinematic work more valuable — not less.
-meta_desc: The internet is full of cheap "AI slop" video. Here's why that makes genuinely crafted, cinematic editing more valuable than ever — and how brands can tell the difference.
+meta_desc: The internet is full of cheap “AI slop” video. Here's why that makes genuinely crafted, cinematic editing more valuable than ever — and how brands can tell the difference.
 keywords: AI video editing, cinematic AI, AI slop, professional video editing, AI music video
 date: Jun 9, 2026
 iso: 2026-06-09

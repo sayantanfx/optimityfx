@@ -297,19 +297,26 @@ PAGES["portfolio.html"] = dict(
 # ---------- ABOUT + TEAM ----------
 _LI = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 1 0 3.5a2.5 2.5 0 0 1 4.98 0zM.5 8h4V24h-4zM8 8h3.8v2.2h.06c.53-1 1.83-2.2 3.77-2.2 4.03 0 4.77 2.65 4.77 6.1V24h-4v-7.1c0-1.7-.03-3.9-2.37-3.9-2.38 0-2.74 1.85-2.74 3.77V24H8z"/></svg>'
 _IG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>'
-def member(name, role, bio, cert=None, li=None):
+def member(name, role, bio, cert=None, li=None, avatar=False, social=True):
     cert_html = ''
     if cert:
         cert_html = (f'<div class="cert"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">'
                      f'<path d="M12 2 4 6v6c0 5 3.4 8.5 8 10 4.6-1.5 8-5 8-10V6z"/><path d="m9 12 2 2 4-4"/></svg> {cert}</div>')
     slug = name.split()[0].lower()
-    # try the real photo first; if the file isn't there yet, fall back to the avatar
-    photo = (f'<img src="assets/team/{slug}.jpg" alt="{name} — {role}" loading="lazy" '
-             f'onerror="this.onerror=null;this.src=\'{AVATAR(name)}\'">')
-    # always show the LinkedIn icon; if no URL yet, leave it as a placeholder (#)
-    href = li if li else "#"
-    tgt = ' target="_blank" rel="noopener"' if li else ''
-    socials = f'<div class="socials"><a href="{href}"{tgt} aria-label="{name} on LinkedIn">{_LI}</a></div>'
+    if avatar:
+        # use the brand-styled illustrated avatar only — no real photo
+        photo = f'<img src="{AVATAR(name)}" alt="{name} — {role}" loading="lazy">'
+    else:
+        # try the real photo first; if the file isn't there yet, fall back to the avatar
+        photo = (f'<img src="assets/team/{slug}.jpg" alt="{name} — {role}" loading="lazy" '
+                 f'onerror="this.onerror=null;this.src=\'{AVATAR(name)}\'">')
+    if social:
+        # always show the LinkedIn icon; if no URL yet, leave it as a placeholder (#)
+        href = li if li else "#"
+        tgt = ' target="_blank" rel="noopener"' if li else ''
+        socials = f'<div class="socials"><a href="{href}"{tgt} aria-label="{name} on LinkedIn">{_LI}</a></div>'
+    else:
+        socials = ''
     return f"""<div class="member reveal">
       <div class="photo">{photo}</div>
       <h4>{name}</h4><div class="role">{role}</div><p class="bio">{bio}</p>
@@ -326,8 +333,8 @@ team = [
  member("Sayantan Adhikary","Founder","Sets the creative vision and signs off on every final grade.","Blackmagic Design Certified Colorist", li="https://www.linkedin.com/in/searchmydetails/"),
  member("Sagnik Adhikary","Co-Founder &middot; Investor","Backs the studio's growth and long-term vision.", li="https://www.linkedin.com/in/sagnik-adhikary-232258246/"),
  member("Ashish Kumar Jain","Co-Founder &middot; Social Media & Business Expansion","Drives social media, brand reach and business partnerships.", li="https://www.linkedin.com/in/c2ashish/"),
- member("Praloy Maity","Marketing, Data & Business Mgmt","Turns data into smart marketing and growth decisions.", li="https://www.linkedin.com/in/praloy-corporate/"),
- member("Bikram Saha","Marketing, Data & Business Mgmt","Drives campaigns, analytics and day-to-day operations.", li="https://www.linkedin.com/in/bikccu/"),
+ member("Praloy M","Advisor — Marketing & Growth","Advises on data-driven marketing and growth strategy.", avatar=True, social=False),
+ member("Bikram S","Advisor — Strategy & Operations","Advises on campaign strategy and operational planning.", avatar=True, social=False),
  member("Biswajit Sena","Sr. Creative Media Designer","Crafts the visuals, key art and brand-defining design."),
  open_role("AI Integrator, Automation Expert"),
  open_role("Open Role"),
