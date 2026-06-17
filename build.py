@@ -71,7 +71,7 @@ SERVICES_DROP = '<div class="drop">\n' + "\n".join(_drop_item(*s) for s in SERVI
 
 def nav(active):
     items = [("services.html","Services"),("portfolio.html","Work"),("academy.html","Academy"),
-             ("store.html","Store"),("b2b.html","B2B"),("blog.html","Blog"),("about.html","About")]
+             ("store.html","Store"),("blog.html","Blog"),("about.html","About")]
     home_cls = ' class="nav-home active"' if active=="index.html" else ' class="nav-home"'
     home_icon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5 12 3l9 6.5V20a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1z"/><path d="M9 21V12h6v9"/></svg>'
     home_li = f'<li><a href="index.html" aria-label="Home"{home_cls}>{home_icon}</a></li>'
@@ -110,7 +110,7 @@ FOOTER = """<footer class="footer">
         </div>
       </div>
       <div><h5>Services</h5><ul><li><a href="service-editing.html">Video Editing</a></li><li><a href="service-grading.html">Color Grading</a></li><li><a href="service-design.html">Graphic Design</a></li><li><a href="service-ai-music.html">AI Music Video</a></li><li><a href="service-ugc.html">AI UGC</a></li><li><a href="service-commercial.html">AI Product Commercial</a></li><li><a href="service-ai-tvc.html">AI TV Advertisement</a></li><li><a href="service-ai-influencer.html">AI Influencer</a></li><li><a href="service-ai-vfx.html">AI VFX</a></li></ul></div>
-      <div><h5>Explore</h5><ul><li><a href="portfolio.html">Portfolio</a></li><li><a href="academy.html">NextGen Academy</a></li><li><a href="store.html">Digital Store</a></li><li><a href="b2b.html">B2B Solutions</a></li><li><a href="blog.html">Blog</a></li></ul></div>
+      <div><h5>Explore</h5><ul><li><a href="portfolio.html">Portfolio</a></li><li><a href="academy.html">NextGen Academy</a></li><li><a href="store.html">Digital Store</a></li><li><a href="blog.html">Blog</a></li></ul></div>
       <div><h5>Company</h5><ul><li><a href="about.html">About Us</a></li><li><a href="about.html#team">Our Team</a></li><li><a href="contact.html">Contact</a></li><li><a href="privacy.html">Privacy Policy</a></li><li><a href="terms.html">Terms & Conditions</a></li></ul></div>
       <div class="footer-brand">
         <h5>Get In Touch</h5>
@@ -1523,7 +1523,7 @@ def write_sitemap():
     static = [
         ("", "weekly", "1.0"), ("services.html", "monthly", "0.9"),
         ("portfolio.html", "weekly", "0.9"), ("academy.html", "weekly", "0.8"),
-        ("store.html", "weekly", "0.8"), ("b2b.html", "monthly", "0.7"),
+        ("store.html", "weekly", "0.8"),
         ("about.html", "monthly", "0.7"), ("blog.html", "weekly", "0.8"),
         ("app.html", "monthly", "0.6"), ("contact.html", "monthly", "0.8"),
         ("terms.html", "yearly", "0.3"), ("privacy.html", "yearly", "0.3"),

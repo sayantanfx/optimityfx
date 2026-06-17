@@ -5,13 +5,14 @@
   <url><loc>https://optimityfx.com/portfolio.html</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
   <url><loc>https://optimityfx.com/academy.html</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://optimityfx.com/store.html</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://optimityfx.com/b2b.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://optimityfx.com/about.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://optimityfx.com/blog.html</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://optimityfx.com/app.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://optimityfx.com/contact.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://optimityfx.com/pricing.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://optimityfx.com/terms.html</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
   <url><loc>https://optimityfx.com/privacy.html</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://optimityfx.com/refund.html</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
   <url><loc>https://optimityfx.com/service-editing.html</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://optimityfx.com/service-grading.html</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://optimityfx.com/service-design.html</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
