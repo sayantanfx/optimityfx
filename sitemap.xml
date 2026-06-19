@@ -9,10 +9,8 @@
   <url><loc>https://optimityfx.com/blog.html</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://optimityfx.com/app.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://optimityfx.com/contact.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://optimityfx.com/pricing.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://optimityfx.com/terms.html</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
   <url><loc>https://optimityfx.com/privacy.html</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
-  <url><loc>https://optimityfx.com/refund.html</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
   <url><loc>https://optimityfx.com/service-editing.html</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://optimityfx.com/service-grading.html</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://optimityfx.com/service-design.html</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
@@ -22,6 +20,7 @@
   <url><loc>https://optimityfx.com/service-ai-tvc.html</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://optimityfx.com/service-ai-influencer.html</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://optimityfx.com/service-ai-vfx.html</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://optimityfx.com/blog-grok-imagine-video-1-5-ai-production-india-2026.html</loc><lastmod>2026-06-19</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://optimityfx.com/blog-ai-video-model-comparison-runway-kling-veo-2026.html</loc><lastmod>2026-06-11</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://optimityfx.com/blog-ai-slop-good-news-for-editors.html</loc><lastmod>2026-06-09</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://optimityfx.com/blog-davinci-resolve-21-ai-tools-cinefocus-intellisearch.html</loc><lastmod>2026-06-09</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
