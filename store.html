@@ -207,14 +207,16 @@
 <script src="js/auth.js?v=20260615b"></script>
 <script src="js/main.js?v=20260615a"></script>
 <script>
-/* Main domain is showcase only — purchases happen on digital.optimityfx.com */
+/* Main domain is showcase only — courses go to academy.optimityfx.com, products to digital.optimityfx.com */
 document.addEventListener('click', function (e) {
   var b = e.target.closest('.buy-redirect');
   if (!b) return;
   e.preventDefault();
   var id = b.getAttribute('data-id') || '';
-  var dest = b.getAttribute('data-type') === 'course' ? 'academy' : 'store';
-  window.location.href = 'https://digital.optimityfx.com/' + dest + '.html' + (id ? ('?p=' + encodeURIComponent(id)) : '');
+  var isCourse = b.getAttribute('data-type') === 'course';
+  var base = isCourse ? 'https://academy.optimityfx.com/' : 'https://digital.optimityfx.com/';
+  var dest = isCourse ? 'academy' : 'store';
+  window.location.href = base + dest + '.html' + (id ? ('?p=' + encodeURIComponent(id)) : '');
 });
 </script>
 </body>
