@@ -216,7 +216,7 @@ document.addEventListener('click', function (e) {
   var isCourse = b.getAttribute('data-type') === 'course';
   var base = isCourse ? 'https://academy.optimityfx.com/' : 'https://digital.optimityfx.com/';
   var dest = isCourse ? 'academy' : 'store';
-  window.open(base + dest + '.html' + (id ? ('?p=' + encodeURIComponent(id)) : ''), '_blank');
+  window.location.href = base + dest + '.html' + (id ? ('?p=' + encodeURIComponent(id)) : '');
 });
 </script>
 </body>
