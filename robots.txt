@@ -1,5 +1,7 @@
 User-agent: *
 Allow: /
 Disallow: /build.py
+Disallow: /_hub/
+Disallow: /team/
 
 Sitemap: https://optimityfx.com/sitemap.xml

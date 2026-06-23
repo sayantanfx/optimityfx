@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Internal Hub — OptimityFX</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32x32.png">
+<link rel="shortcut icon" href="../assets/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="../css/style.css?v=20260624">
+<style>
+  .hub-head{padding:64px 0 8px}
+  .hub-group{margin-top:40px}
+  .hub-group > h2{font-size:1.1rem;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);margin-bottom:16px;display:flex;align-items:center;gap:12px}
+  .hub-group > h2::after{content:"";flex:1;height:1px;background:var(--line)}
+  .hub-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+  .hub-card{display:block;background:linear-gradient(180deg,var(--panel),var(--bg-2));border:1px solid var(--line);
+    border-radius:var(--radius-sm);padding:22px 22px;transition:border-color .25s var(--ease),transform .25s var(--ease)}
+  .hub-card:hover{border-color:var(--accent);transform:translateY(-3px)}
+  .hub-card h3{font-size:1.05rem;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+  .hub-card p{font-size:.9rem}
+  .hub-card .tag{font-size:.66rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:3px 9px;border-radius:50px;margin-left:auto}
+  .tag.share{background:rgba(0,212,255,.12);color:var(--accent)}
+  .tag.internal{background:rgba(124,123,255,.14);color:#9b86ff}
+  .tag.draft{background:rgba(255,138,61,.14);color:#ff8a3d}
+  .hub-note{margin-top:48px;padding:18px 20px;border:1px dashed var(--line);border-radius:var(--radius-sm);color:var(--dim);font-size:.86rem}
+</style>
+</head>
+<body>
+
+<div class="wrap hub-head">
+  <span class="eyebrow">Internal · not public</span>
+  <h1 class="h-sec spectrum-text">OptimityFX Hub</h1>
+  <p class="lead">Central directory for the team — client share links, internal guides and working assets. This page is <strong>noindex</strong> and not linked anywhere on the public site.</p>
+</div>
+
+<div class="wrap" style="padding-bottom:80px">
+
+  <!-- CLIENT SHARES -->
+  <section class="hub-group">
+    <h2>Client Shares</h2>
+    <div class="hub-grid">
+      <a class="hub-card" href="clients/sample-client.html">
+        <h3>Sample Client <span class="tag share">Share</span></h3>
+        <p>Proposal &amp; deliverables page you can send directly to a client.</p>
+      </a>
+      <a class="hub-card" href="../ai-ads.html">
+        <h3>AI Commercial Ads <span class="tag share">Share</span></h3>
+        <p>The cinematic AI ads landing page — pricing &amp; process for prospects.</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- TEAM INSTRUCTIONS -->
+  <section class="hub-group">
+    <h2>Team Instructions</h2>
+    <div class="hub-grid">
+      <a class="hub-card" href="guides/sample-guide.html">
+        <h3>Delivery SOP <span class="tag internal">Internal</span></h3>
+        <p>Step-by-step process for taking a project from brief to final export.</p>
+      </a>
+      <a class="hub-card" href="../team/index.html">
+        <h3>Team Portal <span class="tag internal">Internal</span></h3>
+        <p>Projects, tasks, time tracker &amp; analytics dashboard.</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- BRAND & ASSETS -->
+  <section class="hub-group">
+    <h2>Brand &amp; Assets</h2>
+    <div class="hub-grid">
+      <a class="hub-card" href="../portfolio.html">
+        <h3>Portfolio <span class="tag share">Share</span></h3>
+        <p>Public work showcase for sending to leads.</p>
+      </a>
+      <a class="hub-card" href="../index.html">
+        <h3>Main Website <span class="tag share">Share</span></h3>
+        <p>optimityfx.com homepage.</p>
+      </a>
+    </div>
+  </section>
+
+  <div class="hub-note">
+    <strong>How to use:</strong> Add a new card above and create the matching page under
+    <code>_hub/clients/</code> (client-facing) or <code>_hub/guides/</code> (internal).
+    Every page here carries <code>noindex,nofollow</code> and the path is disallowed in <code>robots.txt</code>,
+    so search engines won't list it — but anyone with the link can open it. Don't put secrets here.
+  </div>
+
+</div>
+
+</body>
+</html>
