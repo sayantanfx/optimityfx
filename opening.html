@@ -4,13 +4,21 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>OptimityFX — Editor Screening</title>
-<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#07090C">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="assets/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/favicon-192x192.png">
+<link rel="shortcut icon" href="assets/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/favicon-180x180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 :root{
   --bg:#07090c; --panel:#0b0f16; --panel2:#0f141e; --line:#1a2336;
   --ink:#eef3fb; --muted:#7a879f; --cyan:#22e3d6; --cyan2:#0aa79c;
   --red:#ff3b5c; --orange:#ff9f43; --green:#22e08f; --glow:rgba(34,227,214,.35);
-  --display:'Chakra Petch',sans-serif; --body:'Inter',sans-serif; --mono:'JetBrains Mono',monospace;
+  --display:'Inter',system-ui,sans-serif; --body:'Inter',system-ui,sans-serif; --mono:'Courier New',monospace;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
@@ -26,7 +34,10 @@ a{color:var(--cyan)}
 /* topbar */
 .topbar{position:sticky;top:0;z-index:50;background:rgba(7,9,12,.86);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
 .topbar .wrap{display:flex;align-items:center;justify-content:space-between;height:62px;gap:12px}
-.brand{font-family:var(--display);font-weight:700;letter-spacing:.5px;font-size:18px;display:flex;align-items:center;gap:9px;cursor:pointer;user-select:none}
+.brand{display:inline-flex;align-items:center;cursor:pointer;user-select:none}
+.brand img{height:38px;width:auto;display:block;transition:opacity .25s}
+.brand:hover img{opacity:.85}
+@media(max-width:560px){.brand img{height:32px}}
 .brand .dot{width:9px;height:9px;border-radius:2px;background:var(--cyan);box-shadow:0 0 14px var(--cyan);transform:rotate(45deg);animation:blink 2.4s ease-in-out infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.35}}
 .brand small{display:block;font-family:var(--mono);font-size:9px;color:var(--cyan2);letter-spacing:2px;font-weight:700}
@@ -47,7 +58,7 @@ a{color:var(--cyan)}
 .hero:after{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);opacity:.7;animation:scan 6s linear infinite}
 @keyframes scan{0%{transform:translateY(0)}100%{transform:translateY(380px)}}
 .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:3px;color:var(--cyan);text-transform:uppercase}
-.hero h1{font-family:var(--display);font-weight:700;font-size:clamp(28px,5vw,46px);line-height:1.04;margin:10px 0 12px}
+.hero h1{font-family:var(--display);font-weight:800;letter-spacing:-.5px;font-size:clamp(28px,5vw,46px);line-height:1.04;margin:10px 0 12px}
 .hero h1 b{color:var(--cyan);text-shadow:0 0 22px var(--glow)}
 .hero p{color:var(--muted);max-width:640px;font-size:15px}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
@@ -57,7 +68,7 @@ a{color:var(--cyan)}
 /* sections */
 .sec{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px;margin-top:18px;position:relative}
 .sec:hover{border-color:#243150}
-.sec h2{font-family:var(--display);font-size:18px;font-weight:600;display:flex;align-items:center;gap:10px;margin-bottom:4px}
+.sec h2{font-family:var(--display);font-size:18px;font-weight:700;letter-spacing:-.3px;display:flex;align-items:center;gap:10px;margin-bottom:4px}
 .sec h2 .n{font-family:var(--mono);font-size:12px;color:var(--cyan);border:1px solid var(--cyan2);border-radius:6px;padding:2px 7px}
 .sec .hint{color:var(--muted);font-size:13px;margin-bottom:16px}
 .req{color:var(--orange);font-family:var(--mono);font-size:10px;margin-left:6px}
@@ -151,7 +162,7 @@ textarea{resize:vertical;min-height:80px}
 <body>
 
 <div class="topbar"><div class="wrap">
-  <div class="brand" id="brand"><span class="dot"></span><div>OptimityFX<small data-t="tagline">YOUR VISION — GRADED</small></div></div>
+  <div class="brand" id="brand" title="OptimityFX"><img src="assets/logo-nav.webp" alt="OptimityFX — Your Vision, Graded" width="332" height="112"></div>
   <div class="lang">
     <select id="lang" onchange="setLang(this.value)" aria-label="Language">
       <option value="en">English</option>
