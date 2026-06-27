@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OptimityFX — Editor Screening</title>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#07090c; --panel:#0b0f16; --panel2:#0f141e; --line:#1a2336;
+  --ink:#eef3fb; --muted:#7a879f; --cyan:#22e3d6; --cyan2:#0aa79c;
+  --red:#ff3b5c; --orange:#ff9f43; --green:#22e08f; --glow:rgba(34,227,214,.35);
+  --display:'Chakra Petch',sans-serif; --body:'Inter',sans-serif; --mono:'JetBrains Mono',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:radial-gradient(1200px 760px at 82% -12%,#0a1a26 0,var(--bg) 56%);color:var(--ink);font-family:var(--body);line-height:1.55;padding:0 0 150px;overflow-x:hidden}
+.wrap{max-width:880px;margin:0 auto;padding:0 18px}
+a{color:var(--cyan)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s cubic-bezier(.2,.7,.2,1)}
+.rv.in{opacity:1;transform:none}
+
+/* topbar */
+.topbar{position:sticky;top:0;z-index:50;background:rgba(7,9,12,.86);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.topbar .wrap{display:flex;align-items:center;justify-content:space-between;height:62px;gap:12px}
+.brand{font-family:var(--display);font-weight:700;letter-spacing:.5px;font-size:18px;display:flex;align-items:center;gap:9px;cursor:pointer;user-select:none}
+.brand .dot{width:9px;height:9px;border-radius:2px;background:var(--cyan);box-shadow:0 0 14px var(--cyan);transform:rotate(45deg);animation:blink 2.4s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.35}}
+.brand small{display:block;font-family:var(--mono);font-size:9px;color:var(--cyan2);letter-spacing:2px;font-weight:700}
+.lang select{background:var(--panel2);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-family:var(--mono);font-size:12px;cursor:pointer}
+
+/* HUD strip */
+.hud{font-family:var(--mono);font-size:10px;letter-spacing:1.5px;color:var(--cyan2);border-bottom:1px solid var(--line);background:rgba(10,14,20,.5)}
+.hud .wrap{display:flex;gap:18px;height:30px;align-items:center;overflow:hidden;white-space:nowrap}
+.hud b{color:var(--green)}
+.hud .live::before{content:"●";color:var(--green);margin-right:5px;animation:blink 1.4s infinite}
+
+/* hero */
+.hero{padding:48px 0 26px;border-bottom:1px solid var(--line);position:relative;overflow:hidden}
+.hero:before{content:"";position:absolute;inset:0;background:
+  linear-gradient(transparent 96%,rgba(34,227,214,.05) 100%) 0 0/100% 26px,
+  linear-gradient(90deg,transparent 96%,rgba(34,227,214,.05) 100%) 0 0/26px 100%;
+  mask:linear-gradient(180deg,#000,transparent);pointer-events:none}
+.hero:after{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);opacity:.7;animation:scan 6s linear infinite}
+@keyframes scan{0%{transform:translateY(0)}100%{transform:translateY(380px)}}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:3px;color:var(--cyan);text-transform:uppercase}
+.hero h1{font-family:var(--display);font-weight:700;font-size:clamp(28px,5vw,46px);line-height:1.04;margin:10px 0 12px}
+.hero h1 b{color:var(--cyan);text-shadow:0 0 22px var(--glow)}
+.hero p{color:var(--muted);max-width:640px;font-size:15px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.chip{font-family:var(--mono);font-size:11px;border:1px solid var(--line);background:var(--panel);padding:6px 11px;border-radius:20px;color:var(--ink)}
+.chip b{color:var(--green)}
+
+/* sections */
+.sec{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px;margin-top:18px;position:relative}
+.sec:hover{border-color:#243150}
+.sec h2{font-family:var(--display);font-size:18px;font-weight:600;display:flex;align-items:center;gap:10px;margin-bottom:4px}
+.sec h2 .n{font-family:var(--mono);font-size:12px;color:var(--cyan);border:1px solid var(--cyan2);border-radius:6px;padding:2px 7px}
+.sec .hint{color:var(--muted);font-size:13px;margin-bottom:16px}
+.req{color:var(--orange);font-family:var(--mono);font-size:10px;margin-left:6px}
+
+label.fl{display:block;font-size:13px;color:var(--muted);margin:0 0 6px;font-weight:500}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:620px){.grid2{grid-template-columns:1fr}}
+input[type=text],input[type=tel],input[type=email],input[type=number],textarea,select.fld{
+  width:100%;background:var(--panel2);border:1px solid var(--line);border-radius:9px;color:var(--ink);
+  padding:11px 12px;font-family:var(--body);font-size:14px;outline:none;transition:.15s}
+input:focus,textarea:focus,select.fld:focus{border-color:var(--cyan);box-shadow:0 0 0 3px rgba(34,227,214,.12)}
+textarea{resize:vertical;min-height:80px}
+.field{margin-bottom:14px}
+
+.opts{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:9px}
+.opt{position:relative;display:flex;align-items:center;gap:9px;background:var(--panel2);border:1px solid var(--line);
+  border-radius:9px;padding:10px 11px;cursor:pointer;font-size:13px;transition:.14s;user-select:none}
+.opt:hover{border-color:var(--cyan2);transform:translateY(-1px)}
+.opt input{position:absolute;opacity:0;pointer-events:none}
+.opt .bx{width:17px;height:17px;border:1.5px solid var(--muted);border-radius:5px;flex:0 0 auto;display:grid;place-items:center;transition:.14s}
+.opt .bx:after{content:"";width:8px;height:8px;border-radius:2px;background:var(--cyan);transform:scale(0);transition:.14s}
+.opt input:checked~.bx{border-color:var(--cyan)}
+.opt input:checked~.bx:after{transform:scale(1);box-shadow:0 0 8px var(--cyan)}
+.opt input:checked~span{color:#fff}
+.opt.sel{border-color:var(--cyan);background:rgba(34,227,214,.06)}
+.subhead{font-family:var(--mono);font-size:11px;letter-spacing:1px;color:var(--cyan2);text-transform:uppercase;margin:16px 0 8px}
+.subhead:first-child{margin-top:0}
+
+.mcq{margin-bottom:16px}
+.mcq .q{font-size:14px;margin-bottom:9px;color:var(--ink)}
+.mcq .row{display:flex;flex-wrap:wrap;gap:8px}
+.radio{display:flex;align-items:center;gap:7px;background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:8px 12px;font-size:13px;cursor:pointer;transition:.14s}
+.radio:hover{border-color:var(--cyan2)}
+.radio input{accent-color:var(--cyan);width:15px;height:15px}
+.radio.sel{border-color:var(--cyan);background:rgba(34,227,214,.06)}
+
+/* self-rate */
+.rate{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:11px 13px;margin-bottom:9px}
+.rate .nm{font-size:13px}
+.rate .stars{display:flex;gap:5px}
+.rate .star{width:26px;height:26px;border:1px solid var(--line);border-radius:6px;background:#0a0e15;color:var(--muted);font-size:13px;cursor:pointer;display:grid;place-items:center;transition:.12s;font-family:var(--mono)}
+.rate .star:hover{border-color:var(--cyan2)}
+.rate .star.on{background:rgba(34,227,214,.12);border-color:var(--cyan);color:var(--cyan);box-shadow:0 0 8px rgba(34,227,214,.3)}
+
+.offer{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:12px;margin-top:6px}
+.ocard{background:var(--panel2);border:1px solid var(--line);border-radius:11px;padding:15px;transition:.18s}
+.ocard:hover{border-color:var(--cyan2);transform:translateY(-2px)}
+.ocard .k{font-family:var(--mono);font-size:10px;color:var(--cyan);letter-spacing:1px;text-transform:uppercase}
+.ocard .v{font-family:var(--display);font-size:16px;font-weight:600;margin-top:5px}
+.ocard .s{font-size:12px;color:var(--muted);margin-top:3px}
+
+/* sticky meter */
+.meter{position:fixed;left:0;right:0;bottom:0;z-index:60;background:rgba(8,11,17,.95);backdrop-filter:blur(14px);border-top:1px solid var(--line)}
+.meter .wrap{display:flex;align-items:center;gap:16px;padding:13px 18px}
+.gauge{flex:0 0 auto;width:64px;height:64px;position:relative}
+.gauge svg{transform:rotate(-90deg)}
+.gauge.gp #ring{filter:drop-shadow(0 0 6px var(--green))}
+.gauge .pct{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--mono);font-weight:700;font-size:15px}
+.mtext{flex:1;min-width:0}
+.mtext .lbl{font-family:var(--mono);font-size:10px;letter-spacing:2px;color:var(--muted);text-transform:uppercase}
+.mtext .st{font-family:var(--display);font-size:16px;font-weight:600;margin-top:1px}
+.bar{height:7px;border-radius:6px;background:var(--panel2);overflow:hidden;margin-top:7px;position:relative}
+.bar i{display:block;height:100%;width:0;border-radius:6px;transition:width .55s cubic-bezier(.2,.7,.2,1),background .4s}
+.bar .mark{position:absolute;top:-3px;bottom:-3px;left:70%;width:2px;background:rgba(255,255,255,.4)}
+.submit{flex:0 0 auto;font-family:var(--display);font-weight:600;font-size:14px;border:0;border-radius:10px;
+  padding:12px 20px;cursor:pointer;color:#04121a;background:linear-gradient(135deg,var(--cyan),#7af6ec);
+  box-shadow:0 6px 24px rgba(34,227,214,.3);transition:.15s}
+.submit:hover{transform:translateY(-1px);box-shadow:0 8px 30px rgba(34,227,214,.45)}
+@media(max-width:620px){.submit{padding:11px 14px;font-size:13px}.gauge{width:54px;height:54px}}
+.miss{color:var(--orange);font-size:12px;margin-top:8px;display:none}
+
+/* result modal */
+.modal{position:fixed;inset:0;z-index:90;background:rgba(2,4,8,.84);backdrop-filter:blur(6px);display:none;place-items:center;padding:20px}
+.modal.on{display:grid}
+.card{max-width:440px;width:100%;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:30px 28px;text-align:center;animation:pop .32s}
+@keyframes pop{from{transform:scale(.92);opacity:0}to{transform:scale(1);opacity:1}}
+.card .big{font-family:var(--mono);font-weight:700;font-size:58px;line-height:1}
+.card h3{font-family:var(--display);font-size:20px;margin:8px 0 8px}
+.card p{color:var(--muted);font-size:14px}
+.card .close{margin-top:22px;background:var(--panel2);border:1px solid var(--line);color:var(--ink);border-radius:9px;padding:10px 20px;cursor:pointer;font-family:var(--display);font-weight:600}
+.foot{text-align:center;color:var(--muted);font-size:12px;font-family:var(--mono);margin-top:30px;padding-top:18px;border-top:1px solid var(--line)}
+
+/* recruiter export (hidden) */
+.rec{position:fixed;right:14px;bottom:96px;z-index:95;width:340px;max-width:92vw;background:#05070a;border:1px solid var(--cyan2);border-radius:12px;padding:14px;display:none}
+.rec.on{display:block}
+.rec h4{font-family:var(--mono);font-size:11px;color:var(--cyan);letter-spacing:1px;margin-bottom:8px}
+.rec textarea{width:100%;height:170px;background:#0a0e14;border:1px solid var(--line);color:var(--ink);font-family:var(--mono);font-size:11px;border-radius:8px;padding:8px}
+.rec .x{float:right;cursor:pointer;color:var(--muted)}
+</style>
+</head>
+<body>
+
+<div class="topbar"><div class="wrap">
+  <div class="brand" id="brand"><span class="dot"></span><div>OptimityFX<small data-t="tagline">YOUR VISION — GRADED</small></div></div>
+  <div class="lang">
+    <select id="lang" onchange="setLang(this.value)" aria-label="Language">
+      <option value="en">English</option>
+      <option value="hi">हिन्दी</option>
+    </select>
+  </div>
+</div></div>
+
+<div class="hud"><div class="wrap">
+  <span class="live" data-t="hud1">SCREENING CORE · ACTIVE</span>
+  <span data-t="hud2">ROLE: VIDEO EDITOR (FULL-TIME)</span>
+  <span>FPS <b>24.0</b></span>
+  <span>FRAMES <b id="frames">000000</b></span>
+</div></div>
+
+<div class="hero"><div class="wrap">
+  <div class="eyebrow rv" data-t="eyebrow">VIDEO EDITOR · SCREENING TEST</div>
+  <h1 class="rv" data-t="h1">Show us what you can <b>edit</b>.</h1>
+  <p class="rv" data-t="intro">OptimityFX is a premium creative studio — cinematic video, color grading & AI-powered content for brands, OTT and music labels. We're hiring full-time junior editors who already know the craft and want to grow fast inside an AI-powered studio. Fill this honestly — the meter below shows your live chance of getting hired.</p>
+  <div class="chips rv">
+    <span class="chip" data-t="c1">🏠 Work From Home</span>
+    <span class="chip" data-t="c2">🗓 Mon–Sat · <b>Sunday Off</b></span>
+    <span class="chip" data-t="c3">⏱ Flexible timing</span>
+    <span class="chip" data-t="c4">📈 Assured increment</span>
+  </div>
+</div></div>
+
+<div class="wrap">
+
+  <!-- 1 BASIC -->
+  <div class="sec rv">
+    <h2><span class="n">01</span><span data-t="s1">Your details</span></h2>
+    <div class="grid2">
+      <div class="field"><label class="fl" data-t="f_name">Full name <span class="req">required</span></label><input type="text" id="name" oninput="score()"></div>
+      <div class="field"><label class="fl" data-t="f_sex">Gender</label>
+        <select class="fld" id="sex" onchange="score()">
+          <option value="" data-t="opt_pick">Select</option>
+          <option value="m" data-t="sx_m">Male</option>
+          <option value="f" data-t="sx_f">Female</option>
+          <option value="o" data-t="sx_o">Other</option>
+          <option value="n" data-t="sx_n">Prefer not to say</option>
+        </select>
+      </div>
+      <div class="field"><label class="fl" data-t="f_phone">Phone (WhatsApp) <span class="req">required</span></label><input type="tel" id="phone" oninput="score()"></div>
+      <div class="field"><label class="fl" data-t="f_email">Email ID <span class="req">required</span></label><input type="email" id="email" oninput="score()"></div>
+      <div class="field"><label class="fl" data-t="f_exp">Experience (years) <span class="req">required</span></label><input type="number" id="exp" min="0" max="30" step="0.5" oninput="score()"></div>
+      <div class="field"><label class="fl" data-t="f_age">Age</label><input type="number" id="age" min="14" max="70" oninput="score()"></div>
+    </div>
+  </div>
+
+  <!-- 2 SOFTWARE -->
+  <div class="sec rv">
+    <h2><span class="n">02</span><span data-t="s2">Software you can use</span></h2>
+    <p class="hint" data-t="s2h">Tick everything you can edit in. No need to know all — pick what's true.</p>
+    <div class="subhead" data-t="sh_vid">Video editing</div>
+    <div class="opts" data-group="video"></div>
+    <div class="subhead" data-t="sh_photo">Photo / design</div>
+    <div class="opts" data-group="photo"></div>
+  </div>
+
+  <!-- 3 SKILLS -->
+  <div class="sec rv">
+    <h2><span class="n">03</span><span data-t="s3">Skills & design</span></h2>
+    <p class="hint" data-t="s3h">Select what you can deliver at good quality.</p>
+    <div class="opts" data-group="design"></div>
+  </div>
+
+  <!-- 4 EDIT STYLE -->
+  <div class="sec rv">
+    <h2><span class="n">04</span><span data-t="s4">Editing styles & techniques</span></h2>
+    <div class="subhead" data-t="sh_style">Style</div>
+    <div class="opts" data-group="style"></div>
+    <div class="subhead" data-t="sh_tech">Technical edits</div>
+    <div class="opts" data-group="tech"></div>
+    <div class="subhead" data-t="sh_sound">Sound design</div>
+    <div class="opts" data-group="sound"></div>
+  </div>
+
+  <!-- 5 AI -->
+  <div class="sec rv">
+    <h2><span class="n">05</span><span data-t="s5">AI tools</span></h2>
+    <p class="hint" data-t="s5h">A plus — we run an AI-powered pipeline. Free tools are totally fine.</p>
+    <div class="subhead" data-t="sh_aiimg">AI image generation</div>
+    <div class="opts" data-group="aiimg"></div>
+    <div class="subhead" data-t="sh_aivid">AI video generation</div>
+    <div class="opts" data-group="aivid"></div>
+  </div>
+
+  <!-- 6 SELF RATE -->
+  <div class="sec rv">
+    <h2><span class="n">06</span><span data-t="s_self">Rate yourself (be honest)</span></h2>
+    <p class="hint" data-t="s_selfh">How confident are you with each? 1 = just starting, 5 = very confident.</p>
+    <div id="rateBox"></div>
+  </div>
+
+  <!-- 7 MCQ (BLIND) -->
+  <div class="sec rv">
+    <h2><span class="n">07</span><span data-t="s6">Quick skill check</span></h2>
+    <p class="hint" data-t="s6h">Pick the best answer. Just answer honestly — there's no live hint.</p>
+    <div id="mcqBox"></div>
+  </div>
+
+  <!-- 8 SETUP -->
+  <div class="sec rv">
+    <h2><span class="n">08</span><span data-t="s7">Your setup</span></h2>
+    <div class="mcq">
+      <div class="q" data-t="q_net">Internet speed (broadband). Run a quick speedtest. <span class="req">required</span></div>
+      <div class="row" data-mcq="net"></div>
+    </div>
+    <div class="mcq">
+      <div class="q" data-t="q_yt">Can you upload & schedule videos on YouTube?</div>
+      <div class="row" data-mcq="yt"></div>
+    </div>
+  </div>
+
+  <!-- 9 EXPECTATION + INTENT -->
+  <div class="sec rv">
+    <h2><span class="n">09</span><span data-t="s8">You & your expectation</span></h2>
+    <div class="field"><label class="fl" data-t="f_sal">Your expected monthly salary (₹) <span class="req">required</span></label>
+      <select class="fld" id="sal" onchange="score()">
+        <option value="" data-t="opt_pick">Select</option>
+        <option value="1" data-t="sal1">₹4,000 or below</option>
+        <option value="2" data-t="sal2">₹4,000 – ₹6,000</option>
+        <option value="3" data-t="sal3">₹6,000 – ₹8,000</option>
+        <option value="4" data-t="sal4">₹8,000 – ₹10,000</option>
+        <option value="5" data-t="sal5">Above ₹10,000</option>
+      </select>
+    </div>
+    <div class="field"><label class="fl" data-t="f_port">Portfolio / reel link (Drive, YouTube, Insta)</label><input type="text" id="port" oninput="score()" placeholder="https://"></div>
+    <div class="field"><label class="fl" data-t="f_test">30–60s sample edit link (Drive / YouTube) <span class="req" data-t="f_test_rec">recommended</span></label><input type="text" id="testedit" oninput="score()" placeholder="https://"></div>
+    <div class="field"><label class="fl" data-t="f_why">Why this job & what do you want to learn? (2–3 lines)</label><textarea id="why" oninput="score()"></textarea></div>
+    <div class="field"><label class="fl" data-t="f_need">What do you need from us to do your best work? (your requirement)</label><textarea id="need" oninput="score()"></textarea></div>
+    <div class="field"><label class="fl" data-t="f_avail">When can you start?</label>
+      <select class="fld" id="avail" onchange="score()">
+        <option value="" data-t="opt_pick">Select</option>
+        <option value="now" data-t="opt_now">Immediately</option>
+        <option value="week" data-t="opt_week">Within a week</option>
+        <option value="month" data-t="opt_month">Within a month</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- 10 OFFER -->
+  <div class="sec rv">
+    <h2><span class="n">10</span><span data-t="s9">What we offer</span></h2>
+    <div class="offer">
+      <div class="ocard"><div class="k" data-t="o1k">Starting pay</div><div class="v">₹4,000 – ₹9,000</div><div class="s" data-t="o1s">/ month · based on skill</div></div>
+      <div class="ocard"><div class="k" data-t="o2k">Growth</div><div class="v" data-t="o2v">Assured increment</div><div class="s" data-t="o2s">as you prove quality + quantity</div></div>
+      <div class="ocard"><div class="k" data-t="o3k">Incentives</div><div class="v" data-t="o3v">Performance bonus</div><div class="s" data-t="o3s">on consistent delivery</div></div>
+      <div class="ocard"><div class="k" data-t="o4k">Free learning</div><div class="v" data-t="o4v">Free training program</div><div class="s" data-t="o4s">editing, color & AI tools</div></div>
+      <div class="ocard"><div class="k" data-t="o5k">Upskill</div><div class="v" data-t="o5v">AI business upskilling</div><div class="s" data-t="o5s">grow into bigger roles</div></div>
+      <div class="ocard"><div class="k" data-t="o6k">Schedule</div><div class="v" data-t="o6v">WFH · Flexible</div><div class="s" data-t="o6s">Mon–Sat · Sunday off</div></div>
+    </div>
+    <p class="hint" style="margin-top:14px" data-t="o_lang">Assessment available in your language. Official work communication: <b style="color:var(--ink)">English & Hindi</b>.</p>
+  </div>
+
+  <div class="foot" data-t="foot">OptimityFX · Creative Production Division · This is a screening assessment, not a final offer.</div>
+</div>
+
+<!-- METER -->
+<div class="meter"><div class="wrap">
+  <div class="gauge" id="gauge">
+    <svg width="100%" height="100%" viewBox="0 0 64 64">
+      <circle cx="32" cy="32" r="27" fill="none" stroke="#141d30" stroke-width="6"/>
+      <circle id="ring" cx="32" cy="32" r="27" fill="none" stroke="var(--red)" stroke-width="6" stroke-linecap="round" stroke-dasharray="170" stroke-dashoffset="170"/>
+    </svg>
+    <div class="pct" id="pctTxt" style="color:var(--red)">0%</div>
+  </div>
+  <div class="mtext">
+    <div class="lbl" data-t="m_lbl">Chance of getting hired</div>
+    <div class="st" id="statusTxt" data-t="m_start">Start filling the form</div>
+    <div class="bar"><i id="barFill"></i><span class="mark" title="70% safe zone"></span></div>
+    <div class="miss" id="missTxt"></div>
+  </div>
+  <button class="submit" onclick="submitForm()" data-t="m_btn">Submit</button>
+</div></div>
+
+<!-- RESULT -->
+<div class="modal" id="modal"><div class="card">
+  <div class="big" id="rBig">0%</div>
+  <h3 id="rHead"></h3>
+  <p id="rMsg"></p>
+  <button class="close" onclick="document.getElementById('modal').classList.remove('on')" data-t="m_close">Close</button>
+</div></div>
+
+<!-- RECRUITER EXPORT (triple-click logo) -->
+<div class="rec" id="rec">
+  <span class="x" onclick="document.getElementById('rec').classList.remove('on')">✕</span>
+  <h4>RECRUITER EXPORT · candidate-blind</h4>
+  <textarea id="recOut" readonly></textarea>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.0/dist/umd/supabase.min.js"></script>
+<script>
+/* ---------- DATA ---------- */
+const D = {
+  video:["DaVinci Resolve","Adobe Premiere Pro","Final Cut Pro","CapCut","Filmora","VN Editor","After Effects","iMovie"],
+  photo:["Photoshop","Canva","Lightroom","Illustrator","Other"],
+  design:["Graphic design","Poster design","Flyer design","Thumbnail design","Carousel / social post"],
+  style:["Talking-head","Captions / subtitles","Transition effects","Trending effects","Cinematic edit","Fast-cut / hooks"],
+  tech:["Place relevant B-roll","On-screen text","Green screen cutout","Text behind subject","Fix / clean voice","Color correction","BGM sync"],
+  sound:["Shutter sound","Reel rolling sound","Click / whoosh SFX","Beat-synced cuts","Mixing / ducking"],
+  aiimg:["ChatGPT / DALL·E","Meta AI","Gemini","Leonardo AI","Midjourney","None yet"],
+  aivid:["Kling (paid)","Higgsfield (paid)","Meta AI","Gemini","Flow","None yet"]
+};
+const CORE_VID=["DaVinci Resolve","Adobe Premiere Pro","Final Cut Pro","After Effects"];
+
+/* self-rating categories */
+const RATE=["Video editing","Color correction","Design / graphics","AI tools","Sound / music"];
+let selfRate={};
+
+/* weights — junior/intern tuned: less software, more attitude+fit+cost */
+const W={video:9, photo:4, design:6, style:10, tech:12, sound:5, aiimg:6, aivid:6, selfrate:5, mcq:6, setup:6, exp:8, salary:14, intent:8, testedit:4};
+
+const MCQ=[
+ {q:"A reel feels flat. Fastest way to add energy without new footage?",
+  a:["Beat-synced cuts + punch-in zooms","Add a slow fade to every clip","Lower the volume","Make it black & white"],ok:0},
+ {q:"Client wants subject in front of moving B-roll text. You use:",
+  a:["Text-behind-subject masking","Just lower text opacity","Delete the text","Crop the subject out"],ok:0},
+ {q:"Talking-head audio is muddy. Best first fix?",
+  a:["EQ + noise reduction + level the dialogue","Add heavy reverb","Speed it up 2x","Mute it"],ok:0},
+ {q:"Deliver a vertical reel for Instagram. Correct frame?",
+  a:["1080×1920 (9:16)","1920×1080 (16:9)","1080×1080 (1:1)","720×480"],ok:0},
+ {q:"Footage looks too green/cold before grading. First step?",
+  a:["White balance / color correct, then grade","Add a LUT immediately","Increase saturation only","Export as is"],ok:0}
+];
+
+/* ---------- RENDER ---------- */
+function chk(g,v,i){return `<label class="opt"><input type="checkbox" data-g="${g}" value="${v}" onchange="this.closest('.opt').classList.toggle('sel',this.checked);score()"><span class="bx"></span><span>${T[g+'_'+i]||v}</span></label>`;}
+function buildOpts(){document.querySelectorAll('.opts').forEach(el=>{const g=el.dataset.group;el.innerHTML=D[g].map((v,i)=>chk(g,v,i)).join('');});}
+function buildMcq(){
+  document.getElementById('mcqBox').innerHTML=MCQ.map((m,qi)=>`
+   <div class="mcq"><div class="q">${(T['mcq_q'+qi]||m.q)}</div><div class="row">
+   ${m.a.map((opt,ai)=>`<label class="radio"><input type="radio" name="mcq${qi}" value="${ai}" onchange="markRadio(this);score()"> ${(T['mcq_'+qi+'_'+ai]||opt)}</label>`).join('')}
+   </div></div>`).join('');
+  const rows=(name,labels)=>labels.map((l,i)=>`<label class="radio"><input type="radio" name="${name}" value="${i}" onchange="markRadio(this);score()"> ${l}</label>`).join('');
+  document.querySelector('[data-mcq=net]').innerHTML=rows('net',[T.net_below||'Below 30 Mbps',T.net30||'Above 30 Mbps',T.net60||'Above 60 Mbps',T.net100||'Above 100 Mbps']);
+  document.querySelector('[data-mcq=yt]').innerHTML =rows('yt',[T.yes||'Yes',T.basic||'Basic / can learn',T.no||'No']);
+}
+function markRadio(inp){inp.closest('.row').querySelectorAll('.radio').forEach(r=>r.classList.remove('sel'));inp.closest('.radio').classList.add('sel');}
+
+function buildRate(){
+  document.getElementById('rateBox').innerHTML=RATE.map((c,ci)=>`
+   <div class="rate"><span class="nm">${T['rate_'+ci]||c}</span><div class="stars" data-cat="${ci}">
+   ${[1,2,3,4,5].map(n=>`<button type="button" class="star" data-n="${n}" onclick="setRate(${ci},${n})">${n}</button>`).join('')}
+   </div></div>`).join('');
+  // re-apply existing selections
+  Object.keys(selfRate).forEach(ci=>paintRate(+ci,selfRate[ci]));
+}
+function paintRate(ci,n){document.querySelectorAll(`.stars[data-cat="${ci}"] .star`).forEach(s=>s.classList.toggle('on',+s.dataset.n<=n));}
+function setRate(ci,n){selfRate[ci]=n;paintRate(ci,n);score();}
+
+/* ---------- HELPERS ---------- */
+function getChecked(g){return [...document.querySelectorAll(`input[data-g="${g}"]:checked`)].map(x=>x.value);}
+function radioVal(n){const r=document.querySelector(`input[name="${n}"]:checked`);return r?+r.value:null;}
+const val=id=>document.getElementById(id).value;
+
+/* ---------- SCORING (visible meter is BLIND on MCQ correctness) ---------- */
+function computeScore(){
+  let pts=0,max=0;
+  // skill groups (proportional; software de-emphasised)
+  for(const g of ['video','photo','design','style','tech','sound','aiimg','aivid']){
+    const total=D[g].length, sel=getChecked(g).filter(v=>v!=='None yet').length;
+    let frac;
+    if(g==='video'){ frac=Math.min(1, sel/2); }      // freshers: any 2 video tools = full, 1 tool = strong
+    else { frac=Math.min(1, sel/Math.max(1,Math.ceil(total*0.5))); }
+    pts+=frac*W[g]; max+=W[g];
+  }
+  // self-rating (low weight; mainly a confidence signal)
+  const rv=Object.values(selfRate); const ravg=rv.length?rv.reduce((a,b)=>a+b,0)/rv.length:0;
+  pts+=(ravg/5)*W.selfrate; max+=W.selfrate;
+  // MCQ -> VISIBLE score uses PARTICIPATION only (answered/total), never correctness
+  let answered=0; MCQ.forEach((m,i)=>{if(radioVal('mcq'+i)!==null)answered++;});
+  pts+=(answered/MCQ.length)*W.mcq; max+=W.mcq;
+  // setup: internet + yt — 30+/60+/100+ all "good", no extra for 100
+  const net=radioVal('net'), yt=radioVal('yt'); let setup=0;
+  if(net===1||net===2||net===3)setup+=4.5;            // any 30Mbps+ = good
+  if(yt===0)setup+=1.5; else if(yt===1)setup+=1;
+  setup=Math.min(W.setup,setup); pts+=setup; max+=W.setup;
+  // experience: ideal 1-3 yrs (intern/junior)
+  const e=parseFloat(val('exp')); let ex=0;
+  if(!isNaN(e)){ if(e<1)ex=5; else if(e<=3)ex=8; else if(e<=5)ex=6; else ex=4; }
+  pts+=ex; max+=W.exp;
+  // salary: lower ask = higher chance (blind)
+  const s=+val('sal'); let sal=0;
+  if(s===1)sal=14; else if(s===2)sal=12; else if(s===3)sal=8; else if(s===4)sal=4; else if(s===5)sal=1;
+  pts+=sal; max+=W.salary;
+  // intent: portfolio + why + need + availability
+  let intent=0;
+  if(val('port').trim().length>6)intent+=2.5;
+  if(val('why').trim().length>25)intent+=2;
+  if(val('need').trim().length>15)intent+=2;
+  const av=val('avail'); if(av==='now')intent+=1.5; else if(av==='week')intent+=1;
+  intent=Math.min(W.intent,intent); pts+=intent; max+=W.intent;
+  // test-edit sample link: small bonus for providing a real sample (presence only, not contents)
+  pts+=(val('testedit').trim().length>6?W.testedit:0); max+=W.testedit;
+
+  let percent=Math.round((pts/max)*100);
+  // soft gate: internet below 30 caps (no reason shown to candidate)
+  if(net===0)percent=Math.min(percent,52);
+  return Math.max(0,Math.min(100,percent));
+}
+
+function trueMcq(){let c=0;const detail=MCQ.map((m,i)=>{const v=radioVal('mcq'+i);const right=v===m.ok;if(right)c++;return{q:i+1,chosen:v,correct:m.ok,right};});return{correct:c,total:MCQ.length,detail};}
+
+function colorFor(p){return p>=70?'var(--green)':p>=45?'var(--orange)':'var(--red)';}
+function zoneLabel(p){return p>=70?(T.z_green||'Strong — likely shortlist'):p>=45?(T.z_orange||'Possible — borderline'):(T.z_red||'Not enough yet');}
+
+function score(){
+  const p=computeScore(), c=colorFor(p);
+  const ring=document.getElementById('ring');
+  ring.style.strokeDashoffset=170-(170*p/100); ring.style.stroke=c;
+  const pt=document.getElementById('pctTxt'); pt.textContent=p+'%'; pt.style.color=c;
+  const bf=document.getElementById('barFill'); bf.style.width=p+'%'; bf.style.background=c;
+  document.getElementById('statusTxt').textContent=zoneLabel(p);
+  document.getElementById('gauge').classList.toggle('gp',p>=70);
+  refreshExport(p);
+}
+
+function requiredMissing(){
+  const m=[];
+  if(!val('name').trim())m.push(T.r_name||'Name');
+  if(!val('phone').trim())m.push(T.r_phone||'Phone');
+  if(!val('email').trim())m.push(T.r_email||'Email');
+  if(!val('exp'))m.push(T.r_exp||'Experience');
+  if(!val('sal'))m.push(T.r_sal||'Expected salary');
+  if(radioVal('net')===null)m.push(T.r_net||'Internet speed');
+  return m;
+}
+
+/* ---------- PERSISTENCE ----------
+   1) Insert each submission into Supabase (table: applications) — sortable admin
+      record, viewable in Supabase Table Editor. Run supabase/applications.sql once.
+   2) Email a short report to NOTIFY_EMAIL via FormSubmit (no account; the very
+      first submission triggers a one-time confirm email — click it once).
+   Both are silent + fire-and-forget; candidate UX is unaffected.            */
+const SUPA_URL='https://odcqkutaindtzbjrncdl.supabase.co';
+const SUPA_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9kY3FrdXRhaW5kdHpianJuY2RsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA4NDUyMDAsImV4cCI6MjA5NjQyMTIwMH0.92AAPjpZVReQTpU4y9eX88IB0U-8Vu6CR9ufOkUGBzE';
+const NOTIFY_EMAIL='hello@optimityfx.com';   // '' to disable the email ping
+let _sb=null;
+function sbClient(){ if(_sb)return _sb; try{ if(window.supabase) _sb=window.supabase.createClient(SUPA_URL,SUPA_KEY); }catch(e){} return _sb; }
+function saveSubmission(p){
+  const d=buildExport(p);
+  // 1) Supabase row
+  try{
+    const sb=sbClient();
+    if(sb){
+      sb.from('applications').insert({
+        visible_chance:d.visible_chance,name:d.name,sex:d.sex,age:d.age,phone:d.phone,email:d.email,
+        experience_yrs:d.experience_yrs,expected_salary_bracket:d.expected_salary_bracket,internet:d.internet,youtube:d.youtube,
+        self_rating_avg:d.self_rating_avg,confidence_flag:d.confidence_flag,skill_check:d.skill_check,
+        portfolio:d.portfolio,test_edit:d.test_edit,why:d.why,requirement:d.requirement,start_when:d.start,
+        video_sw:d.video_sw,photo_sw:d.photo_sw,design:d.design,style:d.style,tech:d.tech,sound:d.sound,
+        ai_image:d.ai_image,ai_video:d.ai_video,self_rating:d.self_rating,skill_check_detail:d.skill_check_detail,raw:d
+      }).then(()=>{},()=>{});
+    }
+  }catch(e){}
+  // 2) Email ping
+  if(NOTIFY_EMAIL){
+    try{
+      fetch('https://formsubmit.co/ajax/'+NOTIFY_EMAIL,{
+        method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},
+        body:JSON.stringify({
+          _subject:'New editor application — '+(d.name||'Unknown')+' · '+d.visible_chance,
+          name:d.name,hiring_chance:d.visible_chance,real_skill_check:d.skill_check,confidence:d.confidence_flag,
+          phone:d.phone,email:d.email,experience_yrs:d.experience_yrs,salary_bracket:d.expected_salary_bracket,
+          internet:d.internet,self_rating_avg:d.self_rating_avg,portfolio:d.portfolio,test_edit:d.test_edit,
+          why:d.why,can_start:d.start
+        })
+      }).catch(()=>{});
+    }catch(e){}
+  }
+}
+function submitForm(){
+  const miss=requiredMissing(), m=document.getElementById('missTxt');
+  if(miss.length){m.style.display='block';m.textContent=(T.fill||'Please fill')+': '+miss.join(', ');window.scrollTo({top:0,behavior:'smooth'});return;}
+  m.style.display='none';
+  const p=computeScore(), c=colorFor(p);
+  document.getElementById('rBig').textContent=p+'%';
+  document.getElementById('rBig').style.color=c;
+  document.getElementById('rHead').textContent=zoneLabel(p);
+  document.getElementById('rHead').style.color=c;
+  document.getElementById('rMsg').textContent=p>=70?(T.rmsg_g||'You are in the safe zone (70%+). Our team will reach out for the next round.')
+    :p>=45?(T.rmsg_o||'You are close. Tighten your editing techniques and re-apply.')
+    :(T.rmsg_r||'Keep building your editing skills, then try again. We love learners.');
+  document.getElementById('modal').classList.add('on');
+  refreshExport(p);
+  console.log('OFX_SCREENING_EXPORT', buildExport(p));
+  saveSubmission(p);
+}
+
+/* recruiter export (candidate-blind) */
+function buildExport(p){
+  const mcq=trueMcq();
+  const rate={}; RATE.forEach((c,i)=>rate[c]=selfRate[i]||null);
+  const rv=Object.values(selfRate); const ravg=rv.length?(rv.reduce((a,b)=>a+b,0)/rv.length):0;
+  const skillsPicked=getChecked('video').length+getChecked('tech').length+getChecked('style').length;
+  const conf = ravg>=4 && skillsPicked<=3 ? 'HIGH self-rating but FEW skills ticked — verify in test edit'
+             : ravg<=2 && skillsPicked>=8 ? 'LOW self-rating but many skills — possibly modest/under-confident'
+             : 'consistent';
+  return {
+    visible_chance:p+'%',
+    name:val('name'),sex:val('sex'),age:val('age'),phone:val('phone'),email:val('email'),
+    experience_yrs:val('exp'),expected_salary_bracket:val('sal'),
+    internet:['below30','30+','60+','100+'][radioVal('net')]||null,
+    youtube:['yes','basic','no'][radioVal('yt')]||null,
+    self_rating:rate,self_rating_avg:ravg.toFixed(1),confidence_flag:conf,
+    skill_check:`${mcq.correct}/${mcq.total} correct`,
+    skill_check_detail:mcq.detail,
+    video_sw:getChecked('video'),photo_sw:getChecked('photo'),
+    design:getChecked('design'),style:getChecked('style'),tech:getChecked('tech'),
+    sound:getChecked('sound'),ai_image:getChecked('aiimg'),ai_video:getChecked('aivid'),
+    portfolio:val('port'),test_edit:val('testedit'),why:val('why'),requirement:val('need'),start:val('avail'),
+    ts:new Date().toISOString()
+  };
+}
+function refreshExport(p){const r=document.getElementById('recOut');if(r)r.value=JSON.stringify(buildExport(p),null,2);}
+
+/* triple-click logo -> recruiter panel */
+let clk=0,ct;
+document.getElementById('brand').addEventListener('click',()=>{clk++;clearTimeout(ct);ct=setTimeout(()=>clk=0,600);if(clk>=3){clk=0;document.getElementById('rec').classList.add('on');refreshExport(computeScore());}});
+
+/* frames ticker */
+let fr=0;setInterval(()=>{fr=(fr+7)%1000000;document.getElementById('frames').textContent=String(fr).padStart(6,'0');},90);
+
+/* reveal on scroll */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.12});
+document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+
+/* ---------- I18N ---------- */
+let T={};
+const TR={
+ en:{},
+ hi:{
+  tagline:"योर विज़न — ग्रेडेड",hud1:"स्क्रीनिंग कोर · एक्टिव",hud2:"रोल: वीडियो एडिटर (फुल-टाइम)",
+  eyebrow:"वीडियो एडिटर · स्क्रीनिंग टेस्ट",h1:"दिखाइए आप क्या <b>एडिट</b> कर सकते हैं।",
+  intro:"OptimityFX एक प्रीमियम क्रिएटिव स्टूडियो है — ब्रांड्स, OTT और म्यूज़िक लेबल के लिए सिनेमैटिक वीडियो, कलर ग्रेडिंग और AI कंटेंट। हम फुल-टाइम जूनियर एडिटर ढूंढ रहे हैं जिन्हें काम आता है और जो तेज़ी से सीखकर बढ़ना चाहते हैं। ईमानदारी से भरें — नीचे मीटर आपकी हायरिंग की संभावना दिखाएगा।",
+  c1:"🏠 वर्क फ्रॉम होम",c2:"🗓 सोम–शनि · <b>रविवार छुट्टी</b>",c3:"⏱ फ्लेक्सिबल समय",c4:"📈 निश्चित इंक्रीमेंट",
+  s1:"आपकी जानकारी",f_name:"पूरा नाम",f_sex:"लिंग",sx_m:"पुरुष",sx_f:"महिला",sx_o:"अन्य",sx_n:"नहीं बताना",
+  f_phone:"फ़ोन (WhatsApp)",f_email:"ईमेल आईडी",f_exp:"अनुभव (साल)",f_age:"उम्र",
+  s2:"सॉफ्टवेयर जो आप चला सकते हैं",s2h:"जो भी आप चला सकते हैं टिक करें। सब आना ज़रूरी नहीं।",sh_vid:"वीडियो एडिटिंग",sh_photo:"फोटो / डिज़ाइन",
+  s3:"स्किल्स व डिज़ाइन",s3h:"जो आप अच्छी क्वालिटी में बना सकते हैं चुनें।",
+  s4:"एडिटिंग स्टाइल व तकनीक",sh_style:"स्टाइल",sh_tech:"तकनीकी एडिट",sh_sound:"साउंड डिज़ाइन",
+  s5:"AI टूल्स",s5h:"प्लस पॉइंट — हमारा पाइपलाइन AI-पावर्ड है। फ्री टूल्स भी चलेंगे।",sh_aiimg:"AI इमेज जनरेशन",sh_aivid:"AI वीडियो जनरेशन",
+   s_self:"खुद को रेटिंग दें (ईमानदारी से)",s_selfh:"हर एक में आप कितने कॉन्फिडेंट हैं? 1 = अभी शुरू, 5 = बहुत कॉन्फिडेंट।",rate_0:"वीडियो एडिटिंग",rate_1:"कलर करेक्शन",rate_2:"डिज़ाइन / ग्राफिक्स",rate_3:"AI टूल्स",rate_4:"साउंड / म्यूज़िक",s6:"क्विक स्किल चेक",s6h:"सही जवाब चुनें। कोई लाइव हिंट नहीं है — बस सच में जवाब दें।",
+  s7:"आपका सेटअप",q_net:"इंटरनेट स्पीड (ब्रॉडबैंड)। स्पीडटेस्ट करें।",q_yt:"क्या आप YouTube पर वीडियो अपलोड व शेड्यूल कर सकते हैं?",
+  net_below:"30 Mbps से कम",net30:"30 Mbps से ऊपर",net60:"60 Mbps से ऊपर",net100:"100 Mbps से ऊपर",
+  s8:"आप व आपकी अपेक्षा",f_sal:"आपकी अपेक्षित मासिक सैलरी (₹)",sal1:"₹4,000 या उससे कम",sal2:"₹4,000 – ₹6,000",sal3:"₹6,000 – ₹8,000",sal4:"₹8,000 – ₹10,000",sal5:"₹10,000 से ऊपर",
+  f_port:"पोर्टफोलियो / रील लिंक",f_why:"यह जॉब क्यों और क्या सीखना चाहते हैं? (2–3 लाइन)",f_need:"बेहतरीन काम के लिए हमसे क्या चाहिए? (आपकी ज़रूरत)",f_avail:"कब शुरू कर सकते हैं?",
+  opt_pick:"चुनें",opt_now:"तुरंत",opt_week:"एक हफ्ते में",opt_month:"एक महीने में",
+  s9:"हम क्या देते हैं",o1k:"शुरुआती वेतन",o1s:"/ महीना · स्किल अनुसार",o2k:"ग्रोथ",o2v:"निश्चित इंक्रीमेंट",o2s:"क्वालिटी + क्वांटिटी पर",o3k:"इंसेंटिव",o3v:"परफॉर्मेंस बोनस",o3s:"लगातार डिलीवरी पर",
+  o4k:"फ्री लर्निंग",o4v:"फ्री ट्रेनिंग प्रोग्राम",o4s:"एडिटिंग, कलर व AI टूल्स",o5k:"अपस्किल",o5v:"AI बिज़नेस अपस्किलिंग",o5s:"बड़े रोल्स में बढ़ें",o6k:"शेड्यूल",o6v:"WFH · फ्लेक्सिबल",o6s:"सोम–शनि · रविवार छुट्टी",
+  o_lang:"असेसमेंट आपकी भाषा में। ऑफिशियल कम्युनिकेशन: <b style='color:var(--ink)'>इंग्लिश व हिन्दी</b>।",
+  foot:"OptimityFX · क्रिएटिव प्रोडक्शन · यह स्क्रीनिंग टेस्ट है, फाइनल ऑफर नहीं।",
+  m_lbl:"हायर होने की संभावना",m_start:"फॉर्म भरना शुरू करें",m_btn:"सबमिट",m_close:"बंद करें",
+  z_green:"मज़बूत — शॉर्टलिस्ट संभावना",z_orange:"संभव — बॉर्डरलाइन",z_red:"अभी पर्याप्त नहीं",
+  rmsg_g:"आप सेफ ज़ोन (70%+) में हैं। हमारी टीम अगले राउंड के लिए संपर्क करेगी।",rmsg_o:"आप करीब हैं। एडिटिंग तकनीक मज़बूत करें व दोबारा अप्लाई करें।",rmsg_r:"एडिटिंग स्किल और बढ़ाएं, फिर कोशिश करें।",
+  yes:"हाँ",no:"नहीं",basic:"बेसिक / सीख सकते हैं",
+  fill:"कृपया भरें",r_name:"नाम",r_phone:"फ़ोन",r_email:"ईमेल",r_exp:"अनुभव",r_sal:"अपेक्षित सैलरी",r_net:"इंटरनेट स्पीड",
+  f_test:"30–60 सेकंड का सैंपल एडिट लिंक (Drive / YouTube)",f_test_rec:"सुझावित"
+ },
+};
+function applyText(){document.querySelectorAll('[data-t]').forEach(el=>{const k=el.dataset.t;if(T[k]!==undefined)el.innerHTML=T[k];});}
+function setLang(l){T=TR[l]||{};applyText();buildOpts();buildRate();buildMcq();score();document.documentElement.lang=l;}
+
+/* init */
+buildOpts();buildRate();buildMcq();score();
+</script>
+</body>
+</html>
