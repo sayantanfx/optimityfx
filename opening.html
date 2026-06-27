@@ -468,8 +468,8 @@ function computeScore(){
 
 function trueMcq(){let c=0;const detail=MCQ.map((m,i)=>{const v=radioVal('mcq'+i);const right=v===m.ok;if(right)c++;return{q:i+1,chosen:v,correct:m.ok,right};});return{correct:c,total:MCQ.length,detail};}
 
-function colorFor(p){return p>=70?'var(--green)':p>=45?'var(--orange)':'var(--red)';}
-function zoneLabel(p){return p>=70?(T.z_green||'Strong — likely shortlist'):p>=45?(T.z_orange||'Possible — borderline'):(T.z_red||'Not enough yet');}
+function colorFor(p){return p>=70?'var(--green)':p>=50?'var(--orange)':'var(--red)';}
+function zoneLabel(p){return p>=70?(T.z_green||'Strong — likely shortlist'):p>=50?(T.z_orange||'Possible — borderline'):(T.z_red||'Not enough yet');}
 
 function score(){
   const p=computeScore(), c=colorFor(p);
@@ -546,7 +546,7 @@ function submitForm(){
   document.getElementById('rHead').textContent=zoneLabel(p);
   document.getElementById('rHead').style.color=c;
   document.getElementById('rMsg').textContent=p>=70?(T.rmsg_g||'You are in the safe zone (70%+). Our team will reach out for the next round.')
-    :p>=45?(T.rmsg_o||'You are close. Tighten your editing techniques and re-apply.')
+    :p>=50?(T.rmsg_o||'You are close. Tighten your editing techniques and re-apply.')
     :(T.rmsg_r||'Keep building your editing skills, then try again. We love learners.');
   document.getElementById('modal').classList.add('on');
   refreshExport(p);
