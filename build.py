@@ -308,7 +308,7 @@ def member(name, role, bio, cert=None, li=None, avatar=False, social=True):
         photo = f'<img src="{AVATAR(name)}" alt="{name} — {role}" loading="lazy">'
     else:
         # try the real photo first; if the file isn't there yet, fall back to the avatar
-        photo = (f'<img src="assets/team/{slug}.jpg" alt="{name} — {role}" loading="lazy" '
+        photo = (f'<img src="assets/team/{slug}.webp" alt="{name} — {role}" loading="lazy" '
                  f'onerror="this.onerror=null;this.src=\'{AVATAR(name)}\'">')
     if social:
         # always show the LinkedIn icon; if no URL yet, leave it as a placeholder (#)
@@ -333,8 +333,8 @@ team = [
  member("Sayantan Adhikary","Founder","Sets the creative vision and signs off on every final grade.","Blackmagic Design Certified Colorist", li="https://www.linkedin.com/in/searchmydetails/"),
  member("Sagnik Adhikary","Co-Founder &middot; Investor","Backs the studio's growth and long-term vision.", li="https://www.linkedin.com/in/sagnik-adhikary-232258246/"),
  member("Ashish Kumar Jain","Co-Founder &middot; Social Media & Business Expansion","Drives social media, brand reach and business partnerships.", li="https://www.linkedin.com/in/c2ashish/"),
- member("Praloy M","Advisor — Marketing & Growth","Advises on data-driven marketing and growth strategy.", avatar=True, social=False),
- member("Bikram S","Advisor — Strategy & Operations","Advises on campaign strategy and operational planning.", avatar=True, social=False),
+ member("Praloy M","Advisor — Marketing & Growth","Advises on data-driven marketing and growth strategy.", social=False),
+ member("Bikram S","Advisor — Strategy & Operations","Advises on campaign strategy and operational planning.", social=False),
  member("Biswajit Sena","Sr. Creative Media Designer","Crafts the visuals, key art and brand-defining design."),
  open_role("AI Integrator, Automation Expert"),
  open_role("Open Role"),
