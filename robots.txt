@@ -3,5 +3,7 @@ Allow: /
 Disallow: /build.py
 Disallow: /_hub/
 Disallow: /team/
+Disallow: /vault
+Disallow: /vault/
 
 Sitemap: https://optimityfx.com/sitemap.xml

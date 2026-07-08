@@ -15,6 +15,10 @@
       "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
     },
     {
+      "source": "/vault(.*)",
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
+    },
+    {
       "source": "/(login|register|dashboard|checkout|course|certificate|quiz|forgot-password).html",
       "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
     }
@@ -22,6 +26,7 @@
   "rewrites": [
     { "source": "/admin", "destination": "/admin.html" },
     { "source": "/team",  "destination": "/team/index.html" },
-    { "source": "/opening", "destination": "/opening.html" }
+    { "source": "/opening", "destination": "/opening.html" },
+    { "source": "/vault", "destination": "/vault/index.html" }
   ]
 }
