@@ -85,7 +85,7 @@ def nav(active):
     drawer = "".join(f'<a href="{h}">{t}</a>' for h,t in items)
     return f"""<header class="nav">
   <div class="wrap nav-inner">
-    <a href="index.html" class="brand"><img src="assets/logo.png" alt="OptimityFX — Your Vision, Graded" class="brand-img" width="878" height="296"></a>
+    <a href="index.html" class="brand"><img src="assets/logo-nav.webp" alt="OptimityFX — Your Vision, Graded" class="brand-img" width="332" height="112"></a>
     <nav class="nav-links" aria-label="Primary">{links}</nav>
     <div class="nav-cta">
       <a href="contact.html" class="btn btn-accent btn-sm">Start a Project</a>
@@ -100,7 +100,7 @@ FOOTER = """<footer class="footer">
   <div class="wrap">
     <div class="footer-top">
       <div class="footer-brand">
-        <a href="index.html" class="brand brand-foot"><img src="assets/logo.png" alt="OptimityFX — Your Vision, Graded" class="brand-img" width="878" height="296"></a>
+        <a href="index.html" class="brand brand-foot"><img src="assets/logo-nav.webp" alt="OptimityFX — Your Vision, Graded" class="brand-img" width="332" height="112"></a>
         <p>Your Vision — Graded. A premium creative studio for video, color & AI-powered content.</p>
         <div class="foot-social">
           <a href="https://www.youtube.com/@OptimityFX" target="_blank" rel="noopener" aria-label="OptimityFX on YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 12s0-3.3-.4-4.9a2.5 2.5 0 0 0-1.8-1.8C19.2 5 12 5 12 5s-7.2 0-8.8.4A2.5 2.5 0 0 0 1.4 7.2C1 8.7 1 12 1 12s0 3.3.4 4.9a2.5 2.5 0 0 0 1.8 1.8C4.8 19 12 19 12 19s7.2 0 8.8-.4a2.5 2.5 0 0 0 1.8-1.8C23 15.3 23 12 23 12zM9.8 15.3V8.7l6 3.3z"/></svg></a>
