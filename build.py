@@ -30,7 +30,7 @@ HEAD = """<!DOCTYPE html>
 <link rel="manifest" href="manifest.json">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="css/style.css?v=20260610c">
+<link rel="stylesheet" href="css/style.css?v=20260719">
 {jsonld}
 </head>
 <body>
@@ -242,6 +242,42 @@ PAGES["portfolio.html"] = dict(
     </div>
   </div>
 </section>
+
+<link rel="preconnect" href="https://player.vimeo.com">
+<link rel="preconnect" href="https://i.vimeocdn.com">
+<link rel="preconnect" href="https://f.vimeocdn.com">
+<section class="section section--tight" id="films">
+  <div class="wrap">
+    <div class="sec-head reveal"><span class="eyebrow">Featured Films</span><h2 class="h-sec">Press Play On <span class="grad-text">The Work</span></h2><p class="lead">Full films, straight from the timeline — music videos, short films and grade breakdowns, all finished by OptimityFX.</p></div>
+    <div class="vid-grid reveal d1">
+      <div class="vid-card span2">
+        <div class="vid-meta"><span class="tag-pill">Color Grading · Before / After</span><span class="vid-title">Drone Footage — Grade Reveal</span></div>
+        <div class="video-frame"><div class="ratio"><iframe src="https://player.vimeo.com/video/1182355572?title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;autopause=0&amp;loop=1&amp;player_id=0&amp;app_id=58479" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" title="Color Grading Drone Footage | Before After" loading="lazy"></iframe></div></div>
+      </div>
+      <div class="vid-card">
+        <div class="vid-meta"><span class="tag-pill">Music Video</span><span class="vid-title">JHUMLE — Official Music Video (2025)</span></div>
+        <div class="video-frame"><div class="ratio"><iframe src="https://player.vimeo.com/video/1154435360?title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;autopause=0&amp;loop=1&amp;player_id=0&amp;app_id=58479" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" title="JHUMLE | Official Music Video (2025)" loading="lazy"></iframe></div></div>
+      </div>
+      <div class="vid-card">
+        <div class="vid-meta"><span class="tag-pill">Music Video</span><span class="vid-title">Parastish</span></div>
+        <div class="video-frame"><div class="ratio"><iframe src="https://player.vimeo.com/video/1083578613?title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;autopause=0&amp;loop=1&amp;player_id=0&amp;app_id=58479" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" title="Parastish — Music Video" loading="lazy"></iframe></div></div>
+      </div>
+      <div class="vid-card">
+        <div class="vid-meta"><span class="tag-pill">Music Video · 4K</span><span class="vid-title">NAGNI — Full Music Video</span></div>
+        <div class="video-frame"><div class="ratio"><iframe src="https://player.vimeo.com/video/981445858?title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;autopause=0&amp;loop=1&amp;player_id=0&amp;app_id=58479" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" title="NAGNI — Full Music Video 4K" loading="lazy"></iframe></div></div>
+      </div>
+      <div class="vid-card">
+        <div class="vid-meta"><span class="tag-pill">Music Video</span><span class="vid-title">1959</span></div>
+        <div class="video-frame"><div class="ratio"><iframe src="https://player.vimeo.com/video/1069790889?title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;autopause=0&amp;loop=1&amp;player_id=0&amp;app_id=58479" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" title="1959 — Music Video" loading="lazy"></iframe></div></div>
+      </div>
+      <div class="vid-card span2">
+        <div class="vid-meta"><span class="tag-pill">Short Film · Color Grade</span><span class="vid-title">Perfect Chair — DI &amp; Grade</span></div>
+        <div class="video-frame"><div class="ratio"><iframe src="https://player.vimeo.com/video/1036232141?title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;autopause=0&amp;loop=1&amp;player_id=0&amp;app_id=58479" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" title="Perfect Chair — Short Film Color Grade" loading="lazy"></iframe></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+<script src="https://player.vimeo.com/api/player.js" defer></script>
 
 <section class="section section--tight" id="grading">
   <div class="wrap">
