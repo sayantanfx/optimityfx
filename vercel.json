@@ -24,6 +24,7 @@
     }
   ],
   "rewrites": [
+    { "source": "/ai-ads", "destination": "/ai-ads.html" },
     { "source": "/admin", "destination": "/admin.html" },
     { "source": "/team",  "destination": "/team/index.html" },
     { "source": "/opening", "destination": "/opening.html" },
