@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Voice Cleaner — OptimityFX Vault Tools</title>
+<link rel="stylesheet" href="tools.css">
+<style>
+#resultPanel{display:none}
+#resultPanel.show{display:block}
+.meta-line{font-family:'Courier New',monospace;font-size:.74rem;color:var(--dim);margin-top:10px}
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+
+<nav id="nav">
+  <a class="nav-brand" href="/vault"><img src="../Logos/optimityfx-logo-nav.png" alt="OptimityFX"></a>
+  <ul class="nav-links">
+    <li><a href="transcribe.html">Transcribe</a></li>
+    <li><a href="voice-cleaner.html" class="active">Voice Cleaner</a></li>
+    <li><a href="voice-to-srt.html">Voice → SRT</a></li>
+    <li><a href="youtube-kit.html">YouTube Kit</a></li>
+    <li><a href="/vault">← Vault</a></li>
+  </ul>
+</nav>
+
+<header class="tool-head wrap">
+  <div class="eyebrow">Vault Tools · Audio</div>
+  <h1>Voice <span class="grad-text">Cleaner</span></h1>
+  <p class="lead">Remove background noise, hiss and rumble from voice recordings — then polish with gentle compression and loudness normalization. Fully in your browser.</p>
+  <span class="privacy-chip"><span class="pulse"></span> 100% private · on-device processing</span>
+</header>
+
+<main class="wrap">
+  <div class="panel">
+    <h2><span class="n">1</span> Add your recording</h2>
+    <div class="dropzone" id="dropzone">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v3M8 22h8"/></svg>
+      <div class="dz-title">Drop an audio file here</div>
+      <div class="dz-sub">or click to browse — MP3, WAV, M4A, WebM…</div>
+    </div>
+    <input type="file" id="fileInput" accept="audio/*,video/*" hidden>
+
+    <label class="field-label">Noise reduction strength</label>
+    <div class="slider-row">
+      <input type="range" id="strength" min="0" max="100" value="55">
+      <span class="slider-val" id="strengthVal">55%</span>
+    </div>
+    <label class="check-row"><input type="checkbox" id="rumble" checked> Remove low-end rumble (high-pass 80 Hz)</label>
+    <label class="check-row"><input type="checkbox" id="compress" checked> Smooth voice dynamics (gentle compression)</label>
+    <label class="check-row"><input type="checkbox" id="normalize" checked> Normalize loudness (peak −1 dB)</label>
+
+    <div class="btn-row">
+      <button class="btn btn-accent" id="cleanBtn" disabled>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 15l.9 2.6L22.5 18.5l-2.6.9L19 22l-.9-2.6-2.6-.9 2.6-.9z"/></svg>
+        Clean Voice
+      </button>
+    </div>
+    <div class="progress-wrap" id="progressWrap">
+      <div class="progress-label"><span id="progressText">Processing…</span><span id="progressPct"></span></div>
+      <div class="progress-bar"><i id="progressBarFill"></i></div>
+    </div>
+    <div class="status-msg error" id="errorMsg"></div>
+  </div>
+
+  <div class="panel" id="resultPanel">
+    <h2><span class="n">2</span> Compare &amp; download</h2>
+    <div class="ab-row"><span class="ab-label">Original</span><audio id="playerOrig" controls></audio></div>
+    <div class="ab-row"><span class="ab-label">Cleaned</span><audio id="playerClean" controls></audio></div>
+    <div class="meta-line" id="metaLine"></div>
+    <div class="btn-row">
+      <button class="btn btn-accent" id="dlWav">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16"/></svg>
+        Download WAV
+      </button>
+      <button class="btn btn-ghost" id="dlMp3">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16"/></svg>
+        Download MP3
+      </button>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="spectrum-rule"></div>
+    <img src="../Logos/optimityfx-logo-nav.png" alt="OptimityFX">
+    <p>OptimityFX Vault Tools · <i>Your Vision — Graded</i> · Internal use only</p>
+  </div>
+</footer>
+
+<div id="toast">Done!</div>
+
+<script src="https://cdn.jsdelivr.net/npm/lamejs@1.2.1/lame.min.js"></script>
+<script type="module">
+import { decodeAudioFile, audioBufferToWav, downloadBlob, stripExt, fmtBytes, fmtDuration } from './audio-utils.js';
+
+const $ = (id) => document.getElementById(id);
+const nav = $('nav');
+addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 20));
+
+let toastTimer;
+function toast(msg) {
+  const t = $('toast');
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 1400);
+}
+
+$('strength').addEventListener('input', () => { $('strengthVal').textContent = $('strength').value + '%'; });
+
+// ---------- file handling ----------
+let currentFile = null, cleanedBuffer = null;
+const dz = $('dropzone');
+dz.addEventListener('click', () => $('fileInput').click());
+dz.addEventListener('dragover', (e) => { e.preventDefault(); dz.classList.add('drag'); });
+dz.addEventListener('dragleave', () => dz.classList.remove('drag'));
+dz.addEventListener('drop', (e) => {
+  e.preventDefault(); dz.classList.remove('drag');
+  if (e.dataTransfer.files.length) setFile(e.dataTransfer.files[0]);
+});
+$('fileInput').addEventListener('change', (e) => { if (e.target.files.length) setFile(e.target.files[0]); });
+function setFile(file) {
+  currentFile = file;
+  dz.querySelector('.dz-title').textContent = file.name;
+  dz.querySelector('.dz-sub').textContent = fmtBytes(file.size) + ' — click to choose a different file';
+  $('cleanBtn').disabled = false;
+  $('errorMsg').classList.remove('show');
+}
+window.__setFile = setFile;
+
+function progress(text, pct = null) {
+  $('progressWrap').classList.add('show');
+  $('progressText').textContent = text;
+  const bar = $('progressBarFill');
+  if (pct === null) { bar.classList.add('indet'); $('progressPct').textContent = ''; }
+  else { bar.classList.remove('indet'); bar.style.width = pct + '%'; $('progressPct').textContent = pct + '%'; }
+}
+function hideProgress() { $('progressWrap').classList.remove('show'); }
+function showError(msg) { const el = $('errorMsg'); el.textContent = msg; el.classList.add('show'); }
+
+/* ============================================================
+   FFT — iterative radix-2, in-place
+   ============================================================ */
+function makeFFT(n) {
+  const levels = Math.log2(n) | 0;
+  const rev = new Uint32Array(n);
+  for (let i = 0; i < n; i++) {
+    let x = i, r = 0;
+    for (let j = 0; j < levels; j++) { r = (r << 1) | (x & 1); x >>= 1; }
+    rev[i] = r;
+  }
+  const cos = new Float32Array(n / 2), sin = new Float32Array(n / 2);
+  for (let i = 0; i < n / 2; i++) {
+    cos[i] = Math.cos((2 * Math.PI * i) / n);
+    sin[i] = Math.sin((2 * Math.PI * i) / n);
+  }
+  function transform(re, im, inverse) {
+    for (let i = 0; i < n; i++) {
+      const r = rev[i];
+      if (r > i) {
+        let t = re[i]; re[i] = re[r]; re[r] = t;
+        t = im[i]; im[i] = im[r]; im[r] = t;
+      }
+    }
+    for (let size = 2; size <= n; size <<= 1) {
+      const half = size >> 1, step = n / size;
+      for (let i = 0; i < n; i += size) {
+        for (let j = i, k = 0; j < i + half; j++, k += step) {
+          const l = j + half;
+          const wr = cos[k], wi = inverse ? sin[k] : -sin[k];
+          const tr = re[l] * wr - im[l] * wi;
+          const ti = re[l] * wi + im[l] * wr;
+          re[l] = re[j] - tr; im[l] = im[j] - ti;
+          re[j] += tr; im[j] += ti;
+        }
+      }
+    }
+    if (inverse) for (let i = 0; i < n; i++) { re[i] /= n; im[i] /= n; }
+  }
+  return transform;
+}
+
+/* ============================================================
+   Spectral noise reduction (per channel)
+   - noise profile: 20th percentile magnitude per frequency bin
+   - gain: spectral subtraction with over-subtraction + floor
+   - smoothing in time & frequency to avoid "musical noise"
+   ============================================================ */
+const FRAME = 2048, HOP = 512, BINS = FRAME / 2 + 1;
+
+async function denoiseChannel(samples, alpha, floorGain, fft, win, onFrame) {
+  const nFrames = Math.max(1, Math.ceil(samples.length / HOP));
+  const re = new Float32Array(FRAME), im = new Float32Array(FRAME);
+
+  // ---- pass 1: noise profile from sampled frames ----
+  const sampleStep = Math.max(1, Math.floor(nFrames / 1200));
+  const sampled = [];
+  for (let f = 0; f < nFrames; f += sampleStep) {
+    const start = f * HOP;
+    for (let i = 0; i < FRAME; i++) {
+      const s = start + i < samples.length ? samples[start + i] : 0;
+      re[i] = s * win[i]; im[i] = 0;
+    }
+    fft(re, im, false);
+    const mags = new Float32Array(BINS);
+    for (let b = 0; b < BINS; b++) mags[b] = Math.hypot(re[b], im[b]);
+    sampled.push(mags);
+    if ((f / sampleStep) % 400 === 0) await new Promise((r) => setTimeout(r));
+  }
+  const noise = new Float32Array(BINS);
+  const col = new Float32Array(sampled.length);
+  for (let b = 0; b < BINS; b++) {
+    for (let s = 0; s < sampled.length; s++) col[s] = sampled[s][b];
+    col.sort();
+    noise[b] = col[Math.floor(col.length * 0.2)]; // 20th percentile ≈ noise floor
+  }
+
+  // ---- pass 2: apply gains with overlap-add ----
+  const outLen = samples.length;
+  const out = new Float32Array(outLen + FRAME);
+  const winSum = new Float32Array(outLen + FRAME);
+  const gain = new Float32Array(BINS);
+  const prevGain = new Float32Array(BINS).fill(1);
+
+  for (let f = 0; f < nFrames; f++) {
+    const start = f * HOP;
+    for (let i = 0; i < FRAME; i++) {
+      const s = start + i < samples.length ? samples[start + i] : 0;
+      re[i] = s * win[i]; im[i] = 0;
+    }
+    fft(re, im, false);
+
+    for (let b = 0; b < BINS; b++) {
+      const mag = Math.hypot(re[b], im[b]);
+      let g = mag > 1e-9 ? (mag - alpha * noise[b]) / mag : floorGain;
+      gain[b] = Math.max(floorGain, Math.min(1, g));
+    }
+    // frequency smoothing (3-tap)
+    for (let b = 1; b < BINS - 1; b++) gain[b] = (gain[b - 1] + gain[b] + gain[b + 1]) / 3;
+    // time smoothing
+    for (let b = 0; b < BINS; b++) {
+      const g = 0.5 * prevGain[b] + 0.5 * gain[b];
+      prevGain[b] = g; gain[b] = g;
+    }
+    // apply symmetric gains
+    for (let b = 0; b < BINS; b++) {
+      re[b] *= gain[b]; im[b] *= gain[b];
+      if (b > 0 && b < FRAME / 2) {
+        re[FRAME - b] *= gain[b]; im[FRAME - b] *= gain[b];
+      }
+    }
+    fft(re, im, true);
+    for (let i = 0; i < FRAME; i++) {
+      out[start + i] += re[i] * win[i];
+      winSum[start + i] += win[i] * win[i];
+    }
+    if (f % 250 === 0) { onFrame(f, nFrames); await new Promise((r) => setTimeout(r)); }
+  }
+  const result = new Float32Array(outLen);
+  for (let i = 0; i < outLen; i++) result[i] = winSum[i] > 1e-6 ? out[i] / winSum[i] : 0;
+  return result;
+}
+
+/* ============================================================
+   Full cleaning chain
+   ============================================================ */
+async function cleanAudio(file) {
+  progress('Decoding audio…');
+  const src = await decodeAudioFile(file);
+  const strength = Number($('strength').value); // 0..100
+  const alpha = 1 + (strength / 100) * 2.2;                       // over-subtraction 1..3.2
+  const floorGain = Math.pow(10, (-8 - strength * 0.16) / 20);    // floor -8..-24 dB
+
+  const fft = makeFFT(FRAME);
+  const win = new Float32Array(FRAME);
+  for (let i = 0; i < FRAME; i++) win[i] = 0.5 * (1 - Math.cos((2 * Math.PI * i) / (FRAME - 1)));
+
+  const AC = window.AudioContext || window.webkitAudioContext;
+  const tmpCtx = new AC();
+  const denoised = tmpCtx.createBuffer(src.numberOfChannels, src.length, src.sampleRate);
+  tmpCtx.close();
+
+  for (let c = 0; c < src.numberOfChannels; c++) {
+    const cleaned = await denoiseChannel(
+      src.getChannelData(c), alpha, floorGain, fft, win,
+      (f, n) => progress(
+        `Reducing noise — channel ${c + 1}/${src.numberOfChannels}…`,
+        Math.round(((c + f / n) / src.numberOfChannels) * 70)
+      )
+    );
+    denoised.getChannelData(c).set(cleaned);
+  }
+
+  // ---- post chain: high-pass + compressor via OfflineAudioContext ----
+  progress('Polishing (EQ + dynamics)…', 78);
+  const off = new OfflineAudioContext(denoised.numberOfChannels, denoised.length, denoised.sampleRate);
+  const player = off.createBufferSource();
+  player.buffer = denoised;
+  let node = player;
+  if ($('rumble').checked) {
+    const hp = off.createBiquadFilter();
+    hp.type = 'highpass'; hp.frequency.value = 80; hp.Q.value = 0.707;
+    node.connect(hp); node = hp;
+  }
+  if ($('compress').checked) {
+    const comp = off.createDynamicsCompressor();
+    comp.threshold.value = -24; comp.knee.value = 30; comp.ratio.value = 3;
+    comp.attack.value = 0.003; comp.release.value = 0.25;
+    node.connect(comp); node = comp;
+  }
+  node.connect(off.destination);
+  player.start(0);
+  const rendered = await off.startRendering();
+
+  // ---- normalize ----
+  if ($('normalize').checked) {
+    progress('Normalizing loudness…', 92);
+    let peak = 0;
+    for (let c = 0; c < rendered.numberOfChannels; c++) {
+      const d = rendered.getChannelData(c);
+      for (let i = 0; i < d.length; i++) { const a = Math.abs(d[i]); if (a > peak) peak = a; }
+    }
+    if (peak > 1e-6) {
+      const target = Math.pow(10, -1 / 20); // -1 dBFS
+      const scale = target / peak;
+      for (let c = 0; c < rendered.numberOfChannels; c++) {
+        const d = rendered.getChannelData(c);
+        for (let i = 0; i < d.length; i++) d[i] *= scale;
+      }
+    }
+  }
+  return rendered;
+}
+
+// ---------- MP3 encoding (lamejs) ----------
+function bufferToMp3(buffer) {
+  if (typeof lamejs === 'undefined') throw new Error('MP3 encoder failed to load — use WAV instead.');
+  const ch = Math.min(2, buffer.numberOfChannels);
+  const enc = new lamejs.Mp3Encoder(ch, buffer.sampleRate, 192);
+  const toInt16 = (f32) => {
+    const i16 = new Int16Array(f32.length);
+    for (let i = 0; i < f32.length; i++) {
+      const s = Math.max(-1, Math.min(1, f32[i]));
+      i16[i] = s < 0 ? s * 0x8000 : s * 0x7FFF;
+    }
+    return i16;
+  };
+  const L = toInt16(buffer.getChannelData(0));
+  const R = ch === 2 ? toInt16(buffer.getChannelData(1)) : null;
+  const chunks = [];
+  const BLOCK = 1152;
+  for (let i = 0; i < L.length; i += BLOCK) {
+    const l = L.subarray(i, i + BLOCK);
+    const r = R ? R.subarray(i, i + BLOCK) : undefined;
+    const d = ch === 2 ? enc.encodeBuffer(l, r) : enc.encodeBuffer(l);
+    if (d.length) chunks.push(new Int8Array(d));
+  }
+  const end = enc.flush();
+  if (end.length) chunks.push(new Int8Array(end));
+  return new Blob(chunks, { type: 'audio/mpeg' });
+}
+
+// ---------- main flow ----------
+$('cleanBtn').addEventListener('click', async () => {
+  if (!currentFile) return;
+  $('cleanBtn').disabled = true;
+  $('errorMsg').classList.remove('show');
+  const t0 = performance.now();
+  try {
+    cleanedBuffer = await cleanAudio(currentFile);
+    progress('Preparing preview…', 97);
+    const wavBlob = audioBufferToWav(cleanedBuffer);
+    $('playerOrig').src = URL.createObjectURL(currentFile);
+    $('playerClean').src = URL.createObjectURL(wavBlob);
+    const secs = ((performance.now() - t0) / 1000).toFixed(1);
+    $('metaLine').textContent =
+      `${currentFile.name} · ${fmtDuration(cleanedBuffer.duration)} · cleaned in ${secs}s · on-device`;
+    $('resultPanel').classList.add('show');
+    $('resultPanel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    hideProgress();
+    toast('Voice cleaned');
+  } catch (err) {
+    console.error(err);
+    hideProgress();
+    showError('Could not process this file: ' + (err.message || err));
+  } finally {
+    $('cleanBtn').disabled = false;
+  }
+});
+
+$('dlWav').addEventListener('click', () => {
+  if (!cleanedBuffer) return;
+  downloadBlob(audioBufferToWav(cleanedBuffer), stripExt(currentFile.name) + '-cleaned.wav');
+});
+$('dlMp3').addEventListener('click', () => {
+  if (!cleanedBuffer) return;
+  try {
+    progress('Encoding MP3…');
+    setTimeout(() => {
+      try {
+        downloadBlob(bufferToMp3(cleanedBuffer), stripExt(currentFile.name) + '-cleaned.mp3');
+      } catch (e) { showError(e.message); }
+      hideProgress();
+    }, 30);
+  } catch (e) { hideProgress(); showError(e.message); }
+});
+</script>
+</body>
+</html>

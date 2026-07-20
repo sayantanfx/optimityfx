@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>YouTube Kit — OptimityFX Vault Tools</title>
+<link rel="stylesheet" href="tools.css">
+<style>
+.section-label{font-size:.74rem;letter-spacing:2px;text-transform:uppercase;color:var(--accent);font-weight:700;margin:26px 0 4px;display:flex;align-items:center;gap:10px}
+.section-label::after{content:"";flex:1;height:1px;background:var(--line)}
+#results{display:none}
+#results.show{display:block}
+.desc-block .copy-btn{top:12px}
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+
+<nav id="nav">
+  <a class="nav-brand" href="/vault"><img src="../Logos/optimityfx-logo-nav.png" alt="OptimityFX"></a>
+  <ul class="nav-links">
+    <li><a href="transcribe.html">Transcribe</a></li>
+    <li><a href="voice-cleaner.html">Voice Cleaner</a></li>
+    <li><a href="voice-to-srt.html">Voice → SRT</a></li>
+    <li><a href="youtube-kit.html" class="active">YouTube Kit</a></li>
+    <li><a href="/vault">← Vault</a></li>
+  </ul>
+</nav>
+
+<header class="tool-head wrap">
+  <div class="eyebrow">Vault Tools · AI</div>
+  <h1>YouTube <span class="grad-text">Kit</span></h1>
+  <p class="lead">Paste your video script — get 10 SEO-friendly titles, a ready-to-publish description, and comma-separated tags under 500 characters. One click to copy each.</p>
+  <span class="privacy-chip"><span class="pulse"></span> Powered by Claude AI</span>
+</header>
+
+<main class="wrap">
+  <div class="panel">
+    <h2><span class="n">1</span> Paste your script</h2>
+    <textarea id="script" placeholder="Paste your full video script here… (min 100 characters)"></textarea>
+    <div class="char-count" id="scriptCount">0 characters</div>
+    <label class="field-label" for="keyword">Focus keyword <span style="color:var(--faint);text-transform:none;letter-spacing:0">(optional — e.g. "davinci resolve color grading")</span></label>
+    <input type="text" id="keyword" placeholder="Main keyword to rank for">
+    <div class="btn-row">
+      <button class="btn btn-accent" id="generateBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 3l4 4L5 11M13 3l4 4-4 4M9 13l4 4-4 4"/></svg>
+        Generate Metadata
+      </button>
+      <button class="btn btn-ghost" id="clearBtn">Clear</button>
+    </div>
+    <div class="progress-wrap" id="progressWrap">
+      <div class="progress-label"><span id="progressText">Generating…</span><span></span></div>
+      <div class="progress-bar"><i class="indet"></i></div>
+    </div>
+    <div class="status-msg error" id="errorMsg"></div>
+  </div>
+
+  <div id="results">
+    <div class="panel">
+      <h2><span class="n">2</span> Your metadata</h2>
+
+      <div class="section-label">Titles — pick one</div>
+      <div id="titleList"></div>
+
+      <div class="section-label">Description</div>
+      <div class="result-block desc-block">
+        <button class="copy-btn" data-copy-target="descText">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copy
+        </button>
+        <pre id="descText"></pre>
+      </div>
+
+      <div class="section-label">Tags</div>
+      <div class="result-block">
+        <button class="copy-btn" data-copy-target="tagsText">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copy
+        </button>
+        <pre id="tagsText"></pre>
+        <div class="char-count" id="tagsCount"></div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-ghost" id="regenBtn">↻ Regenerate</button>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="spectrum-rule"></div>
+    <img src="../Logos/optimityfx-logo-nav.png" alt="OptimityFX">
+    <p>OptimityFX Vault Tools · <i>Your Vision — Graded</i> · Internal use only</p>
+  </div>
+</footer>
+
+<div id="toast">Copied!</div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const nav = $('nav');
+addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 20));
+
+// ---------- toast + copy ----------
+let toastTimer;
+function toast(msg) {
+  const t = $('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 1400);
+}
+async function copyText(text, btn) {
+  try {
+    await navigator.clipboard.writeText(text);
+  } catch {
+    const ta = document.createElement('textarea');
+    ta.value = text; document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); ta.remove();
+  }
+  toast('Copied to clipboard');
+  if (btn) {
+    btn.classList.add('copied');
+    const label = btn.querySelector('.copy-label');
+    setTimeout(() => btn.classList.remove('copied'), 1500);
+  }
+}
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('[data-copy-target]');
+  if (btn) copyText($(btn.dataset.copyTarget).textContent, btn);
+});
+
+// ---------- script char count ----------
+$('script').addEventListener('input', () => {
+  $('scriptCount').textContent = $('script').value.length.toLocaleString() + ' characters';
+});
+
+// ---------- generate ----------
+const COPY_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+
+function setBusy(busy) {
+  $('generateBtn').disabled = busy;
+  $('regenBtn').disabled = busy;
+  $('progressWrap').classList.toggle('show', busy);
+}
+function showError(msg) {
+  const el = $('errorMsg');
+  el.textContent = msg;
+  el.classList.add('show');
+}
+
+async function generate() {
+  const script = $('script').value.trim();
+  $('errorMsg').classList.remove('show');
+  if (script.length < 100) {
+    showError('Please paste a script of at least 100 characters.');
+    return;
+  }
+  setBusy(true);
+  $('progressText').textContent = 'Claude is writing your metadata…';
+  try {
+    const res = await fetch('/api/youtube-kit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ script, focusKeyword: $('keyword').value.trim() }),
+    });
+    let data = null;
+    try { data = await res.json(); } catch { /* non-JSON (e.g. 404/501 page) */ }
+    if (!res.ok || !data) {
+      throw new Error((data && data.error) ||
+        'The AI endpoint (/api/youtube-kit) is not available here. It only works on the deployed site (Vercel serverless), not on a plain static preview.');
+    }
+    render(data);
+  } catch (err) {
+    showError(err.message || 'Something went wrong. Try again.');
+  } finally {
+    setBusy(false);
+  }
+}
+
+function render(data) {
+  const list = $('titleList');
+  list.innerHTML = '';
+  (data.titles || []).forEach((title, i) => {
+    const row = document.createElement('div');
+    row.className = 'title-item';
+    row.innerHTML =
+      `<span class="t-num">${String(i + 1).padStart(2, '0')}</span>` +
+      `<span class="t-text"></span>` +
+      `<span class="t-chars">${title.length}ch</span>` +
+      `<button class="copy-btn">${COPY_SVG} Copy</button>`;
+    row.querySelector('.t-text').textContent = title;
+    row.querySelector('.copy-btn').addEventListener('click', (e) => copyText(title, e.currentTarget));
+    list.appendChild(row);
+  });
+  $('descText').textContent = data.description || '';
+  $('tagsText').textContent = data.tags || '';
+  const n = (data.tags || '').length;
+  const tc = $('tagsCount');
+  tc.textContent = `${n} / 500 characters`;
+  tc.classList.toggle('over', n > 500);
+  $('results').classList.add('show');
+  $('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+$('generateBtn').addEventListener('click', generate);
+$('regenBtn').addEventListener('click', generate);
+$('clearBtn').addEventListener('click', () => {
+  $('script').value = '';
+  $('keyword').value = '';
+  $('scriptCount').textContent = '0 characters';
+  $('results').classList.remove('show');
+  $('errorMsg').classList.remove('show');
+});
+</script>
+</body>
+</html>

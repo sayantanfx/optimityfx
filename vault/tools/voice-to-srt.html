@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Voice to SRT — OptimityFX Vault Tools</title>
+<link rel="stylesheet" href="tools.css">
+<style>
+.f-dl{display:none}
+.file-row.done .f-dl{display:inline-flex}
+#batchActions{display:none;margin-top:18px}
+#batchActions.show{display:flex}
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+
+<nav id="nav">
+  <a class="nav-brand" href="/vault"><img src="../Logos/optimityfx-logo-nav.png" alt="OptimityFX"></a>
+  <ul class="nav-links">
+    <li><a href="transcribe.html">Transcribe</a></li>
+    <li><a href="voice-cleaner.html">Voice Cleaner</a></li>
+    <li><a href="voice-to-srt.html" class="active">Voice → SRT</a></li>
+    <li><a href="youtube-kit.html">YouTube Kit</a></li>
+    <li><a href="/vault">← Vault</a></li>
+  </ul>
+</nav>
+
+<header class="tool-head wrap">
+  <div class="eyebrow">Vault Tools · Subtitles</div>
+  <h1>Voice to <span class="grad-text">SRT</span></h1>
+  <p class="lead">Generate timestamped subtitle files from voice or video — 30+ languages, batch multiple files, download everything as a ZIP. Fully in your browser.</p>
+  <span class="privacy-chip"><span class="pulse"></span> 100% private · on-device AI</span>
+</header>
+
+<main class="wrap">
+  <div class="panel">
+    <h2><span class="n">1</span> Add your files</h2>
+    <div class="dropzone" id="dropzone">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3v12m0 0l-4-4m4 4l4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+      <div class="dz-title">Drop audio or video files here</div>
+      <div class="dz-sub">multiple files supported — MP3, WAV, M4A, MP4, MOV, WebM…</div>
+    </div>
+    <input type="file" id="fileInput" accept="audio/*,video/*" multiple hidden>
+
+    <div class="controls-row" style="margin-top:18px">
+      <div>
+        <label class="field-label" for="modelSel">Model</label>
+        <select id="modelSel"></select>
+      </div>
+      <div>
+        <label class="field-label" for="langSel">Language</label>
+        <select id="langSel"></select>
+      </div>
+    </div>
+    <p class="hint">First run downloads the AI model to your browser cache. Files are processed one by one — keep this tab open.</p>
+
+    <div class="file-list" id="fileList"></div>
+
+    <div class="btn-row">
+      <button class="btn btn-accent" id="startBtn" disabled>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        Generate Subtitles
+      </button>
+    </div>
+    <div class="progress-wrap" id="progressWrap">
+      <div class="progress-label"><span id="progressText">Working…</span><span id="progressPct"></span></div>
+      <div class="progress-bar"><i id="progressBarFill"></i></div>
+    </div>
+    <div class="status-msg error" id="errorMsg"></div>
+
+    <div class="btn-row" id="batchActions">
+      <button class="btn btn-accent" id="zipBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 8v13H3V8M1 3h22v5H1zM10 12h4"/></svg>
+        Download All (.zip)
+      </button>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="spectrum-rule"></div>
+    <img src="../Logos/optimityfx-logo-nav.png" alt="OptimityFX">
+    <p>OptimityFX Vault Tools · <i>Your Vision — Graded</i> · Internal use only</p>
+  </div>
+</footer>
+
+<div id="toast">Done!</div>
+
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+<script type="module">
+import { MODELS, LANGUAGES, getTranscriber, transcribe, makeProgressAggregator } from './whisper.js';
+import { fileToWhisperInput, downloadBlob, stripExt, fmtBytes, fmtDuration } from './audio-utils.js';
+
+const $ = (id) => document.getElementById(id);
+const nav = $('nav');
+addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 20));
+
+let toastTimer;
+function toast(msg) {
+  const t = $('toast');
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 1400);
+}
+
+// ---------- selects ----------
+MODELS.forEach((m, i) => {
+  const o = document.createElement('option');
+  o.value = m.id; o.textContent = m.label;
+  if (i === 1) o.selected = true;
+  $('modelSel').appendChild(o);
+});
+LANGUAGES.forEach(([code, name]) => {
+  const o = document.createElement('option');
+  o.value = code; o.textContent = name;
+  $('langSel').appendChild(o);
+});
+
+// ---------- queue ----------
+/** @type {{file:File, status:string, srt:string|null, row:HTMLElement}[]} */
+let queue = [];
+const dz = $('dropzone');
+dz.addEventListener('click', () => $('fileInput').click());
+dz.addEventListener('dragover', (e) => { e.preventDefault(); dz.classList.add('drag'); });
+dz.addEventListener('dragleave', () => dz.classList.remove('drag'));
+dz.addEventListener('drop', (e) => {
+  e.preventDefault(); dz.classList.remove('drag');
+  addFiles(e.dataTransfer.files);
+});
+$('fileInput').addEventListener('change', (e) => { addFiles(e.target.files); e.target.value = ''; });
+
+function addFiles(fileList) {
+  for (const file of fileList) {
+    const row = document.createElement('div');
+    row.className = 'file-row';
+    row.innerHTML =
+      `<span class="f-name"></span>` +
+      `<span class="f-status queued">QUEUED</span>` +
+      `<button class="dl f-dl">SRT</button>` +
+      `<button class="f-remove" title="Remove">✕</button>`;
+    row.querySelector('.f-name').textContent = `${file.name} (${fmtBytes(file.size)})`;
+    const item = { file, status: 'queued', srt: null, row };
+    row.querySelector('.f-remove').addEventListener('click', () => {
+      queue = queue.filter((q) => q !== item);
+      row.remove();
+      refreshButtons();
+    });
+    row.querySelector('.f-dl').addEventListener('click', () => {
+      if (item.srt) downloadBlob(new Blob([item.srt], { type: 'text/plain' }), stripExt(item.file.name) + '.srt');
+    });
+    queue.push(item);
+    $('fileList').appendChild(row);
+  }
+  refreshButtons();
+}
+window.__addFiles = addFiles;
+
+function refreshButtons() {
+  $('startBtn').disabled = !queue.some((q) => q.status === 'queued');
+  $('batchActions').classList.toggle('show', queue.some((q) => q.status === 'done'));
+}
+function setStatus(item, status, label) {
+  item.status = status;
+  const el = item.row.querySelector('.f-status');
+  el.className = 'f-status ' + status;
+  el.textContent = label;
+  item.row.classList.toggle('done', status === 'done');
+}
+
+// ---------- SRT building ----------
+function srtTime(sec) {
+  sec = Math.max(0, sec);
+  const h = Math.floor(sec / 3600);
+  const m = Math.floor((sec % 3600) / 60);
+  const s = Math.floor(sec % 60);
+  const ms = Math.round((sec - Math.floor(sec)) * 1000);
+  return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')},${String(ms).padStart(3, '0')}`;
+}
+function chunksToSrt(chunks, totalDuration) {
+  const cues = [];
+  for (const c of chunks) {
+    const text = (c.text || '').trim();
+    if (!text) continue;
+    let [start, end] = c.timestamp || [0, null];
+    if (start == null) start = cues.length ? cues[cues.length - 1].end : 0;
+    if (end == null || end <= start) end = Math.min(start + 4, totalDuration || start + 4);
+    cues.push({ start, end, text });
+  }
+  return cues.map((c, i) =>
+    `${i + 1}\n${srtTime(c.start)} --> ${srtTime(c.end)}\n${c.text}\n`
+  ).join('\n');
+}
+
+// ---------- progress ----------
+function progress(text, pct = null) {
+  $('progressWrap').classList.add('show');
+  $('progressText').textContent = text;
+  const bar = $('progressBarFill');
+  if (pct === null) { bar.classList.add('indet'); $('progressPct').textContent = ''; }
+  else { bar.classList.remove('indet'); bar.style.width = pct + '%'; $('progressPct').textContent = pct + '%'; }
+}
+function hideProgress() { $('progressWrap').classList.remove('show'); }
+function showError(msg) { const el = $('errorMsg'); el.textContent = msg; el.classList.add('show'); }
+
+// ---------- batch run ----------
+$('startBtn').addEventListener('click', async () => {
+  $('startBtn').disabled = true;
+  $('errorMsg').classList.remove('show');
+  try {
+    progress('Downloading AI model (first run only)…', 0);
+    const asr = await getTranscriber($('modelSel').value,
+      makeProgressAggregator((pct) => progress('Downloading AI model (first run only)…', pct)));
+
+    const todo = queue.filter((q) => q.status === 'queued');
+    for (let i = 0; i < todo.length; i++) {
+      const item = todo[i];
+      setStatus(item, 'working', 'TRANSCRIBING…');
+      progress(`File ${i + 1} of ${todo.length}: ${item.file.name}`);
+      try {
+        const audio = await fileToWhisperInput(item.file);
+        const dur = audio.length / 16000;
+        progress(`File ${i + 1} of ${todo.length}: transcribing ${fmtDuration(dur)} — keep this tab open…`);
+        const out = await transcribe(asr, audio, { language: $('langSel').value, timestamps: true });
+        item.srt = chunksToSrt(out.chunks || [], dur);
+        setStatus(item, 'done', 'DONE ✓');
+      } catch (err) {
+        console.error(err);
+        setStatus(item, 'error', 'FAILED');
+      }
+      refreshButtons();
+    }
+    hideProgress();
+    toast('Batch complete');
+  } catch (err) {
+    console.error(err);
+    hideProgress();
+    showError('Could not load the AI model: ' + (err.message || err));
+  } finally {
+    refreshButtons();
+  }
+});
+
+// ---------- ZIP ----------
+$('zipBtn').addEventListener('click', async () => {
+  const done = queue.filter((q) => q.status === 'done' && q.srt);
+  if (!done.length) return;
+  const zip = new JSZip();
+  done.forEach((item) => zip.file(stripExt(item.file.name) + '.srt', item.srt));
+  const blob = await zip.generateAsync({ type: 'blob' });
+  downloadBlob(blob, 'optimityfx-subtitles.zip');
+  toast(`${done.length} SRT file${done.length > 1 ? 's' : ''} zipped`);
+});
+</script>
+</body>
+</html>

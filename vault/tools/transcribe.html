@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Transcribe Audio — OptimityFX Vault Tools</title>
+<link rel="stylesheet" href="tools.css">
+<style>
+#resultPanel{display:none}
+#resultPanel.show{display:block}
+#transcript{min-height:260px}
+.meta-line{font-family:'Courier New',monospace;font-size:.74rem;color:var(--dim);margin-top:10px}
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+
+<nav id="nav">
+  <a class="nav-brand" href="/vault"><img src="../Logos/optimityfx-logo-nav.png" alt="OptimityFX"></a>
+  <ul class="nav-links">
+    <li><a href="transcribe.html" class="active">Transcribe</a></li>
+    <li><a href="voice-cleaner.html">Voice Cleaner</a></li>
+    <li><a href="voice-to-srt.html">Voice → SRT</a></li>
+    <li><a href="youtube-kit.html">YouTube Kit</a></li>
+    <li><a href="/vault">← Vault</a></li>
+  </ul>
+</nav>
+
+<header class="tool-head wrap">
+  <div class="eyebrow">Vault Tools · Audio</div>
+  <h1>Transcribe <span class="grad-text">Audio</span></h1>
+  <p class="lead">Turn any voice recording into text with Whisper AI — 30+ languages, running fully in your browser. Your audio never leaves this device.</p>
+  <span class="privacy-chip"><span class="pulse"></span> 100% private · on-device AI</span>
+</header>
+
+<main class="wrap">
+  <div class="panel">
+    <h2><span class="n">1</span> Add your audio</h2>
+    <div class="dropzone" id="dropzone">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3v12m0 0l-4-4m4 4l4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+      <div class="dz-title">Drop an audio or video file here</div>
+      <div class="dz-sub">or click to browse — MP3, WAV, M4A, MP4, MOV, WebM…</div>
+    </div>
+    <input type="file" id="fileInput" accept="audio/*,video/*" hidden>
+    <div class="controls-row" style="margin-top:18px">
+      <div>
+        <label class="field-label" for="modelSel">Model</label>
+        <select id="modelSel"></select>
+      </div>
+      <div>
+        <label class="field-label" for="langSel">Language</label>
+        <select id="langSel"></select>
+      </div>
+    </div>
+    <p class="hint">First run downloads the AI model to your browser cache — after that it loads instantly, even offline.</p>
+    <div class="btn-row">
+      <button class="btn btn-accent" id="startBtn" disabled>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        Transcribe
+      </button>
+    </div>
+    <div class="progress-wrap" id="progressWrap">
+      <div class="progress-label"><span id="progressText">Loading…</span><span id="progressPct"></span></div>
+      <div class="progress-bar"><i id="progressBarFill"></i></div>
+    </div>
+    <div class="status-msg error" id="errorMsg"></div>
+  </div>
+
+  <div class="panel" id="resultPanel">
+    <h2><span class="n">2</span> Transcript</h2>
+    <textarea id="transcript" spellcheck="false"></textarea>
+    <div class="meta-line" id="metaLine"></div>
+    <div class="btn-row">
+      <button class="btn btn-accent" id="copyBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        Copy Text
+      </button>
+      <button class="btn btn-ghost" id="downloadBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16"/></svg>
+        Download .txt
+      </button>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="spectrum-rule"></div>
+    <img src="../Logos/optimityfx-logo-nav.png" alt="OptimityFX">
+    <p>OptimityFX Vault Tools · <i>Your Vision — Graded</i> · Internal use only</p>
+  </div>
+</footer>
+
+<div id="toast">Copied!</div>
+
+<script type="module">
+import { MODELS, LANGUAGES, getTranscriber, transcribe, makeProgressAggregator } from './whisper.js';
+import { fileToWhisperInput, downloadBlob, stripExt, fmtBytes, fmtDuration } from './audio-utils.js';
+
+const $ = (id) => document.getElementById(id);
+const nav = $('nav');
+addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 20));
+
+let toastTimer;
+function toast(msg) {
+  const t = $('toast');
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 1400);
+}
+
+// ---------- populate selects ----------
+MODELS.forEach((m, i) => {
+  const o = document.createElement('option');
+  o.value = m.id; o.textContent = m.label;
+  if (i === 1) o.selected = true; // Balanced default
+  $('modelSel').appendChild(o);
+});
+LANGUAGES.forEach(([code, name]) => {
+  const o = document.createElement('option');
+  o.value = code; o.textContent = name;
+  $('langSel').appendChild(o);
+});
+
+// ---------- file handling ----------
+let currentFile = null;
+const dz = $('dropzone');
+dz.addEventListener('click', () => $('fileInput').click());
+dz.addEventListener('dragover', (e) => { e.preventDefault(); dz.classList.add('drag'); });
+dz.addEventListener('dragleave', () => dz.classList.remove('drag'));
+dz.addEventListener('drop', (e) => {
+  e.preventDefault(); dz.classList.remove('drag');
+  if (e.dataTransfer.files.length) setFile(e.dataTransfer.files[0]);
+});
+$('fileInput').addEventListener('change', (e) => {
+  if (e.target.files.length) setFile(e.target.files[0]);
+});
+
+function setFile(file) {
+  currentFile = file;
+  dz.querySelector('.dz-title').textContent = file.name;
+  dz.querySelector('.dz-sub').textContent = fmtBytes(file.size) + ' — click to choose a different file';
+  $('startBtn').disabled = false;
+  $('errorMsg').classList.remove('show');
+}
+// exposed for automated testing
+window.__setFile = setFile;
+
+// ---------- progress ----------
+function progress(text, pct = null) {
+  $('progressWrap').classList.add('show');
+  $('progressText').textContent = text;
+  const bar = $('progressBarFill');
+  if (pct === null) {
+    bar.classList.add('indet'); $('progressPct').textContent = '';
+  } else {
+    bar.classList.remove('indet');
+    bar.style.width = pct + '%';
+    $('progressPct').textContent = pct + '%';
+  }
+}
+function hideProgress() { $('progressWrap').classList.remove('show'); }
+function showError(msg) {
+  const el = $('errorMsg'); el.textContent = msg; el.classList.add('show');
+}
+
+// ---------- transcription ----------
+$('startBtn').addEventListener('click', async () => {
+  if (!currentFile) return;
+  $('startBtn').disabled = true;
+  $('errorMsg').classList.remove('show');
+  const t0 = performance.now();
+  try {
+    progress('Downloading AI model (first run only)…', 0);
+    const asr = await getTranscriber($('modelSel').value,
+      makeProgressAggregator((pct) => progress('Downloading AI model (first run only)…', pct)));
+
+    progress('Decoding audio…');
+    const audio = await fileToWhisperInput(currentFile);
+    const dur = audio.length / 16000;
+
+    progress(`Transcribing ${fmtDuration(dur)} of audio — keep this tab open…`);
+    const out = await transcribe(asr, audio, { language: $('langSel').value, timestamps: false });
+
+    const secs = ((performance.now() - t0) / 1000).toFixed(1);
+    $('transcript').value = (out.text || '').trim();
+    $('metaLine').textContent = `${currentFile.name} · ${fmtDuration(dur)} audio · processed in ${secs}s · on-device`;
+    $('resultPanel').classList.add('show');
+    $('resultPanel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    hideProgress();
+  } catch (err) {
+    console.error(err);
+    hideProgress();
+    showError('Could not transcribe this file: ' + (err.message || err));
+  } finally {
+    $('startBtn').disabled = false;
+  }
+});
+
+// ---------- actions ----------
+$('copyBtn').addEventListener('click', async () => {
+  try { await navigator.clipboard.writeText($('transcript').value); } catch {}
+  toast('Transcript copied');
+});
+$('downloadBtn').addEventListener('click', () => {
+  downloadBlob(new Blob([$('transcript').value], { type: 'text/plain' }),
+    stripExt(currentFile ? currentFile.name : 'transcript') + '.txt');
+});
+</script>
+</body>
+</html>
