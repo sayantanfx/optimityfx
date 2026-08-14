@@ -70,8 +70,8 @@ def _drop_item(sid,t,d,ai):
 SERVICES_DROP = '<div class="drop">\n' + "\n".join(_drop_item(*s) for s in SERVICES) + '\n        </div>'
 
 def nav(active):
-    items = [("services.html","Services"),("portfolio.html","Work"),("academy.html","Academy"),
-             ("store.html","Store"),("blog.html","Blog"),("about.html","About")]
+    items = [("services.html","Services"),("ai-ads.html","AI Ads"),("portfolio.html","Work"),
+             ("blog.html","Blog"),("about.html","About")]
     home_cls = ' class="nav-home active"' if active=="index.html" else ' class="nav-home"'
     home_icon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5 12 3l9 6.5V20a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1z"/><path d="M9 21V12h6v9"/></svg>'
     home_li = f'<li><a href="index.html" aria-label="Home"{home_cls}>{home_icon}</a></li>'
