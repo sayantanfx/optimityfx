@@ -31,12 +31,14 @@
   .ai-hero{position:relative;text-align:center;padding:96px 0 104px;overflow:hidden;isolation:isolate}
   /* catchy layered background: drifting aurora blobs + faint grid + prism */
   .ai-hero::before{
-    content:"";position:absolute;inset:-20% -10% 0;z-index:-2;pointer-events:none;
+    content:"";position:absolute;inset:-20% -10% -12%;z-index:-2;pointer-events:none;
     background:
       radial-gradient(46% 42% at 22% 18%, rgba(0,212,255,.34), transparent 60%),
       radial-gradient(44% 44% at 82% 26%, rgba(124,123,255,.30), transparent 62%),
-      radial-gradient(60% 50% at 50% 96%, rgba(58,160,255,.22), transparent 64%);
-    filter:blur(26px);opacity:.9;animation:auroraDrift 16s ease-in-out infinite alternate}
+      radial-gradient(70% 55% at 50% 108%, rgba(58,160,255,.20), transparent 66%);
+    filter:blur(26px);opacity:.9;animation:auroraDrift 16s ease-in-out infinite alternate;
+    -webkit-mask-image:linear-gradient(180deg,#000 70%,transparent);
+            mask-image:linear-gradient(180deg,#000 70%,transparent)}
   .ai-hero::after{
     content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
     background-image:linear-gradient(rgba(255,255,255,.028) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.028) 1px,transparent 1px);
@@ -63,17 +65,19 @@
   .hero-creds svg{width:15px;height:15px;color:var(--accent);flex:0 0 15px}
 
   /* ---- hero showreel ---- */
-  .hero-video{position:relative;z-index:2;padding:0 0 26px}
+  .hero-video{position:relative;z-index:2;padding:14px 0 26px;
+    background:radial-gradient(120% 90% at 50% -18%, rgba(58,120,220,.10), transparent 58%)}
   .hero-video .tag-row{text-align:center}
-  .hero-video .frame{position:relative;padding:56.25% 0 0 0;background:#000;
+  .hero-video .frame{position:relative;padding:56.25% 0 0 0;
+    background:radial-gradient(120% 130% at 50% 28%, #0d1119, #050609);
     border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;
-    box-shadow:0 30px 80px rgba(0,0,0,.55),0 0 60px rgba(0,212,255,.10)}
+    box-shadow:0 30px 80px rgba(0,0,0,.45),0 0 70px rgba(0,212,255,.10)}
   .hero-video .frame iframe,
   .hero-video .frame .yt-hero{position:absolute;top:0;left:0;width:100%;height:100%;border:0}
   /* transparent cover intercepts hover/clicks so YouTube's title, share &
      suggestion overlays never appear; click toggles play/pause via the API */
   .hero-video .frame .yt-cover{position:absolute;inset:0;z-index:2;cursor:pointer;
-    background:#000;transition:opacity .35s ease}
+    background:radial-gradient(120% 130% at 50% 32%, #0d1119, #050609);transition:opacity .35s ease}
   .hero-video .stage.is-playing .frame .yt-cover{background:transparent}
   /* ambient TV backlight — a blurred, slowly shifting glow tuned to the
      video's palette; only lit while the video is actually playing */
@@ -204,6 +208,30 @@
   .budget-steps span{display:inline-flex;align-items:center;gap:9px;color:var(--muted);font-size:.9rem}
   .budget-steps b{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--grad-cool);color:#00131a;font-size:.78rem;font-weight:800}
 
+  /* ---- connect modal ---- */
+  .connect-modal[hidden]{display:none}
+  .connect-modal{position:fixed;inset:0;z-index:1000;display:grid;place-items:center;padding:24px}
+  .connect-modal .cm-backdrop{position:absolute;inset:0;background:rgba(4,6,10,.72);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+  .connect-modal .cm-card{position:relative;z-index:1;width:100%;max-width:420px;text-align:center;
+    background:radial-gradient(120% 90% at 50% 0%,rgba(0,212,255,.12),transparent 60%),linear-gradient(180deg,var(--panel),var(--bg-2));
+    border:1px solid var(--line);border-radius:20px;padding:40px 30px 32px;
+    box-shadow:0 40px 100px -30px rgba(0,0,0,.8);animation:cmIn .28s var(--ease)}
+  @keyframes cmIn{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
+  .connect-modal .cm-x{position:absolute;top:14px;right:16px;background:none;border:0;color:var(--muted);font-size:1.1rem;cursor:pointer;line-height:1;padding:6px}
+  .connect-modal .cm-x:hover{color:var(--text)}
+  .connect-modal h3{font-family:var(--head);font-weight:800;font-size:1.5rem;letter-spacing:-.4px;margin-bottom:8px}
+  .connect-modal .cm-sub{color:var(--muted);font-size:.94rem;margin-bottom:24px}
+  .connect-modal .cm-actions{display:grid;gap:12px}
+  .connect-modal .cm-btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;
+    padding:15px 20px;border-radius:12px;font-weight:700;font-size:1rem;border:1px solid transparent;transition:transform .2s,filter .2s,border-color .2s,background .2s}
+  .connect-modal .cm-btn svg{width:20px;height:20px}
+  .connect-modal .cm-wa{background:#25D366;color:#04210f}
+  .connect-modal .cm-wa:hover{filter:brightness(1.08);transform:translateY(-2px)}
+  .connect-modal .cm-mail{background:rgba(255,255,255,.03);border-color:var(--line);color:var(--text)}
+  .connect-modal .cm-mail:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px)}
+  .connect-modal .cm-foot{margin-top:20px;color:var(--dim);font-size:.86rem}
+  .connect-modal .cm-foot a{color:var(--muted)}
+
   /* ---- masterstroke offer ---- */
   .offer{position:relative;overflow:hidden;border-top:1px solid var(--line);border-bottom:1px solid var(--line);
     background:radial-gradient(ellipse 90% 70% at 50% 0%,rgba(0,212,255,.10),transparent 60%),var(--bg-2)}
@@ -296,16 +324,15 @@
           <a href="service-ai-vfx.html"><span class="di"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m12 3 1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M5 19l1 2 1-2 2-1-2-1-1-2-1 2-2 1z"/></svg></span><span><span class="dt">AI VFX <span class="ai-tag">AI POWERED</span></span><span class="dd">AI effects & compositing</span></span></a>
         </div></li><li><a href="ai-studio.html" class="active">AI Studio</a></li><li><a href="portfolio.html">Work</a></li><li><a href="blog.html">Blog</a></li><li><a href="about.html">About</a></li></nav>
     <div class="nav-cta">
-      <a href="contact.html" class="btn btn-accent btn-sm">Start a Project</a>
+      <a class="btn btn-accent btn-sm" data-connect="Hi OptimityFX! I'd like to start a project with your AI Studio.">Start a Project</a>
       <button class="burger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
     </div>
   </div>
 </header>
-<div class="m-drawer"><a href="services.html">Services</a><a href="ai-studio.html">AI Studio</a><a href="portfolio.html">Work</a><a href="blog.html">Blog</a><a href="about.html">About</a><a href="contact.html" class="btn btn-accent">Start a Project</a></div>
+<div class="m-drawer"><a href="services.html">Services</a><a href="ai-studio.html">AI Studio</a><a href="portfolio.html">Work</a><a href="blog.html">Blog</a><a href="about.html">About</a><a class="btn btn-accent" data-connect="Hi OptimityFX! I'd like to start a project with your AI Studio.">Start a Project</a></div>
 
 <!-- HERO -->
 <header class="ai-hero">
-  <div class="ai-prism"></div>
   <div class="wrap">
     <span class="eyebrow center-eb">AI Studio</span>
     <h1>A full film studio, <span class="spectrum-text">powered by AI</span>.</h1>
@@ -316,7 +343,7 @@
       <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg>Concept to final cut, in days</span>
     </div>
     <div class="ai-cta">
-      <a href="#offer" class="btn btn-primary btn-lg">Get my first film free →</a>
+      <a class="btn btn-primary btn-lg" data-connect="Hi OptimityFX! I'd like to claim my free first film (the Free Pilot). Here's my brand:">Get my first film free →</a>
       <a href="#work" class="btn btn-ghost btn-lg">Watch the quality</a>
     </div>
   </div>
@@ -422,7 +449,7 @@
           <li>Pay only if you approve and want the full film</li>
           <li>Walk away owing nothing if it's not a fit</li>
         </ul>
-        <a href="contact.html?offer=free-pilot" class="btn btn-ghost btn-full">Claim my free pilot</a>
+        <a class="btn btn-ghost btn-full" data-connect="Hi OptimityFX! I'd like to claim my free pilot film. Here's my brand:">Claim my free pilot</a>
       </div>
 
       <div class="offer-card hero-offer">
@@ -437,7 +464,7 @@
           <li>Signature cinematic grade on every one</li>
           <li>Multi-format exports: Reels, Stories, YouTube, TV</li>
         </ul>
-        <a href="contact.html?offer=5-pack" class="btn btn-primary btn-full">Lock my 5-Pack price</a>
+        <a class="btn btn-primary btn-full" data-connect="Hi OptimityFX! I'm interested in the 5-Pack (5 films). Can you share the founding price and details?">Lock my 5-Pack price</a>
       </div>
 
       <div class="offer-card">
@@ -451,7 +478,7 @@
           <li>One flat retainer, no per-shoot surprises</li>
           <li>Pause or scale up any month</li>
         </ul>
-        <a href="contact.html?offer=studio-subscription" class="btn btn-ghost btn-full">Talk about a retainer</a>
+        <a class="btn btn-ghost btn-full" data-connect="Hi OptimityFX! I'd like to talk about a monthly studio retainer (Studio on Tap).">Talk about a retainer</a>
       </div>
 
     </div>
@@ -615,10 +642,10 @@
     <div class="budget-panel">
       <span class="budget-label">Roughly, your budget is</span>
       <div class="budget-chips">
-        <a href="contact.html?budget=starter">Just getting started</a>
-        <a href="contact.html?budget=growth">Growing brand</a>
-        <a href="contact.html?budget=campaign">Full campaign</a>
-        <a href="contact.html?budget=unsure">Not sure yet</a>
+        <a data-connect="Hi OptimityFX! I'm just getting started and would like a custom plan for my budget.">Just getting started</a>
+        <a data-connect="Hi OptimityFX! I'm a growing brand and would like a custom plan for my budget.">Growing brand</a>
+        <a data-connect="Hi OptimityFX! I'm planning a full campaign and would like a custom plan for my budget.">Full campaign</a>
+        <a data-connect="Hi OptimityFX! I'm not sure on budget yet — can you help me figure out a plan?">Not sure yet</a>
       </div>
       <div class="budget-steps">
         <span><b>1</b> Share your goal &amp; budget</span>
@@ -636,18 +663,41 @@
     <div class="cta-band">
       <h2 class="h-sec">See your idea on screen — before you spend a rupee.</h2>
       <p class="lead center" style="margin:14px auto 26px">Tell us about your brand. We'll make your first film free, and you decide from there. No deck, no deposit, no risk.</p>
-      <a href="contact.html?offer=free-pilot" class="btn btn-primary btn-lg">Get my first film free →</a>
+      <a class="btn btn-primary btn-lg" data-connect="Hi OptimityFX! I'd like to claim my free first film (the Free Pilot). Here's my brand:">Get my first film free →</a>
     </div>
   </div>
 </section>
 
 <!-- FOOTER -->
 <footer class="footer">
-  <div class="wrap" style="text-align:center;padding:40px 0;color:var(--dim)">
-    <div class="spectrum-rule" style="max-width:120px;margin:0 auto 22px"></div>
-    <p style="color:var(--muted)">OptimityFX — Your Vision, Graded.</p>
-    <p style="margin-top:8px">hello@optimityfx.com &nbsp;·&nbsp; +91 70012 02156 &nbsp;·&nbsp; Bagnan, Howrah, West Bengal, India</p>
-    <p style="margin-top:14px;font-size:.84rem">&copy; 2026 OptimityFX. All rights reserved.</p>
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="index.html" class="brand brand-foot"><img src="assets/logo-nav.webp" alt="OptimityFX — Your Vision, Graded" class="brand-img" width="332" height="112"></a>
+        <p>Your Vision — Graded. A premium creative studio for video, color & AI-powered content.</p>
+        <div class="foot-social">
+          <a href="https://www.youtube.com/@OptimityFX" target="_blank" rel="noopener" aria-label="OptimityFX on YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 12s0-3.3-.4-4.9a2.5 2.5 0 0 0-1.8-1.8C19.2 5 12 5 12 5s-7.2 0-8.8.4A2.5 2.5 0 0 0 1.4 7.2C1 8.7 1 12 1 12s0 3.3.4 4.9a2.5 2.5 0 0 0 1.8 1.8C4.8 19 12 19 12 19s7.2 0 8.8-.4a2.5 2.5 0 0 0 1.8-1.8C23 15.3 23 12 23 12zM9.8 15.3V8.7l6 3.3z"/></svg></a>
+          <a href="https://www.instagram.com/optimityfx/" target="_blank" rel="noopener" aria-label="OptimityFX on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
+          <a href="https://www.linkedin.com/company/optimityfx/" target="_blank" rel="noopener" aria-label="OptimityFX on LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 1 0 3.5a2.5 2.5 0 0 1 4.98 0zM.5 8h4V24h-4zM8 8h3.8v2.2h.06c.53-1 1.83-2.2 3.77-2.2 4.03 0 4.77 2.65 4.77 6.1V24h-4v-7.1c0-1.7-.03-3.9-2.37-3.9-2.38 0-2.74 1.85-2.74 3.77V24H8z"/></svg></a>
+          <a href="https://vimeo.com/optimityfx" target="_blank" rel="noopener" aria-label="OptimityFX on Vimeo"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 7.4c-.1 2.1-1.6 5-4.4 8.6-2.9 3.8-5.4 5.7-7.4 5.7-1.2 0-2.3-1.2-3.1-3.5C6 16.5 5.4 11 4.3 9.6c-.4-.5-.9-.5-1.6-.1l-1-1.3c1.7-1.5 3.4-3.2 4.4-3.3 1.2-.1 2 .7 2.3 2.5.4 2.4.7 3.9.9 4.5.5 2.3 1 2.3 1.6 1.3.4-.8.7-2 .7-3.6 0-1.3-.5-1.9-1.5-1.9-.4 0-1 .1-1.4.3.8-2.7 2.4-4 4.7-3.9 1.7.1 2.5 1.2 2.4 3.3z"/></svg></a>
+        </div>
+      </div>
+      <div><h5>Services</h5><ul><li><a href="service-editing.html">Video Editing</a></li><li><a href="service-grading.html">Color Grading</a></li><li><a href="service-design.html">Graphic Design</a></li><li><a href="service-ai-music.html">AI Music Video</a></li><li><a href="service-ugc.html">AI UGC</a></li><li><a href="service-commercial.html">AI Product Commercial</a></li><li><a href="service-ai-tvc.html">AI TV Advertisement</a></li><li><a href="service-ai-influencer.html">AI Influencer</a></li><li><a href="service-ai-vfx.html">AI VFX</a></li></ul></div>
+      <div><h5>Explore</h5><ul><li><a href="portfolio.html">Portfolio</a></li><li><a href="academy.html">NextGen Academy</a></li><li><a href="store.html">Digital Store</a></li><li><a href="blog.html">Blog</a></li></ul></div>
+      <div><h5>Company</h5><ul><li><a href="about.html">About Us</a></li><li><a href="about.html#team">Our Team</a></li><li><a href="contact.html">Contact</a></li><li><a href="privacy.html">Privacy Policy</a></li><li><a href="terms.html">Terms & Conditions</a></li></ul></div>
+      <div class="footer-brand">
+        <h5>Get In Touch</h5>
+        <ul class="foot-contact">
+          <li><a href="mailto:hello@optimityfx.com">hello@optimityfx.com</a></li>
+          <li><a href="tel:+917001202156">+91 70012 02156</a></li>
+        </ul>
+        <a class="btn btn-accent btn-sm" style="margin-top:16px" data-connect="Hi OptimityFX! I'd like to start a project with your AI Studio.">Start a Project</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; <span data-year>2026</span> OptimityFX. All rights reserved. Crafted with vision.</p>
+      <div class="legal-links"><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="contact.html">Contact</a></div>
+    </div>
   </div>
 </footer>
 
@@ -689,5 +739,65 @@
 })();
 </script>
 
+<!-- CONNECT MODAL: WhatsApp / Email chooser with a pre-written message -->
+<div class="connect-modal" id="connectModal" hidden>
+  <div class="cm-backdrop" data-cm-close></div>
+  <div class="cm-card" role="dialog" aria-modal="true" aria-labelledby="cmTitle">
+    <button class="cm-x" data-cm-close aria-label="Close">✕</button>
+    <h3 id="cmTitle">Let's make your film.</h3>
+    <p class="cm-sub">Your message is ready — pick how you'd like to reach us and hit send. No typing needed.</p>
+    <div class="cm-actions">
+      <a class="cm-btn cm-wa" id="cmWhatsApp" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.49s1.07 2.89 1.22 3.09c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.19 1.87.12.57-.09 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.07-.13-.27-.2-.57-.35zM12.05 21.5h-.01a9.4 9.4 0 0 1-4.8-1.32l-.34-.2-3.57.93.96-3.48-.22-.36a9.42 9.42 0 0 1-1.44-5.02c0-5.2 4.24-9.44 9.46-9.44 2.53 0 4.9.99 6.69 2.78a9.38 9.38 0 0 1 2.77 6.68c0 5.2-4.24 9.45-9.46 9.45zM20.5 3.49A11.35 11.35 0 0 0 12.05 0C5.79 0 .7 5.08.7 11.33c0 2 .52 3.95 1.51 5.67L.6 24l7.15-1.87a11.34 11.34 0 0 0 5.29 1.35h.01c6.25 0 11.34-5.08 11.34-11.33 0-3.03-1.18-5.87-3.32-8.01z"/></svg>
+        Connect on WhatsApp
+      </a>
+      <a class="cm-btn cm-mail" id="cmEmail">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+        Send an email
+      </a>
+    </div>
+    <p class="cm-foot">or call <a href="tel:+917001202156">+91 70012 02156</a></p>
+  </div>
+</div>
+
+<!-- connect modal wiring: every [data-connect] button opens the chooser -->
+<script>
+(function(){
+  var modal = document.getElementById('connectModal');
+  if(!modal) return;
+  var wa = document.getElementById('cmWhatsApp');
+  var mail = document.getElementById('cmEmail');
+  var PHONE = '917001202156', EMAIL = 'hello@optimityfx.com';
+  var lastFocus = null;
+
+  function open(msg){
+    var enc = encodeURIComponent(msg || 'Hi OptimityFX! I found you via your AI Studio page.');
+    wa.href = 'https://wa.me/' + PHONE + '?text=' + enc;
+    mail.href = 'mailto:' + EMAIL + '?subject=' + encodeURIComponent('AI Studio enquiry — OptimityFX') + '&body=' + enc;
+    lastFocus = document.activeElement;
+    modal.hidden = false;
+    document.body.style.overflow = 'hidden';
+    wa.focus();
+  }
+  function close(){
+    modal.hidden = true;
+    document.body.style.overflow = '';
+    if(lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+
+  document.querySelectorAll('[data-connect]').forEach(function(el){
+    el.style.cursor = 'pointer';
+    if(el.tagName === 'A' && !el.getAttribute('href')){ el.setAttribute('role','button'); el.tabIndex = 0; }
+    el.addEventListener('click', function(e){ e.preventDefault(); open(el.getAttribute('data-connect')); });
+    el.addEventListener('keydown', function(e){
+      if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); open(el.getAttribute('data-connect')); }
+    });
+  });
+  modal.querySelectorAll('[data-cm-close]').forEach(function(b){ b.addEventListener('click', close); });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && !modal.hidden) close(); });
+})();
+</script>
+
+<script src="js/main.js?v=20260607"></script>
 </body>
 </html>
