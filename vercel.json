@@ -26,8 +26,12 @@
       "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
     }
   ],
+  "redirects": [
+    { "source": "/ai-ads", "destination": "/ai-studio", "permanent": true },
+    { "source": "/ai-ads.html", "destination": "/ai-studio", "permanent": true }
+  ],
   "rewrites": [
-    { "source": "/ai-ads", "destination": "/ai-ads.html" },
+    { "source": "/ai-studio", "destination": "/ai-studio.html" },
     { "source": "/admin", "destination": "/admin.html" },
     { "source": "/team",  "destination": "/team/index.html" },
     { "source": "/opening", "destination": "/opening.html" },
