@@ -64,20 +64,53 @@
      video's palette; only lit while the video is actually playing */
   .hero-video .stage{position:relative}
   .hero-video .frame{position:relative;z-index:1}
-  .hero-video .yt-glow{position:absolute;inset:-9% -7%;z-index:0;pointer-events:none;
+  .hero-video .yt-glow{position:absolute;inset:-2% -1%;z-index:0;pointer-events:none;
     opacity:0;transition:opacity .9s ease;will-change:transform,filter;
     background:
       radial-gradient(38% 52% at 24% 30%, #e6ad4d 0%, transparent 70%),
       radial-gradient(42% 54% at 78% 34%, #2f8a74 0%, transparent 70%),
       radial-gradient(48% 50% at 55% 82%, #c15a30 0%, transparent 72%),
       radial-gradient(40% 46% at 82% 78%, #7d9d5b 0%, transparent 72%);
-    filter:blur(64px) saturate(1.5);
+    filter:blur(46px) saturate(1.5);
     animation:ytGlowSpin 26s linear infinite}
   .hero-video .stage.is-playing .yt-glow{opacity:.9}
   @keyframes ytGlowSpin{
-    0%  {transform:scale(1.28) rotate(0deg);   filter:blur(64px) saturate(1.5) hue-rotate(0deg)}
-    100%{transform:scale(1.28) rotate(360deg); filter:blur(64px) saturate(1.5) hue-rotate(360deg)}}
+    0%  {transform:scale(1.08) rotate(0deg);   filter:blur(46px) saturate(1.5) hue-rotate(0deg)}
+    100%{transform:scale(1.08) rotate(360deg); filter:blur(46px) saturate(1.5) hue-rotate(360deg)}}
   @media (prefers-reduced-motion:reduce){.hero-video .yt-glow{animation:none}}
+
+  /* ---- "no ___" value marquee ---- */
+  .no-list{position:relative;z-index:2;padding:10px 0 30px;overflow:hidden}
+  .no-list .no-head{text-align:center;margin:0 0 22px}
+  .no-list .no-head .eyebrow{color:#ff5a6e}
+  .no-list .no-head h2{font-size:clamp(1.5rem,3.4vw,2.4rem);line-height:1.15;margin:.35em 0 .2em}
+  .no-list .no-head h2 b{color:var(--accent,#00d4ff)}
+  .no-list .no-head p{color:var(--muted,#9aa4b2);max-width:600px;margin:0 auto;font-size:.98rem}
+  .no-marquee{display:flex;flex-direction:column;gap:14px;
+    -webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);
+            mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+  .no-track{display:flex;gap:14px;width:max-content;animation:noScroll 42s linear infinite}
+  .no-track.rev{animation-direction:reverse;animation-duration:52s}
+  .no-marquee:hover .no-track{animation-play-state:paused}
+  .no-pill{display:inline-flex;align-items:center;gap:10px;white-space:nowrap;flex:0 0 auto;
+    padding:12px 20px;border-radius:999px;font-weight:700;font-size:1rem;letter-spacing:.2px;
+    color:#e7ecf3;background:rgba(255,255,255,.03);
+    border:1px solid rgba(255,90,110,.28);
+    box-shadow:0 0 0 rgba(255,90,110,0),inset 0 0 24px rgba(255,90,110,.04);
+    transition:border-color .25s ease,box-shadow .25s ease,color .25s ease}
+  .no-pill:hover{border-color:rgba(255,90,110,.7);color:#fff;
+    box-shadow:0 8px 30px rgba(255,90,110,.16),inset 0 0 24px rgba(255,90,110,.08)}
+  .no-pill .x{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;
+    background:rgba(255,90,110,.15);color:#ff5a6e;font-size:.82rem;font-weight:900;line-height:1}
+  .no-pill .txt{position:relative}
+  .no-pill .txt::after{content:"";position:absolute;left:-2px;right:-2px;top:52%;height:2px;
+    background:rgba(255,90,110,.55);transform:scaleX(0);transform-origin:left;transition:transform .3s ease}
+  .no-pill:hover .txt::after{transform:scaleX(1)}
+  @keyframes noScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  @media (prefers-reduced-motion:reduce){.no-track{animation:none}
+    .no-marquee{flex-wrap:wrap;mask-image:none;-webkit-mask-image:none}
+    .no-track{flex-wrap:wrap;width:auto;justify-content:center}}
+
   @media (max-width:600px){
     .ai-hero{padding:72px 0 52px}
     .hero-video .eyebrow{display:block;font-size:.62rem;letter-spacing:2.2px;line-height:2}
@@ -232,6 +265,69 @@
   </div>
 </section>
 <script src="js/youtube-hero.js" defer></script>
+
+<!-- WHY WE CHARGE — the "no ___" list -->
+<section class="no-list">
+  <div class="wrap">
+    <div class="no-head">
+      <span class="eyebrow center-eb">Everything you're not paying for</span>
+      <h2>One flat price. <b>Zero</b> of the usual production circus.</h2>
+      <p>A traditional shoot burns weeks and a full crew's budget before a single frame is usable. Here's the entire list you skip — and we still deliver the cinematic result.</p>
+    </div>
+    <div class="no-marquee">
+      <div class="no-track" data-row="1">
+        <span class="no-pill"><span class="x">✕</span><span class="txt">No Human</span></span>
+        <span class="no-pill"><span class="x">✕</span><span class="txt">No Crew</span></span>
+        <span class="no-pill"><span class="x">✕</span><span class="txt">No Shoot</span></span>
+        <span class="no-pill"><span class="x">✕</span><span class="txt">No Location Visit</span></span>
+        <span class="no-pill"><span class="x">✕</span><span class="txt">No Slot Booking</span></span>
+        <span class="no-pill"><span class="x">✕</span><span class="txt">No Costume Designer</span></span>
+        <span class="no-pill"><span class="x">✕</span><span class="txt">No Travelling</span></span>
+        <span class="no-pill"><span class="x">✕</span><span class="txt">No DOP</span></span>
+        <span class="no-pill"><span class="x">✕</span><span class="txt">No Makeup Artist</span></span>
+        <span class="no-pill"><span class="x">✕</span><span class="txt">No Drone</span></span>
+        <span class="no-pill"><span class="x">✕</span><span class="txt">No Set Designer</span></span>
+        <!-- duplicate for seamless loop -->
+        <span class="no-pill" aria-hidden="true"><span class="x">✕</span><span class="txt">No Human</span></span>
+        <span class="no-pill" aria-hidden="true"><span class="x">✕</span><span class="txt">No Crew</span></span>
+        <span class="no-pill" aria-hidden="true"><span class="x">✕</span><span class="txt">No Shoot</span></span>
+        <span class="no-pill" aria-hidden="true"><span class="x">✕</span><span class="txt">No Location Visit</span></span>
+        <span class="no-pill" aria-hidden="true"><span class="x">✕</span><span class="txt">No Slot Booking</span></span>
+        <span class="no-pill" aria-hidden="true"><span class="x">✕</span><span class="txt">No Costume Designer</span></span>
+        <span class="no-pill" aria-hidden="true"><span class="x">✕</span><span class="txt">No Travelling</span></span>
+        <span class="no-pill" aria-hidden="true"><span class="x">✕</span><span class="txt">No DOP</span></span>
+        <span class="no-pill" aria-hidden="true"><span class="x">✕</span><span class="txt">No Makeup Artist</span></span>
+        <span class="no-pill" aria-hidden="true"><span class="x">✕</span><span class="txt">No Drone</span></span>
+        <span class="no-pill" aria-hidden="true"><span class="x">✕</span><span class="txt">No Set Designer</span></span>
+      </div>
+      <div class="no-track rev" data-row="2">
+        <span class="no-pill"><span class="x">✕</span><span class="txt">No Lighting Rig</span></span>
+        <span class="no-pill"><span class="x">✕</span><span class="txt">No Catering</span></span>
+        <span class="no-pill"><span class="x">✕</span><span class="txt">No Permits</span></span>
+        <span class="no-pill"><span class="x">✕</span><span class="txt">No Reshoots</span></span>
+        <span class="no-pill"><span class="x">✕</span><span class="txt">No Weather Delays</span></span>
+        <span class="no-pill"><span class="x">✕</span><span class="txt">No Actor Fees</span></span>
+        <span class="no-pill"><span class="x">✕</span><span class="txt">No Equipment Rental</span></span>
+        <span class="no-pill"><span class="x">✕</span><span class="txt">No Overtime</span></span>
+        <span class="no-pill"><span class="x">✕</span><span class="txt">No Studio Rent</span></span>
+        <span class="no-pill"><span class="x">✕</span><span class="txt">No Insurance</span></span>
+        <span class="no-pill"><span class="x">✕</span><span class="txt">No Post-shoot Wait</span></span>
+        <!-- duplicate for seamless loop -->
+        <span class="no-pill" aria-hidden="true"><span class="x">✕</span><span class="txt">No Lighting Rig</span></span>
+        <span class="no-pill" aria-hidden="true"><span class="x">✕</span><span class="txt">No Catering</span></span>
+        <span class="no-pill" aria-hidden="true"><span class="x">✕</span><span class="txt">No Permits</span></span>
+        <span class="no-pill" aria-hidden="true"><span class="x">✕</span><span class="txt">No Reshoots</span></span>
+        <span class="no-pill" aria-hidden="true"><span class="x">✕</span><span class="txt">No Weather Delays</span></span>
+        <span class="no-pill" aria-hidden="true"><span class="x">✕</span><span class="txt">No Actor Fees</span></span>
+        <span class="no-pill" aria-hidden="true"><span class="x">✕</span><span class="txt">No Equipment Rental</span></span>
+        <span class="no-pill" aria-hidden="true"><span class="x">✕</span><span class="txt">No Overtime</span></span>
+        <span class="no-pill" aria-hidden="true"><span class="x">✕</span><span class="txt">No Studio Rent</span></span>
+        <span class="no-pill" aria-hidden="true"><span class="x">✕</span><span class="txt">No Insurance</span></span>
+        <span class="no-pill" aria-hidden="true"><span class="x">✕</span><span class="txt">No Post-shoot Wait</span></span>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- WHAT WE DO -->
 <section class="section">
