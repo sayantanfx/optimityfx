@@ -53,7 +53,31 @@
   .hero-video .frame{position:relative;padding:56.25% 0 0 0;background:#000;
     border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;
     box-shadow:0 30px 80px rgba(0,0,0,.55),0 0 60px rgba(0,212,255,.10)}
-  .hero-video .frame iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}
+  .hero-video .frame iframe,
+  .hero-video .frame .yt-hero{position:absolute;top:0;left:0;width:100%;height:100%;border:0}
+  /* transparent cover intercepts hover/clicks so YouTube's title, share &
+     suggestion overlays never appear; click toggles play/pause via the API */
+  .hero-video .frame .yt-cover{position:absolute;inset:0;z-index:2;cursor:pointer;
+    background:#000;transition:opacity .35s ease}
+  .hero-video .stage.is-playing .frame .yt-cover{background:transparent}
+  /* ambient TV backlight — a blurred, slowly shifting glow tuned to the
+     video's palette; only lit while the video is actually playing */
+  .hero-video .stage{position:relative}
+  .hero-video .frame{position:relative;z-index:1}
+  .hero-video .yt-glow{position:absolute;inset:-9% -7%;z-index:0;pointer-events:none;
+    opacity:0;transition:opacity .9s ease;will-change:transform,filter;
+    background:
+      radial-gradient(38% 52% at 24% 30%, #e6ad4d 0%, transparent 70%),
+      radial-gradient(42% 54% at 78% 34%, #2f8a74 0%, transparent 70%),
+      radial-gradient(48% 50% at 55% 82%, #c15a30 0%, transparent 72%),
+      radial-gradient(40% 46% at 82% 78%, #7d9d5b 0%, transparent 72%);
+    filter:blur(64px) saturate(1.5);
+    animation:ytGlowSpin 26s linear infinite}
+  .hero-video .stage.is-playing .yt-glow{opacity:.9}
+  @keyframes ytGlowSpin{
+    0%  {transform:scale(1.28) rotate(0deg);   filter:blur(64px) saturate(1.5) hue-rotate(0deg)}
+    100%{transform:scale(1.28) rotate(360deg); filter:blur(64px) saturate(1.5) hue-rotate(360deg)}}
+  @media (prefers-reduced-motion:reduce){.hero-video .yt-glow{animation:none}}
   @media (max-width:600px){
     .ai-hero{padding:72px 0 52px}
     .hero-video .eyebrow{display:block;font-size:.62rem;letter-spacing:2.2px;line-height:2}
@@ -197,14 +221,17 @@
 <!-- HERO SHOWREEL -->
 <section class="hero-video">
   <div class="wrap">
-    <div class="tag-row"><span class="eyebrow center-eb">Check Our AI Crime Thriller Production Quality</span></div>
-    <div class="frame">
-      <iframe src="https://player.vimeo.com/video/1211069827?badge=0&amp;autopause=1&amp;title=0&amp;byline=0&amp;portrait=0&amp;player_id=0&amp;app_id=58479" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" title="AI Film | Crime Thriller" loading="lazy"></iframe>
+    <div class="tag-row"><span class="eyebrow center-eb">Check Our AI Music Video Production Quality</span></div>
+    <div class="stage">
+      <div class="yt-glow" aria-hidden="true"></div>
+      <div class="frame">
+        <div id="yt-hero" class="yt-hero"></div>
+        <div class="yt-cover" aria-hidden="true"></div>
+      </div>
     </div>
   </div>
 </section>
-<script src="https://player.vimeo.com/api/player.js" defer></script>
-<script src="js/vimeo-pause.js" defer></script>
+<script src="js/youtube-hero.js" defer></script>
 
 <!-- WHAT WE DO -->
 <section class="section">
