@@ -1020,29 +1020,31 @@ function onYouTubeIframeAPIReady(){
       videoId:vid,
       host:'https://www.youtube-nocookie.com',
       playerVars:{
-        autoplay:1, mute:1, controls:0, modestbranding:1, rel:0,
+        autoplay:0, mute:0, controls:0, modestbranding:1, rel:0,
         iv_load_policy:3, playsinline:1, disablekb:1, fs:0,
-        loop:1, playlist:vid, origin:location.origin
+        origin:location.origin
       },
       events:{
         onReady:function(e){
           wrap._player=e.target; ytPlayers.push(e.target);
-          // play/pause based on visibility
+          // only PAUSE when scrolled out of view (never auto-play)
           var io=new IntersectionObserver(function(entries){
             entries.forEach(function(en){
-              if(en.isIntersecting && en.intersectionRatio>=0.6){ try{e.target.playVideo();}catch(x){} }
-              else { try{e.target.pauseVideo();}catch(x){} }
+              if(!en.isIntersecting){ try{e.target.pauseVideo();}catch(x){} }
             });
-          },{threshold:[0,0.6]});
+          },{threshold:[0]});
           io.observe(wrap);
         },
         onStateChange:function(e){ if(e.data===YT.PlayerState.PLAYING) pauseOtherPlayers(e.target); }
       }
     });
 
-    // tap the guard to unmute/mute (guard also blocks redirect to YouTube)
+    // tap the video to PLAY WITH SOUND (pauses the others); tap again to pause
     wrap.querySelector('.yt-guard').addEventListener('click',function(){
-      try{ player.isMuted() ? (player.unMute(), player.setVolume(100)) : player.mute(); }catch(e){}
+      try{
+        if(player.getPlayerState()===1){ player.pauseVideo(); }
+        else { player.unMute(); player.setVolume(100); player.playVideo(); }
+      }catch(e){}
     });
   });
 }
