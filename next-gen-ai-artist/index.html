@@ -283,6 +283,11 @@ section.blk{padding:56px 0}
 .road-step.goal .road-node{background:linear-gradient(135deg,var(--gold),#ff8a5c);box-shadow:0 8px 26px rgba(255,180,80,.45);font-size:22px}
 .road-step.goal .road-card{border-color:rgba(255,207,92,.4);background:linear-gradient(150deg,rgba(255,207,92,.09),rgba(124,92,255,.05))}
 .road-step.goal .road-card h3{font-size:20px}
+.road-card.locked{cursor:pointer;transition:transform .15s ease,border-color .15s ease}
+.road-card.locked:hover{transform:translateY(-2px);border-color:var(--gold)}
+.blurred{display:inline-block;filter:blur(6px);font-weight:800;color:var(--gold);letter-spacing:1px;user-select:none;transform:translateY(1px)}
+.unlock-pill{display:inline-flex;align-items:center;gap:6px;margin-top:12px;font-size:13px;font-weight:800;color:#0b0b14;background:linear-gradient(135deg,var(--gold),#ff8a5c);padding:8px 15px;border-radius:999px;animation:unlockPulse 1.8s ease-in-out infinite}
+@keyframes unlockPulse{0%,100%{box-shadow:0 0 0 rgba(255,180,80,.5)}50%{box-shadow:0 0 16px 3px rgba(255,180,80,.6)}}
 @media(max-width:520px){
   .road::before{left:19px}
   .road-step{gap:13px}
@@ -583,11 +588,12 @@ footer a{color:var(--mut);text-decoration:underline}
       </div>
     </div>
     <div class="road-step goal">
-      <div class="road-node">🎯</div>
-      <div class="road-card">
-        <div class="road-when">The goal</div>
-        <h3>Your first <span class="grad-txt">₹15,000+ project</span></h3>
-        <p>One client covers the whole thing. Everything here points at making that happen.</p>
+      <div class="road-node">🔒</div>
+      <div class="road-card locked" data-open="roadmap">
+        <div class="road-when">The goal · locked</div>
+        <h3>What your first client pays you <span class="blurred" aria-hidden="true">₹ ██,███</span></h3>
+        <p>The real numbers — what to charge and how to land it — are revealed <b>live in your free first class</b>.</p>
+        <span class="unlock-pill">🔓 Register free to unlock</span>
       </div>
     </div>
   </div>
