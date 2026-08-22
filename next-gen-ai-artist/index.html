@@ -349,6 +349,17 @@ section.blk{padding:56px 0}
   .road-card p{font-size:12.5px}
 }
 
+/* certificate showcase */
+.certshow{display:block;max-width:860px;margin:6px auto 0;position:relative;border-radius:16px;overflow:hidden;border:1px solid var(--line2);cursor:pointer;box-shadow:0 24px 70px rgba(0,0,0,.55);transition:transform .2s ease,box-shadow .2s ease}
+.certshow:hover{transform:translateY(-4px);box-shadow:0 30px 80px rgba(124,92,255,.35)}
+.certshow img{width:100%;display:block}
+.certshow-cap{position:absolute;left:0;right:0;bottom:0;padding:14px 12px 12px;text-align:center;font-size:13.5px;font-weight:700;color:#fff;background:linear-gradient(0deg,rgba(0,0,0,.8),transparent)}
+.certshow-fallback{display:none}
+.certshow.noimg{aspect-ratio:1.41/1;background:linear-gradient(150deg,#0d1330,#0c0c16);align-items:center;justify-content:center}
+.certshow.noimg .certshow-fallback{display:flex;flex-direction:column;align-items:center;justify-content:center;position:absolute;inset:0;color:var(--mut);text-align:center;font-size:14px;line-height:1.8}
+.certshow.noimg .certshow-fallback code{color:var(--brand2);font-size:12px}
+.certshow.noimg img,.certshow.noimg .certshow-cap{display:none}
+
 /* faq */
 .faq{max-width:760px;margin:0 auto}
 .q{background:var(--card);border:1px solid var(--line);border-radius:12px;margin-bottom:10px;overflow:hidden}
@@ -676,6 +687,22 @@ footer a{color:var(--mut);text-decoration:underline}
   <div class="center" style="margin-top:34px">
     <button class="btn btn-primary btn-lg pulse" data-open="includes">👉 Register for FREE</button>
     <p class="mut" style="margin-top:12px;font-size:13.5px">Free first class · No card needed · Decide after you've seen it</p>
+  </div>
+</section>
+
+<!-- ================= CERTIFICATE SHOWCASE ================= -->
+<section class="blk wrap">
+  <div class="eyebrow">Earn Your Credential</div>
+  <h2 class="h2">Walk away <span class="grad-txt">certified.</span></h2>
+  <p class="lead">A shareable Certificate of Completion with your name on it — proof for LinkedIn, clients and your portfolio.</p>
+  <a class="certshow" data-open="certificate">
+    <img src="/next-gen-ai-artist/assets/certificate.png" alt="NextGen AI Artists — Certificate of Completion" loading="lazy"
+         onerror="this.closest('.certshow').classList.add('noimg')" />
+    <span class="certshow-fallback">Add your certificate →<br><code>assets/certificate.png</code></span>
+    <span class="certshow-cap">🔓 Your name goes here — the day you complete the 30 days</span>
+  </a>
+  <div class="center" style="margin-top:24px">
+    <button class="btn btn-primary btn-lg pulse" data-open="cert">👉 Register to start earning it</button>
   </div>
 </section>
 
