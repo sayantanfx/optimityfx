@@ -167,7 +167,7 @@ section.blk{padding:56px 0}
 .cert.has-thumb:hover .cert-thumb img{transform:scale(1.04)}
 .cert-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
 .cert-ico{font-size:24px}
-.verify{font-size:12.5px;font-weight:700;color:var(--brand2);background:rgba(0,224,198,.1);border:1px solid rgba(0,224,198,.3);padding:5px 11px;border-radius:999px}
+.verify{font-size:12.5px;font-weight:800;color:#062;background:linear-gradient(135deg,#22c07a,#00e0c6);border:0;padding:5px 12px;border-radius:999px;box-shadow:0 3px 12px rgba(34,192,122,.35)}
 .cert-title{font-family:Sora;font-weight:700;font-size:18px;line-height:1.2}
 .cert-iss{color:var(--mut2);font-size:13px;margin:5px 0 12px}
 .cert-note{color:var(--mut);font-size:13.5px;line-height:1.55}
@@ -238,7 +238,7 @@ section.blk{padding:56px 0}
 .yt-sound{position:absolute;right:12px;bottom:12px;z-index:3;background:rgba(0,0,0,.6);backdrop-filter:blur(6px);border:1px solid var(--line2);color:#fff;font-family:Inter,sans-serif;font-weight:700;font-size:12.5px;padding:8px 13px;border-radius:999px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:background .15s}
 .yt-sound:hover{background:rgba(0,0,0,.8)}
 /* tag label (top-left) */
-.vlabel{position:absolute;left:12px;bottom:12px;z-index:4;background:rgba(0,0,0,.62);backdrop-filter:blur(6px);border:1px solid var(--line2);color:#fff;font-weight:700;font-size:12.5px;padding:6px 12px;border-radius:999px;pointer-events:none}
+.vlabel{position:absolute;right:10px;bottom:10px;z-index:4;background:rgba(0,0,0,.62);backdrop-filter:blur(6px);border:1px solid var(--line2);color:#fff;font-weight:700;font-size:12.5px;padding:6px 12px;border-radius:999px;pointer-events:none}
 /* placeholder tile */
 .vphold{background:radial-gradient(120% 120% at 50% 0%,rgba(124,92,255,.28),transparent 60%),linear-gradient(160deg,#16162a,#0c0c16);display:flex;align-items:center;justify-content:center;text-align:center}
 .ph-inner .play{width:56px;height:56px;margin:0 auto 12px;border-radius:50%;background:rgba(255,255,255,.1);border:1px solid var(--line2);display:flex;align-items:center;justify-content:center;font-size:20px;backdrop-filter:blur(4px)}
@@ -248,7 +248,7 @@ section.blk{padding:56px 0}
 @media(max-width:560px){
   .yt-sound{right:9px;bottom:9px;font-size:10.5px;padding:6px 9px}
   .feature-vid{grid-template-columns:1fr}   /* stack Proof videos one below another on mobile */
-  .vlabel{left:9px;bottom:9px;font-size:11px;padding:5px 10px}
+  .vlabel{right:8px;bottom:8px;font-size:11px;padding:5px 10px}
   .ph-inner .play{width:40px;height:40px;font-size:15px;margin-bottom:8px}
   .ph-title{font-size:15px}
   .ph-sub{font-size:11px}
@@ -334,6 +334,12 @@ section.blk{padding:56px 0}
 .inc .it.locked{grid-column:1 / -1;flex-direction:row;align-items:center;cursor:pointer;border-color:rgba(255,207,92,.45);background:linear-gradient(135deg,rgba(255,207,92,.1),rgba(124,92,255,.06))}
 .inc .it.locked:hover{border-color:var(--gold)}
 .inc .it.locked .ic{font-size:22px}
+/* extra sweeping shine on the premium cards */
+.inc .it.hot,.inc .it.locked{position:relative;overflow:hidden}
+.inc .it.hot>*,.inc .it.locked>*{position:relative;z-index:2}
+.inc .it.hot::after,.inc .it.locked::after{content:"";position:absolute;top:-60%;left:-70%;width:40%;height:220%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.28),transparent);transform:skewX(-20deg);z-index:1;pointer-events:none;animation:cardShine 4.5s ease-in-out infinite}
+@keyframes cardShine{0%{left:-70%}32%,100%{left:150%}}
+@media(prefers-reduced-motion:reduce){.inc .it.hot::after,.inc .it.locked::after{display:none}}
 @media(max-width:520px){
   .road::before{left:19px}
   .road-step{gap:13px}
@@ -502,36 +508,36 @@ footer a{color:var(--mut);text-decoration:underline}
 
   <!-- Verifiable certificates -->
   <div class="certs">
-    <a class="cert has-thumb" href="https://higgsfield.ai/verify/HFA-2026-LR7PAEJSBRGU" target="_blank" rel="noopener">
+    <div class="cert has-thumb">
       <div class="cert-thumb"><img src="/next-gen-ai-artist/assets/cert-higgsfield.png" alt="The AI Filmmaking Pipeline certificate" loading="lazy" onerror="this.closest('.cert').classList.remove('has-thumb');this.parentNode.remove()" /></div>
       <div class="cert-body">
-        <div class="cert-top"><span class="cert-ico">🎬</span><span class="verify">Verify ↗</span></div>
+        <div class="cert-top"><span class="cert-ico">🎬</span><span class="verify">✓ Verified</span></div>
         <div class="cert-title">Recognised by Higgsfield AI</div>
         <div class="cert-iss">Higgsfield Academy · The AI Filmmaking Pipeline</div>
         <p class="cert-note">Officially recognised on the exact cinema-grade AI video pipeline you'll learn, by the platform that builds it.</p>
         <div class="cert-id">HFA-2026-LR7PAEJSBRGU</div>
       </div>
-    </a>
-    <a class="cert" href="https://verify.skilljar.com/c/awm84zvh4sui" target="_blank" rel="noopener">
+    </div>
+    <div class="cert">
       <div class="cert-body">
-        <div class="cert-top"><span class="cert-ico">🤖</span><span class="verify">Verify ↗</span></div>
+        <div class="cert-top"><span class="cert-ico">🤖</span><span class="verify">✓ Verified</span></div>
         <div class="cert-title">Claude Code 101</div>
         <div class="cert-iss">Anthropic</div>
         <p class="cert-note">Mastery of Claude for smarter scripts and faster output.</p>
         <div class="cert-id">verify.skilljar.com</div>
       </div>
-    </a>
-    <a class="cert" href="https://verify.skilljar.com/c/fmjvweh77mo7" target="_blank" rel="noopener">
+    </div>
+    <div class="cert">
       <div class="cert-body">
-        <div class="cert-top"><span class="cert-ico">🔗</span><span class="verify">Verify ↗</span></div>
+        <div class="cert-top"><span class="cert-ico">🔗</span><span class="verify">✓ Verified</span></div>
         <div class="cert-title">MCP by Anthropic</div>
         <div class="cert-iss">Anthropic · Model Context Protocol</div>
         <p class="cert-note">How modern AI tools connect &amp; scale. Workflows built on where the industry's going.</p>
         <div class="cert-id">verify.skilljar.com</div>
       </div>
-    </a>
+    </div>
   </div>
-  <p class="mut center" style="font-size:13px;margin-top:16px">🔒 Click any card to verify.</p>
+  <p class="mut center" style="font-size:13px;margin-top:16px">🔒 All credentials are independently verified.</p>
 </section>
 
 <!-- ================= PROOF / SAMPLE VIDEOS (right after Expert) ================= -->
@@ -545,21 +551,18 @@ footer a{color:var(--mut);text-decoration:underline}
       <div class="yt-mount"></div>
       <div class="yt-guard"></div>            <!-- blocks click-through / redirect to YouTube -->
       <span class="vlabel">🎵 AI Music Video</span>
-      <button class="yt-sound" aria-label="Toggle sound" type="button">🔇 Tap for sound</button>
     </div>
 
     <div class="ytwrap" data-yt="AwQq9G3Bq_s">
       <div class="yt-mount"></div>
       <div class="yt-guard"></div>
       <span class="vlabel">🎬 Film Vibe · Tribute to India</span>
-      <button class="yt-sound" aria-label="Toggle sound" type="button">🔇 Tap for sound</button>
     </div>
 
     <div class="ytwrap" data-yt="DSCjTucf_S0">
       <div class="yt-mount"></div>
       <div class="yt-guard"></div>
       <span class="vlabel">🎉 Festive Commercial Ad</span>
-      <button class="yt-sound" aria-label="Toggle sound" type="button">🔇 Tap for sound</button>
     </div>
 
     <div class="vlock" data-open="proofvid">
@@ -907,6 +910,9 @@ function fireConfetti(power){
 // party poppers when the page lands
 window.addEventListener('load', ()=>setTimeout(()=>fireConfetti('subtle'), 450));
 
+/* right-click disabled site-wide */
+document.addEventListener('contextmenu', function(e){ e.preventDefault(); });
+
 /* ============================================================
    📈 Registered counter grows the longer they stay
    ============================================================ */
@@ -1007,21 +1013,10 @@ function onYouTubeIframeAPIReady(){
       }
     });
 
-    // tap the guard to play/pause (guard also blocks redirect to YouTube)
+    // tap the guard to unmute/mute (guard also blocks redirect to YouTube)
     wrap.querySelector('.yt-guard').addEventListener('click',function(){
-      try{ (player.getPlayerState()===1) ? player.pauseVideo() : player.playVideo(); }catch(e){}
+      try{ player.isMuted() ? (player.unMute(), player.setVolume(100)) : player.mute(); }catch(e){}
     });
-    // sound toggle
-    var sb=wrap.querySelector('.yt-sound');
-    sb.addEventListener('click',function(ev){
-      ev.stopPropagation();
-      try{
-        if(player.isMuted()){ player.unMute(); player.setVolume(100); sb.innerHTML='🔊 Sound on'; }
-        else { player.mute(); sb.innerHTML='🔇 Tap for sound'; }
-      }catch(e){}
-    });
-    // right-click prohibited
-    wrap.addEventListener('contextmenu',function(e){ e.preventDefault(); });
   });
 }
 
