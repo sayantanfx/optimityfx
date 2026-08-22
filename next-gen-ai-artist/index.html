@@ -389,7 +389,7 @@ footer a{color:var(--mut);text-decoration:underline}
       </ul>
     </div>
     <div class="expert-photo">
-      <img src="assets/mentor.png" alt="Sayantan Adhikary, OptimityFX" onerror="this.style.display='none';this.parentNode.classList.add('noimg')" />
+      <img src="/next-gen-ai-artist/assets/mentor.png" alt="Sayantan Adhikary, OptimityFX" onerror="this.style.display='none';this.parentNode.classList.add('noimg')" />
       <div class="ph-fallback">Add your photo →<br><code>assets/mentor.png</code></div>
       <div class="photo-badge">✔ Verified Credentials</div>
     </div>
@@ -398,7 +398,7 @@ footer a{color:var(--mut);text-decoration:underline}
   <!-- Verifiable certificates -->
   <div class="certs">
     <a class="cert has-thumb" href="https://higgsfield.ai/verify/HFA-2026-LR7PAEJSBRGU" target="_blank" rel="noopener">
-      <div class="cert-thumb"><img src="assets/cert-higgsfield.png" alt="The AI Filmmaking Pipeline certificate" loading="lazy" onerror="this.closest('.cert').classList.remove('has-thumb');this.parentNode.remove()" /></div>
+      <div class="cert-thumb"><img src="/next-gen-ai-artist/assets/cert-higgsfield.png" alt="The AI Filmmaking Pipeline certificate" loading="lazy" onerror="this.closest('.cert').classList.remove('has-thumb');this.parentNode.remove()" /></div>
       <div class="cert-body">
         <div class="cert-top"><span class="cert-ico">🎬</span><span class="verify">Verify ↗</span></div>
         <div class="cert-title">Recognised by Higgsfield AI</div>
@@ -429,6 +429,29 @@ footer a{color:var(--mut);text-decoration:underline}
   <p class="mut center" style="font-size:13px;margin-top:16px">🔒 Click any card to verify.</p>
 </section>
 
+<!-- ================= PROOF / SAMPLE VIDEOS (right after Expert) ================= -->
+<section class="blk wrap">
+  <div class="eyebrow">Proof</div>
+  <h2 class="h2">Everything here is <span class="grad-txt">AI-made.</span></h2>
+  <p class="lead">The kind of videos you'll produce, and sell.</p>
+  <!-- Two 16:9 tiles side by side. Real player = .ytwrap[data-yt]; placeholder = .vphold. -->
+  <div class="feature-vid">
+    <div class="ytwrap" data-yt="BFoIEfMZUmA">
+      <div class="yt-mount"></div>
+      <div class="yt-guard"></div>            <!-- blocks click-through / redirect to YouTube -->
+      <span class="vlabel">🎵 AI Music Video</span>
+      <button class="yt-sound" aria-label="Toggle sound" type="button">🔇 Tap for sound</button>
+    </div>
+
+    <div class="ytwrap" data-yt="AwQq9G3Bq_s">
+      <div class="yt-mount"></div>
+      <div class="yt-guard"></div>
+      <span class="vlabel">🎬 Film Vibe · Tribute to India</span>
+      <button class="yt-sound" aria-label="Toggle sound" type="button">🔇 Tap for sound</button>
+    </div>
+  </div>
+</section>
+
 <!-- ================= HOW IT WORKS ================= -->
 <section class="blk wrap">
   <div class="eyebrow">The Path</div>
@@ -456,29 +479,6 @@ footer a{color:var(--mut);text-decoration:underline}
     <div class="tool"><div class="emo">💎</div><div class="nm">Pro Suite</div><div class="ds">Editing, upscaling, faster renders</div><div class="pr paid">Paid</div></div>
   </div>
   <p class="mut center" style="font-size:13px;margin-top:16px"><span style="color:var(--brand2)">●</span> Free to start &nbsp; · &nbsp; <span style="color:var(--gold)">●</span> Paid to scale &amp; earn more</p>
-</section>
-
-<!-- ================= SAMPLE VIDEOS ================= -->
-<section class="blk wrap">
-  <div class="eyebrow">Proof</div>
-  <h2 class="h2">Everything here is <span class="grad-txt">AI-made.</span></h2>
-  <p class="lead">The kind of videos you'll produce, and sell.</p>
-  <!-- Two 16:9 tiles side by side. Real player = .ytwrap[data-yt]; placeholder = .vphold. -->
-  <div class="feature-vid">
-    <div class="ytwrap" data-yt="BFoIEfMZUmA">
-      <div class="yt-mount"></div>
-      <div class="yt-guard"></div>            <!-- blocks click-through / redirect to YouTube -->
-      <span class="vlabel">🎵 AI Music Video</span>
-      <button class="yt-sound" aria-label="Toggle sound" type="button">🔇 Tap for sound</button>
-    </div>
-
-    <div class="ytwrap" data-yt="AwQq9G3Bq_s">
-      <div class="yt-mount"></div>
-      <div class="yt-guard"></div>
-      <span class="vlabel">🎬 Film Vibe · Tribute to India</span>
-      <button class="yt-sound" aria-label="Toggle sound" type="button">🔇 Tap for sound</button>
-    </div>
-  </div>
 </section>
 
 <!-- ================= WHO IT'S FOR ================= -->
@@ -848,28 +848,8 @@ document.querySelectorAll('[data-open]').forEach(b=>{
 document.getElementById('closeModal').addEventListener('click', closeModal);
 overlay.addEventListener('click', e=>{ if(e.target===overlay) closeModal(); });
 
-/* -------- Exit-intent popup (fires once per session) -------- */
-(function(){
-  let fired = !!sessionStorage.getItem('ofx_exit');
-  function trigger(src){
-    if(fired) return;
-    if(overlay.classList.contains('show')) return;
-    fired = true; sessionStorage.setItem('ofx_exit','1');
-    const ex = document.getElementById('exitBanner'); if(ex) ex.style.display='flex';
-    openModal(src);
-  }
-  // desktop: cursor leaves the top of the viewport
-  document.addEventListener('mouseout', e=>{
-    if(e.clientY<=0 && !e.relatedTarget) trigger('exit_intent');
-  });
-  // mobile fallback: fast scroll back toward the top after engaging
-  let lastY = window.scrollY;
-  window.addEventListener('scroll', ()=>{
-    const y=window.scrollY;
-    if(y < lastY-40 && y < 240 && lastY > 700) trigger('exit_intent_mobile');
-    lastY = y;
-  }, {passive:true});
-})();
+/* Exit-intent auto-popup DISABLED — the modal opens only when a Register button
+   is clicked (see [data-open] handlers), always with the confetti burst. */
 
 /* call the serverless function */
 async function api(payload){
