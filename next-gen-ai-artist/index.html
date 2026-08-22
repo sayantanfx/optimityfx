@@ -1,0 +1,937 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>NextGen AI Artists · OptimityFX | First Class FREE</title>
+<meta name="description" content="Learn to make AI videos, sell them, and get clients. 30 days · 8 LIVE classes · Free + paid tools. First class is FREE. Register now." />
+<link rel="canonical" href="https://optimityfx.com/next-gen-ai-artist/" />
+<meta property="og:url" content="https://optimityfx.com/next-gen-ai-artist/" />
+
+<!-- ================= OPEN GRAPH ================= -->
+<meta property="og:title" content="NextGen AI Artists · OptimityFX" />
+<meta property="og:description" content="Make AI videos → sell them → get clients. People are charging ₹15–40k per project. First class is FREE." />
+<meta property="og:type" content="website" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#07070c; --bg2:#0d0d17; --card:#12121f; --card2:#171728;
+  --line:rgba(255,255,255,.09); --line2:rgba(255,255,255,.14);
+  --txt:#f2f2f7; --mut:#a3a3b8; --mut2:#7c7c93;
+  --brand:#7c5cff; --brand2:#00e0c6; --accent:#ff5c8a; --gold:#ffcf5c;
+  --ok:#22c07a;
+  --grad:linear-gradient(120deg,#7c5cff 0%,#a45cff 45%,#00e0c6 100%);
+  --radius:18px; --maxw:1120px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(1200px 700px at 70% -10%,rgba(124,92,255,.18),transparent 60%),radial-gradient(900px 600px at 0% 10%,rgba(0,224,198,.10),transparent 55%),var(--bg);color:var(--txt);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased}
+h1,h2,h3,.disp{font-family:Sora,Inter,sans-serif;line-height:1.1;letter-spacing:-.02em;margin:0}
+p{margin:0}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 20px}
+.grad-txt{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.mut{color:var(--mut)}
+.center{text-align:center}
+
+/* ---------- SOCIAL PROOF ---------- */
+.proof{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:18px;flex-wrap:wrap}
+.proof .avs{display:flex}
+.proof .avs span{width:32px;height:32px;border-radius:50%;border:2px solid var(--bg);margin-left:-10px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:#fff}
+.proof .avs span:first-child{margin-left:0}
+.proof .ptxt{font-size:14.5px;color:var(--mut)}
+.proof .ptxt b{color:var(--txt);font-weight:800}
+.proof .stars{color:var(--gold);font-size:13px;letter-spacing:1px}
+
+/* ---------- STICKY MOBILE CTA ---------- */
+.mcta{display:none}
+
+/* ---------- HUD (floating "you are here") ---------- */
+.hud{display:inline-flex;align-items:center;gap:11px;background:rgba(13,13,23,.72);backdrop-filter:blur(10px);border:1px solid var(--line2);border-radius:14px;padding:10px 15px;box-shadow:0 10px 34px rgba(0,0,0,.4)}
+.hud-dot{position:relative;width:11px;height:11px;border-radius:50%;background:var(--brand2);flex:none;box-shadow:0 0 12px var(--brand2)}
+.hud-dot::before,.hud-dot::after{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid var(--brand2);animation:ping 2s cubic-bezier(0,0,.2,1) infinite}
+.hud-dot::after{animation-delay:1s}
+@keyframes ping{0%{transform:scale(1);opacity:.9}80%,100%{transform:scale(3.4);opacity:0}}
+.hud-txt{display:flex;flex-direction:column;line-height:1.15;text-align:left}
+.hud-txt b{font-size:13.5px;font-weight:700}
+.hud-txt small{font-size:11px;color:var(--mut)}
+/* landing: fixed, floating bottom-left */
+.hud-land{position:fixed;left:18px;bottom:18px;z-index:60;animation:hudIn .6s .8s both}
+.hud-land .hud-close{margin-left:4px;background:none;border:0;color:var(--mut2);font-size:16px;cursor:pointer;line-height:1}
+@keyframes hudIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+/* popup: inline HUD chip */
+.hud-pop{padding:8px 13px;border-radius:11px;margin:0 auto 16px;width:max-content}
+.hud-pop span:last-child{font-size:12.5px;font-weight:600;color:var(--mut)}
+@media(max-width:820px){
+  .mcta{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:70;padding:10px 14px calc(10px + env(safe-area-inset-bottom));background:linear-gradient(0deg,rgba(7,7,12,.98),rgba(7,7,12,.82));border-top:1px solid var(--line2);backdrop-filter:blur(8px)}
+  .mcta .btn{width:100%;font-size:16px;padding:14px;border-radius:13px}
+  body{padding-bottom:74px}
+  .hud-land{display:none}  /* free the bottom for the sticky CTA */
+}
+
+/* ---------- URGENCY BAR ---------- */
+.ubar{position:sticky;top:0;z-index:50;background:linear-gradient(90deg,#7c5cff,#00b3a0);color:#fff;font-weight:600;font-size:14px;text-align:center;padding:9px 14px;display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap}
+.ubar b{background:rgba(0,0,0,.22);padding:2px 9px;border-radius:8px;font-variant-numeric:tabular-nums}
+#ctd{background:rgba(0,0,0,.35);color:#fff;animation:ctdGlow 1.1s ease-in-out infinite;box-shadow:0 0 0 rgba(255,60,90,.7)}
+@keyframes ctdGlow{0%,100%{box-shadow:0 0 4px 1px rgba(255,70,100,.55);background:rgba(200,20,50,.35)}50%{box-shadow:0 0 14px 4px rgba(255,70,100,.95);background:rgba(230,30,60,.6)}}
+
+/* ---------- NAV ---------- */
+.nav{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;max-width:var(--maxw);margin:0 auto}
+.logo{display:flex;align-items:center;gap:11px;font-family:Sora;font-weight:800}
+.logo .dot{width:30px;height:30px;border-radius:9px;background:var(--grad);box-shadow:0 6px 20px rgba(124,92,255,.5);flex:none}
+.logo-txt{display:flex;flex-direction:column;line-height:1.12}
+.logo-txt b{font-size:16px;font-weight:800;letter-spacing:-.01em}
+.logo-txt small{font-size:10.5px;color:var(--mut);font-weight:600;letter-spacing:.02em}
+.nav .cta-sm{padding:9px 16px;border-radius:12px;background:var(--grad);color:#fff;font-weight:700;font-size:14px;border:0;cursor:pointer}
+
+/* ---------- BUTTONS ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;border:0;font-family:Sora;font-weight:700;border-radius:14px;transition:transform .15s ease,box-shadow .15s ease;font-size:17px;padding:16px 28px}
+.btn-primary{background:var(--grad);color:#fff;box-shadow:0 12px 34px rgba(124,92,255,.45)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 18px 44px rgba(124,92,255,.6)}
+.btn-lg{font-size:19px;padding:19px 34px;width:100%;max-width:460px}
+.pulse{animation:pulse 2.2s infinite}
+@keyframes pulse{0%{box-shadow:0 12px 34px rgba(124,92,255,.45)}50%{box-shadow:0 12px 44px rgba(124,92,255,.75)}100%{box-shadow:0 12px 34px rgba(124,92,255,.45)}}
+
+/* ---------- HERO ---------- */
+.hero{padding:34px 0 20px;text-align:center}
+.badge{display:inline-flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--line2);color:var(--mut);font-size:13px;font-weight:600;padding:7px 15px;border-radius:999px;margin-bottom:22px}
+.badge .g{width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 12px var(--ok)}
+.hero h1{font-size:clamp(34px,6vw,62px);font-weight:800;margin-bottom:18px}
+.hero .sub{font-size:clamp(16px,2.3vw,20px);color:var(--mut);max-width:640px;margin:0 auto 26px}
+.checks{display:flex;flex-wrap:wrap;gap:10px 14px;justify-content:center;margin:0 auto 30px;max-width:720px}
+.chk{display:inline-flex;align-items:center;gap:9px;background:var(--card);border:1px solid var(--line);padding:10px 15px;border-radius:12px;font-size:14.5px;font-weight:500}
+.chk .ic{color:var(--brand2);font-weight:800}
+.hero .meta{margin-top:14px;color:var(--mut2);font-size:14px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.pricepill{display:inline-flex;align-items:center;gap:10px;margin-top:18px;background:var(--card);border:1px solid var(--line2);border-radius:14px;padding:10px 18px}
+.pricepill .free{font-family:Sora;font-weight:800;font-size:22px;color:var(--brand2)}
+.pricepill .strike{color:var(--mut2);text-decoration:line-through;font-size:15px}
+
+/* ---------- INCOME BAND ---------- */
+.band{margin:30px 0;background:linear-gradient(120deg,rgba(255,207,92,.10),rgba(255,92,138,.08));border:1px solid var(--line2);border-radius:var(--radius);padding:26px 24px;text-align:center}
+.band .big{font-family:Sora;font-weight:800;font-size:clamp(26px,5vw,44px)}
+
+/* ---------- SECTIONS ---------- */
+section.blk{padding:56px 0}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--brand2);text-align:center;margin-bottom:12px}
+.h2{font-size:clamp(26px,4.4vw,40px);font-weight:800;text-align:center;margin-bottom:14px}
+.lead{color:var(--mut);text-align:center;max-width:620px;margin:0 auto 40px;font-size:17px}
+
+/* ---------- EXPERT / MENTOR ---------- */
+.expert{display:grid;grid-template-columns:1.1fr 0.9fr;gap:26px;align-items:stretch;background:var(--card);border:1px solid var(--line);border-radius:22px;overflow:hidden}
+.expert-photo{position:relative;min-height:420px;background:radial-gradient(120% 120% at 50% 0%,rgba(124,92,255,.35),transparent 60%),linear-gradient(160deg,#1a1a2e,#0d0d17)}
+.expert-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top center}
+.expert-photo .ph-fallback{position:absolute;inset:0;display:none;align-items:center;justify-content:center;text-align:center;color:var(--mut);font-size:14px;line-height:1.7}
+.expert-photo .ph-fallback code{color:var(--brand2);font-size:12px}
+.expert-photo.noimg .ph-fallback{display:flex}
+.photo-badge{position:absolute;left:16px;bottom:16px;z-index:2;background:rgba(0,0,0,.55);backdrop-filter:blur(6px);border:1px solid var(--line2);color:#fff;font-size:12.5px;font-weight:700;padding:8px 13px;border-radius:10px}
+.expert-body{padding:30px 10px 30px 30px}
+.ename{font-size:clamp(24px,3.6vw,32px);font-weight:800}
+.erole{color:var(--brand2);font-weight:600;font-size:14.5px;margin:6px 0 20px}
+.epoints{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:15px}
+.epoints li{display:flex;gap:13px;align-items:flex-start}
+.epoints li span{font-size:20px;line-height:1.2;flex:none}
+.epoints li div{color:var(--mut);font-size:15px}
+.epoints li b{color:var(--txt)}
+
+/* ---------- CERTIFICATES ---------- */
+.certs{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:22px}
+.cert{display:block;background:var(--card);border:1px solid var(--line);border-radius:16px;transition:transform .15s ease,border-color .15s ease;position:relative;overflow:hidden}
+.cert:hover{transform:translateY(-3px);border-color:var(--brand)}
+.cert-body{padding:20px 20px 18px}
+/* Higgsfield cert = full-width row, image left + info right */
+.cert.has-thumb{grid-column:1 / -1;display:grid;grid-template-columns:38% 1fr;align-items:stretch}
+.cert.has-thumb .cert-thumb{border-bottom:0;border-right:1px solid var(--line);aspect-ratio:auto;min-height:100%}
+.cert-thumb{border-bottom:1px solid var(--line);background:#c4e600;aspect-ratio:2188/1464;overflow:hidden}
+.cert-thumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s ease}
+.cert.has-thumb:hover .cert-thumb img{transform:scale(1.04)}
+.cert-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.cert-ico{font-size:24px}
+.verify{font-size:12.5px;font-weight:700;color:var(--brand2);background:rgba(0,224,198,.1);border:1px solid rgba(0,224,198,.3);padding:5px 11px;border-radius:999px}
+.cert-title{font-family:Sora;font-weight:700;font-size:18px;line-height:1.2}
+.cert-iss{color:var(--mut2);font-size:13px;margin:5px 0 12px}
+.cert-note{color:var(--mut);font-size:13.5px;line-height:1.55}
+.cert-id{margin-top:12px;font-size:11px;color:var(--mut2);font-family:ui-monospace,Menlo,monospace;letter-spacing:.02em;border-top:1px solid var(--line);padding-top:10px}
+
+@media(max-width:820px){
+  /* mentor: content LEFT, image RIGHT, side by side to save scroll */
+  .expert{grid-template-columns:1fr 40%;gap:0}
+  .expert-photo{min-height:100%}
+  .expert-photo img{object-position:top center}
+  .photo-badge{left:8px;bottom:8px;font-size:10px;padding:5px 9px}
+  .expert-body{padding:18px 14px 20px 16px}
+  .ename{font-size:21px}
+  .erole{font-size:13px;margin:5px 0 15px}
+  .epoints{gap:12px}
+  .epoints li span{font-size:17px}
+  .epoints li div{font-size:13px}
+
+  .certs{gap:10px}
+  .cert.has-thumb{grid-template-columns:40% 1fr}
+  .cert-body{padding:13px 13px 12px}
+  .cert-title{font-size:15px}
+  .cert-iss{font-size:11.5px;margin:3px 0 8px}
+  .cert-note{font-size:12px}
+  .cert-id{font-size:9.5px;padding-top:8px;margin-top:8px}
+  .cert-ico{font-size:19px}
+  .verify{font-size:11px;padding:4px 8px}
+  .cert-top{margin-bottom:9px}
+}
+
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.step{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px 20px}
+.step .n{font-family:Sora;font-weight:800;font-size:14px;color:#fff;width:34px;height:34px;border-radius:10px;background:var(--grad);display:flex;align-items:center;justify-content:center;margin-bottom:14px;flex:none}
+.step h3{font-size:19px;margin-bottom:6px}
+.step p{color:var(--mut);font-size:14.5px}
+@media(max-width:820px){
+  /* keep 3 blocks side by side, just compact */
+  .steps{grid-template-columns:repeat(3,1fr);gap:9px}
+  .step{padding:14px 11px}
+  .step .n{width:28px;height:28px;font-size:12px;border-radius:8px;margin-bottom:10px}
+  .step h3{font-size:15px;margin-bottom:4px}
+  .step p{font-size:11.5px;line-height:1.4}
+}
+
+/* tools */
+.tools{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.tool{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 16px;text-align:center}
+.tool .emo{font-size:26px}
+.tool .nm{font-weight:700;margin-top:8px;font-size:15px}
+.tool .ds{color:var(--mut2);font-size:12.5px;margin-top:3px;min-height:32px}
+.tool .pr{margin-top:9px;font-weight:800;font-size:12px;display:inline-block;padding:3px 11px;border-radius:999px}
+.tool .pr.free{color:var(--brand2);background:rgba(0,224,198,.1);border:1px solid rgba(0,224,198,.3)}
+.tool .pr.paid{color:var(--gold);background:rgba(255,207,92,.1);border:1px solid rgba(255,207,92,.35)}
+
+/* videos */
+.vids{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.vid{aspect-ratio:9/16;border-radius:16px;border:1px solid var(--line2);background:linear-gradient(160deg,var(--card2),var(--card));display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.vid video,.vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0;object-fit:cover;display:block}
+/* ---- 16:9 video tiles, side by side ---- */
+.feature-vid{max-width:1000px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.ytwrap,.vphold{position:relative;aspect-ratio:16/9;width:100%;border-radius:16px;overflow:hidden;border:1px solid var(--line2);background:#000;box-shadow:0 16px 44px rgba(0,0,0,.45)}
+.ytwrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block;pointer-events:none}
+/* transparent guard: catches clicks so the YT logo/title can't redirect */
+.yt-guard{position:absolute;inset:0;z-index:2;cursor:pointer;background:transparent}
+.yt-sound{position:absolute;right:12px;bottom:12px;z-index:3;background:rgba(0,0,0,.6);backdrop-filter:blur(6px);border:1px solid var(--line2);color:#fff;font-family:Inter,sans-serif;font-weight:700;font-size:12.5px;padding:8px 13px;border-radius:999px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:background .15s}
+.yt-sound:hover{background:rgba(0,0,0,.8)}
+/* tag label (top-left) */
+.vlabel{position:absolute;left:12px;top:12px;z-index:4;background:rgba(0,0,0,.6);backdrop-filter:blur(6px);border:1px solid var(--line2);color:#fff;font-weight:700;font-size:12.5px;padding:6px 12px;border-radius:999px;pointer-events:none}
+/* placeholder tile */
+.vphold{background:radial-gradient(120% 120% at 50% 0%,rgba(124,92,255,.28),transparent 60%),linear-gradient(160deg,#16162a,#0c0c16);display:flex;align-items:center;justify-content:center;text-align:center}
+.ph-inner .play{width:56px;height:56px;margin:0 auto 12px;border-radius:50%;background:rgba(255,255,255,.1);border:1px solid var(--line2);display:flex;align-items:center;justify-content:center;font-size:20px;backdrop-filter:blur(4px)}
+.ph-title{font-family:Sora;font-weight:800;font-size:22px;letter-spacing:.02em}
+.ph-sub{color:var(--mut);font-size:13.5px;margin-top:4px}
+.ph-soon{display:inline-block;margin-top:10px;font-size:11px;font-weight:700;color:var(--gold);background:rgba(255,207,92,.1);border:1px solid rgba(255,207,92,.3);padding:4px 11px;border-radius:999px}
+@media(max-width:560px){
+  .yt-sound{right:9px;bottom:9px;font-size:10.5px;padding:6px 9px}
+  .vlabel{left:9px;top:9px;font-size:10.5px;padding:5px 9px}
+  .ph-inner .play{width:40px;height:40px;font-size:15px;margin-bottom:8px}
+  .ph-title{font-size:15px}
+  .ph-sub{font-size:11px}
+  .ph-soon{font-size:9.5px;margin-top:7px}
+}
+.vid .play{width:60px;height:60px;border-radius:50%;background:rgba(255,255,255,.12);border:1px solid var(--line2);display:flex;align-items:center;justify-content:center;font-size:22px;backdrop-filter:blur(4px)}
+.vid .tag{position:absolute;bottom:12px;left:12px;font-size:12px;font-weight:600;color:var(--mut);background:rgba(0,0,0,.5);padding:5px 10px;border-radius:8px}
+
+/* for whom */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.pane{border-radius:var(--radius);padding:26px 24px;border:1px solid var(--line)}
+.pane.yes{background:linear-gradient(160deg,rgba(34,192,122,.08),transparent);border-color:rgba(34,192,122,.3)}
+.pane.no{background:linear-gradient(160deg,rgba(255,92,138,.07),transparent);border-color:rgba(255,92,138,.25)}
+.pane h3{font-size:20px;margin-bottom:14px}
+.pane li{list-style:none;padding:7px 0 7px 28px;position:relative;color:var(--mut);font-size:15px}
+.pane.yes li:before{content:"✅";position:absolute;left:0}
+.pane.no li:before{content:"✖";position:absolute;left:0;color:var(--accent)}
+.pane ul{margin:0;padding:0}
+
+/* includes */
+.inc{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;max-width:760px;margin:0 auto}
+.inc .it{display:flex;gap:12px;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:15px 16px}
+.inc .it .ic{color:var(--brand2);font-weight:800;font-size:17px}
+.inc .it b{display:block;font-size:15.5px}
+.inc .it span{color:var(--mut2);font-size:13px}
+
+/* faq */
+.faq{max-width:760px;margin:0 auto}
+.q{background:var(--card);border:1px solid var(--line);border-radius:12px;margin-bottom:10px;overflow:hidden}
+.q summary{cursor:pointer;padding:17px 20px;font-weight:600;font-size:16px;display:flex;justify-content:space-between;align-items:center;list-style:none}
+.q summary::-webkit-details-marker{display:none}
+.q summary .pm{color:var(--brand2);font-size:22px;transition:transform .2s}
+.q[open] summary .pm{transform:rotate(45deg)}
+.q .a{padding:0 20px 18px;color:var(--mut);font-size:15px}
+
+/* final cta */
+.final{background:linear-gradient(140deg,rgba(124,92,255,.16),rgba(0,224,198,.10));border:1px solid var(--line2);border-radius:24px;padding:48px 28px;text-align:center}
+
+/* footer */
+footer{border-top:1px solid var(--line);margin-top:40px;padding:30px 0;color:var(--mut2);font-size:13px;text-align:center}
+footer a{color:var(--mut);text-decoration:underline}
+.disc{max-width:820px;margin:0 auto 14px;font-size:12px;line-height:1.6}
+
+/* ---------- MODAL ---------- */
+.overlay{position:fixed;inset:0;background:rgba(4,4,10,.78);backdrop-filter:blur(6px);z-index:100;display:none;align-items:center;justify-content:center;padding:18px}
+.overlay.show{display:flex}
+.modal{background:var(--bg2);border:1px solid var(--line2);border-radius:22px;max-width:440px;width:100%;padding:30px 26px;position:relative;box-shadow:0 30px 90px rgba(0,0,0,.6);max-height:94vh;overflow:auto}
+.modal .x{position:absolute;top:14px;right:16px;background:none;border:0;color:var(--mut);font-size:24px;cursor:pointer}
+.modal .mh{text-align:center;margin-bottom:6px;font-size:24px;font-weight:800}
+.modal .ms{text-align:center;color:var(--mut);font-size:14.5px;margin-bottom:20px}
+.field{margin-bottom:13px}
+.field label{display:block;font-size:13px;font-weight:600;color:var(--mut);margin-bottom:6px}
+.field input{width:100%;background:var(--card);border:1px solid var(--line2);border-radius:12px;padding:14px 15px;color:var(--txt);font-size:15px;font-family:inherit}
+.field input:focus{outline:none;border-color:var(--brand)}
+.field input.err{border-color:var(--accent)}
+.err-msg{color:var(--accent);font-size:12.5px;margin-top:5px;display:none}
+.modal .fine{text-align:center;color:var(--mut2);font-size:12px;margin-top:14px}
+.spin{width:18px;height:18px;border:2px solid rgba(255,255,255,.35);border-top-color:#fff;border-radius:50%;animation:sp .7s linear infinite;display:none}
+@keyframes sp{to{transform:rotate(360deg)}}
+.trust-row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:16px;color:var(--mut2);font-size:12.5px}
+
+/* success */
+.success{display:none;text-align:center;padding:8px 0}
+.success .tick{width:66px;height:66px;border-radius:50%;background:rgba(34,192,122,.15);border:1px solid rgba(34,192,122,.4);display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 16px}
+
+@media(max-width:820px){
+  .two,.inc{grid-template-columns:1fr}
+  .tools{grid-template-columns:1fr 1fr}
+  .vids{grid-template-columns:1fr 1fr}
+  .nav .cta-sm{display:none}
+}
+@media(max-width:520px){.vids{grid-template-columns:1fr}.tools{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<!-- ================= URGENCY BAR ================= -->
+<div class="ubar">
+  🎁 First LIVE class is <b>FREE</b> · seats close in <b id="ctd">--:--:--</b>
+  <span style="opacity:.9">· Limited to serious learners only</span>
+</div>
+
+<!-- ================= FLOATING HUD ================= -->
+<div class="hud hud-land" id="hudLand">
+  <span class="hud-dot"></span>
+  <div class="hud-txt"><b>You're here</b><small>Free live class · Sun, 23 Aug</small></div>
+  <button class="hud-close" id="hudClose" aria-label="Dismiss">×</button>
+</div>
+
+<!-- ================= NAV ================= -->
+<div class="nav">
+  <div class="logo"><span class="dot"></span>
+    <span class="logo-txt"><b>NextGen AI Artists</b><small>Powered by OptimityFX</small></span>
+  </div>
+  <button class="cta-sm" data-open="nav">Register FREE →</button>
+</div>
+
+<!-- ================= HERO ================= -->
+<header class="hero wrap">
+  <span class="badge"><span class="g"></span> NextGen AI Artists · Live Cohort</span>
+  <h1>Make <span class="grad-txt">AI Videos</span>.<br>Sell Them. Get Clients.</h1>
+  <p class="sub">30-day live program. Zero to selling AI videos to real clients.</p>
+
+  <div class="checks">
+    <span class="chk"><span class="ic">✓</span> 30 days · 8 LIVE classes</span>
+    <span class="chk"><span class="ic">✓</span> Free + paid tools</span>
+    <span class="chk"><span class="ic">✓</span> Make → Sell → Get clients</span>
+  </div>
+
+  <div class="pricepill">
+    <span class="free">🎟️ First Class FREE</span>
+  </div>
+
+  <div style="margin-top:26px">
+    <button class="btn btn-primary btn-lg pulse" data-open="hero">👉 Register for FREE</button>
+  </div>
+  <div class="proof">
+    <div class="avs">
+      <span style="background:linear-gradient(135deg,#7c5cff,#a45cff)">A</span>
+      <span style="background:linear-gradient(135deg,#00e0c6,#25b0ff)">R</span>
+      <span style="background:linear-gradient(135deg,#ff5c8a,#ff9a5c)">S</span>
+      <span style="background:linear-gradient(135deg,#ffcf5c,#ff8a5c)">P</span>
+    </div>
+    <div class="ptxt"><b>Join 1,800+</b> registered <span class="stars">★★★★★</span></div>
+  </div>
+  <div class="meta">
+    <span>🗓️ <b id="dateLabel">Sunday, 23rd Aug</b></span> ·
+    <span>💻 Live on Zoom</span> ·
+    <span>⏰ Class time sent after you register</span>
+  </div>
+  <p class="mut" style="margin-top:14px;font-size:14px">Think &amp; check everything before you pay a single rupee.</p>
+</header>
+
+<div class="wrap">
+  <!-- INCOME BAND -->
+  <div class="band">
+    <div class="mut" style="font-size:14px;letter-spacing:.1em;text-transform:uppercase;font-weight:700">What AI video creators are earning</div>
+    <div class="big grad-txt">₹15,000 – ₹40,000 <span style="color:var(--txt)">per project</span></div>
+    <p class="mut" style="max-width:520px;margin:8px auto 0">Brands pay real money for AI ads. Learn to build them, and to find who'll pay.</p>
+  </div>
+</div>
+
+<!-- ================= LEARN FROM AN EXPERT ================= -->
+<section class="blk wrap" id="mentor">
+  <div class="eyebrow">Learn From an Expert</div>
+  <h2 class="h2">A <span class="grad-txt">top industry mentor</span>.<br>Not the ordinary one.</h2>
+  <p class="lead">Certified by the people who build these AI tools, and actually shipping paid work with them.</p>
+
+  <div class="expert">
+    <div class="expert-body">
+      <h3 class="ename">Sayantan Adhikary</h3>
+      <p class="erole">Founder, OptimityFX · AI Filmmaker &amp; Creative Technologist</p>
+      <ul class="epoints">
+        <li><span>🎓</span><div><b>Industry-certified.</b> Higgsfield Academy &amp; Anthropic.</div></li>
+        <li><span>🎬</span><div><b>Ships real, paid AI work.</b> Not theory.</div></li>
+        <li><span>🧭</span><div><b>Teaches today's AI stack.</b> Claude, MCP, cinema-grade video.</div></li>
+        <li><span>🔗</span><div><b>Publicly verifiable.</b> Check every credential yourself.</div></li>
+      </ul>
+    </div>
+    <div class="expert-photo">
+      <img src="assets/mentor.png" alt="Sayantan Adhikary, OptimityFX" onerror="this.style.display='none';this.parentNode.classList.add('noimg')" />
+      <div class="ph-fallback">Add your photo →<br><code>assets/mentor.png</code></div>
+      <div class="photo-badge">✔ Verified Credentials</div>
+    </div>
+  </div>
+
+  <!-- Verifiable certificates -->
+  <div class="certs">
+    <a class="cert has-thumb" href="https://higgsfield.ai/verify/HFA-2026-LR7PAEJSBRGU" target="_blank" rel="noopener">
+      <div class="cert-thumb"><img src="assets/cert-higgsfield.png" alt="The AI Filmmaking Pipeline certificate" loading="lazy" onerror="this.closest('.cert').classList.remove('has-thumb');this.parentNode.remove()" /></div>
+      <div class="cert-body">
+        <div class="cert-top"><span class="cert-ico">🎬</span><span class="verify">Verify ↗</span></div>
+        <div class="cert-title">Recognised by Higgsfield AI</div>
+        <div class="cert-iss">Higgsfield Academy · The AI Filmmaking Pipeline</div>
+        <p class="cert-note">Officially recognised on the exact cinema-grade AI video pipeline you'll learn, by the platform that builds it.</p>
+        <div class="cert-id">HFA-2026-LR7PAEJSBRGU</div>
+      </div>
+    </a>
+    <a class="cert" href="https://verify.skilljar.com/c/awm84zvh4sui" target="_blank" rel="noopener">
+      <div class="cert-body">
+        <div class="cert-top"><span class="cert-ico">🤖</span><span class="verify">Verify ↗</span></div>
+        <div class="cert-title">Claude Code 101</div>
+        <div class="cert-iss">Anthropic</div>
+        <p class="cert-note">Mastery of Claude for smarter scripts and faster output.</p>
+        <div class="cert-id">verify.skilljar.com</div>
+      </div>
+    </a>
+    <a class="cert" href="https://verify.skilljar.com/c/fmjvweh77mo7" target="_blank" rel="noopener">
+      <div class="cert-body">
+        <div class="cert-top"><span class="cert-ico">🔗</span><span class="verify">Verify ↗</span></div>
+        <div class="cert-title">MCP by Anthropic</div>
+        <div class="cert-iss">Anthropic · Model Context Protocol</div>
+        <p class="cert-note">How modern AI tools connect &amp; scale. Workflows built on where the industry's going.</p>
+        <div class="cert-id">verify.skilljar.com</div>
+      </div>
+    </a>
+  </div>
+  <p class="mut center" style="font-size:13px;margin-top:16px">🔒 Click any card to verify.</p>
+</section>
+
+<!-- ================= HOW IT WORKS ================= -->
+<section class="blk wrap">
+  <div class="eyebrow">The Path</div>
+  <h2 class="h2">Three moves. One outcome: <span class="grad-txt">paid work.</span></h2>
+  <div class="steps" style="margin-top:8px">
+    <div class="step"><div class="n">01</div><div class="step-c"><h3>Make</h3><p>The full AI workflow: script, image, video, voice. Build ad-quality videos live.</p></div></div>
+    <div class="step"><div class="n">02</div><div class="step-c"><h3>Sell</h3><p>Package and price your work so ₹15–40k projects become normal.</p></div></div>
+    <div class="step"><div class="n">03</div><div class="step-c"><h3>Get Clients</h3><p>Where clients are, outreach that works, and repeat income.</p></div></div>
+  </div>
+</section>
+
+<!-- ================= TOOL STACK ================= -->
+<section class="blk wrap">
+  <div class="eyebrow">The Stack</div>
+  <h2 class="h2">Free <span class="grad-txt">&amp; Paid tools</span>, used like a pro</h2>
+  <p class="lead">Start free. Add paid tools when you're ready to charge clients and go fully professional.</p>
+  <div class="tools">
+    <div class="tool"><div class="emo">🎥</div><div class="nm">Google Veo</div><div class="ds">Cinematic AI video generation</div><div class="pr free">Free</div></div>
+    <div class="tool"><div class="emo">🍌</div><div class="nm">Nano Banana</div><div class="ds">Consistent characters &amp; scenes</div><div class="pr free">Free</div></div>
+    <div class="tool"><div class="emo">🤖</div><div class="nm">ChatGPT</div><div class="ds">Concepts, brainstorming, prompts</div><div class="pr free">Free</div></div>
+    <div class="tool"><div class="emo">📝</div><div class="nm">Claude</div><div class="ds">High-converting scripts &amp; hooks</div><div class="pr free">Free</div></div>
+    <div class="tool"><div class="emo">🎙️</div><div class="nm">ElevenLabs</div><div class="ds">Natural AI voiceovers</div><div class="pr free">Free</div></div>
+    <div class="tool"><div class="emo">⚡</div><div class="nm">Grok</div><div class="ds">Images + video, creative range</div><div class="pr free">Free</div></div>
+    <div class="tool"><div class="emo">🎬</div><div class="nm">Veo 3 / Pro</div><div class="ds">Higher limits, top-tier output</div><div class="pr paid">Paid</div></div>
+    <div class="tool"><div class="emo">💎</div><div class="nm">Pro Suite</div><div class="ds">Editing, upscaling, faster renders</div><div class="pr paid">Paid</div></div>
+  </div>
+  <p class="mut center" style="font-size:13px;margin-top:16px"><span style="color:var(--brand2)">●</span> Free to start &nbsp; · &nbsp; <span style="color:var(--gold)">●</span> Paid to scale &amp; earn more</p>
+</section>
+
+<!-- ================= SAMPLE VIDEOS ================= -->
+<section class="blk wrap">
+  <div class="eyebrow">Proof</div>
+  <h2 class="h2">Everything here is <span class="grad-txt">AI-made.</span></h2>
+  <p class="lead">The kind of videos you'll produce, and sell.</p>
+  <!-- Two 16:9 tiles side by side. Real player = .ytwrap[data-yt]; placeholder = .vphold. -->
+  <div class="feature-vid">
+    <div class="ytwrap" data-yt="BFoIEfMZUmA">
+      <div class="yt-mount"></div>
+      <div class="yt-guard"></div>            <!-- blocks click-through / redirect to YouTube -->
+      <span class="vlabel">🎵 AI Music Video</span>
+      <button class="yt-sound" aria-label="Toggle sound" type="button">🔇 Tap for sound</button>
+    </div>
+
+    <div class="ytwrap" data-yt="AwQq9G3Bq_s">
+      <div class="yt-mount"></div>
+      <div class="yt-guard"></div>
+      <span class="vlabel">🎬 Film Vibe · Tribute to India</span>
+      <button class="yt-sound" aria-label="Toggle sound" type="button">🔇 Tap for sound</button>
+    </div>
+  </div>
+</section>
+
+<!-- ================= WHO IT'S FOR ================= -->
+<section class="blk wrap">
+  <div class="eyebrow">Honesty First</div>
+  <h2 class="h2">Only for <span class="grad-txt">serious people.</span></h2>
+  <div class="two">
+    <div class="pane yes">
+      <h3>This is for you if…</h3>
+      <ul>
+        <li>You'll show up live and actually build</li>
+        <li>You want a real income skill, not just "AI tips"</li>
+        <li>You're ready to sell your work and reach out to clients</li>
+        <li>You can commit a few focused hours a week for 30 days</li>
+      </ul>
+    </div>
+    <div class="pane no">
+      <h3>Skip this if…</h3>
+      <ul>
+        <li>You want a magic "get rich overnight" button</li>
+        <li>You'll buy and never open it</li>
+        <li>You're not willing to do outreach or sell</li>
+        <li>You expect results without practicing</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ================= INCLUDES ================= -->
+<section class="blk wrap">
+  <div class="eyebrow">What You Get</div>
+  <h2 class="h2">Inside the 30 days</h2>
+  <div class="inc" style="margin-top:22px">
+    <div class="it"><span class="ic">✓</span><div><b>8 LIVE classes</b><span>Build-along, over 30 days</span></div></div>
+    <div class="it"><span class="ic">✓</span><div><b>Full AI video workflow</b><span>Script → image → video → voice → edit</span></div></div>
+    <div class="it"><span class="ic">✓</span><div><b>Client-getting system</b><span>Outreach, pricing, closing</span></div></div>
+    <div class="it"><span class="ic">✓</span><div><b>Free tool setup</b><span>Every tool, configured with you</span></div></div>
+    <div class="it"><span class="ic">✓</span><div><b>Prompt &amp; script templates</b><span>Reusable frameworks that work</span></div></div>
+    <div class="it"><span class="ic">✓</span><div><b>Community + doubt support</b><span>Get unstuck fast</span></div></div>
+  </div>
+  <div class="center" style="margin-top:34px">
+    <button class="btn btn-primary btn-lg pulse" data-open="includes">👉 Register for FREE</button>
+    <p class="mut" style="margin-top:12px;font-size:13.5px">Free first class · No card needed · Decide after you've seen it</p>
+  </div>
+</section>
+
+<!-- ================= FAQ ================= -->
+<section class="blk wrap">
+  <div class="eyebrow">Questions</div>
+  <h2 class="h2">Straight answers</h2>
+  <div class="faq" style="margin-top:26px">
+    <details class="q"><summary>Is the first class really free?<span class="pm">+</span></summary><div class="a">Yes, 100% free. Attend, see how we work, then decide on the full program.</div></details>
+    <details class="q"><summary>Do I need experience?<span class="pm">+</span></summary><div class="a">No. Beginners welcome, we set up every tool with you.</div></details>
+    <details class="q"><summary>What do I need to join?<span class="pm">+</span></summary><div class="a">A laptop, stable internet, and a few focused hours a week.</div></details>
+    <details class="q"><summary>Are the tools free?<span class="pm">+</span></summary><div class="a">Start entirely on free tiers. Paid tools are optional, once you're earning.</div></details>
+    <details class="q"><summary>Can I really make money?<span class="pm">+</span></summary><div class="a">Creators charge ₹15–40k per project. We teach the skill and how to find clients. Results depend on your effort. No income guaranteed.</div></details>
+    <details class="q"><summary>What happens after I register?<span class="pm">+</span></summary><div class="a">You're added to the group with the class link and reminders.</div></details>
+  </div>
+</section>
+
+<!-- ================= FINAL CTA ================= -->
+<section class="blk wrap">
+  <div class="final">
+    <div class="eyebrow">Last thing</div>
+    <h2 class="h2" style="margin-bottom:12px">Check everything.<br>Then decide.</h2>
+    <p class="lead" style="margin-bottom:26px">Come to the free class. Pay nothing until you're sure.</p>
+    <button class="btn btn-primary btn-lg pulse" data-open="final">👉 Register for FREE</button>
+    <div class="proof" style="margin-top:16px">
+      <div class="avs">
+        <span style="background:linear-gradient(135deg,#7c5cff,#a45cff)">A</span>
+        <span style="background:linear-gradient(135deg,#00e0c6,#25b0ff)">R</span>
+        <span style="background:linear-gradient(135deg,#ff5c8a,#ff9a5c)">S</span>
+      </div>
+      <div class="ptxt"><b>Join 1,800+</b> registered</div>
+    </div>
+    <div class="trust-row" style="margin-top:18px">
+      <span>🔒 No payment now</span><span>·</span><span>🎯 Serious learners only</span><span>·</span><span>💻 Live on Zoom</span>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="wrap">
+    <p class="disc">Sample videos are AI-generated for educational purposes only and are not real client campaigns. Income figures (₹15–40k per project) reflect what some creators charge and are not a promise of your results. Outcomes depend on your effort, skill and market. This site is not affiliated with Meta, Google or any tool shown. By registering you agree to be contacted about the program.</p>
+    <p><a href="#">Terms</a> · <a href="#">Privacy</a> · <a href="#">Contact</a></p>
+    <p style="margin-top:10px">© <span id="yr"></span> OptimityFX · NextGen AI Artists. All rights reserved.</p>
+  </div>
+</footer>
+
+<!-- ================= STICKY MOBILE CTA ================= -->
+<div class="mcta">
+  <button class="btn btn-primary pulse" data-open="mcta">👉 Register for FREE · Sun 23 Aug</button>
+</div>
+
+<!-- ================= REGISTRATION MODAL ================= -->
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <button class="x" id="closeModal">×</button>
+
+    <div id="formView">
+      <div id="exitBanner" style="display:none;align-items:center;gap:8px;justify-content:center;background:rgba(255,207,92,.12);border:1px solid rgba(255,207,92,.35);color:var(--gold);font-weight:700;font-size:13.5px;padding:9px 12px;border-radius:11px;margin-bottom:14px">🎁 Wait! The first class is 100% free.</div>
+      <div class="hud hud-pop"><span class="hud-dot"></span><span>Secure · You're one step from your seat</span></div>
+      <div class="mh">Register <span class="grad-txt">FREE</span></div>
+      <div class="ms">Grab your seat for the free first class. We'll add you to the group with the link.</div>
+      <form id="regForm" novalidate>
+        <div class="field">
+          <label for="f_name">Full Name</label>
+          <input id="f_name" name="name" type="text" autocomplete="name" placeholder="Your name" />
+          <div class="err-msg" data-for="name">Please enter your name.</div>
+        </div>
+        <div class="field">
+          <label for="f_email">Email Address</label>
+          <input id="f_email" name="email" type="email" autocomplete="email" placeholder="you@email.com" />
+          <div class="err-msg" data-for="email">Enter a valid email.</div>
+        </div>
+        <div class="field">
+          <label for="f_phone">WhatsApp Number</label>
+          <input id="f_phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel" placeholder="10-digit mobile number" />
+          <div class="err-msg" data-for="phone">Enter a valid 10-digit number.</div>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%;margin-top:6px" id="submitBtn">
+          <span id="submitLabel">Register Free →</span>
+          <span class="spin" id="spin"></span>
+        </button>
+        <div class="err-msg" id="apiErr" style="text-align:center;margin-top:10px">Something went wrong. Please try again.</div>
+      </form>
+      <div class="fine">🔒 We only use this to send you the class link, updates and offers.</div>
+    </div>
+
+    <div class="success" id="successView">
+      <div class="tick">✓</div>
+      <div class="mh">You're registered! 🎉</div>
+      <div class="ms" style="margin-top:8px">Your free seat is confirmed, <span id="successName">friend</span>.</div>
+
+      <div style="background:var(--card);border:1px solid var(--line2);border-radius:14px;padding:16px 18px;margin:16px 0;text-align:left">
+        <div style="font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--brand2);margin-bottom:10px">Your Free First Class</div>
+        <div style="display:flex;flex-direction:column;gap:7px;font-size:14.5px">
+          <div>🗓️ <b id="successDate">Sunday, 23 Aug</b></div>
+          <div>⏰ 10:30 AM IST</div>
+          <div>💻 Live on Zoom. Link shared in the group.</div>
+        </div>
+      </div>
+
+      <p class="ms" style="margin:0 0 14px">👉 <b>One last step:</b> join the OptimityFX community to get your class link &amp; reminders.</p>
+      <a class="btn btn-primary" style="width:100%;margin-top:0" id="waLink" href="#" target="_blank" rel="noopener">Join the Community →</a>
+      <div class="fine" id="redirNote">Redirecting you automatically…</div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   ⚙️  CONFIG — FILL THESE 4 VALUES (the rest works as-is)
+   ============================================================ */
+const CONFIG = {
+  WHATSAPP_URL : "https://chat.whatsapp.com/LHAUCTxGyi5L4ryMy7cTjm",  // OptimityFX community group
+  META_PIXEL_ID: "",            // e.g. "1234567890"  (leave "" to disable)
+  GA4_ID       : "",            // e.g. "G-XXXXXXXXXX" (leave "" to disable)
+  FIRST_CLASS  : "2026-08-23T10:30:00+05:30",  // ISO datetime of the free class (IST)
+  SEATS_DEADLINE: "2026-08-23T10:00:00+05:30", // when the countdown hits zero
+};
+
+/* -------- Meta Pixel -------- */
+(function(){
+  if(!CONFIG.META_PIXEL_ID) return;
+  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+  n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', CONFIG.META_PIXEL_ID); fbq('track','PageView');
+})();
+
+/* -------- GA4 -------- */
+(function(){
+  if(!CONFIG.GA4_ID) return;
+  var s=document.createElement('script');s.async=true;
+  s.src='https://www.googletagmanager.com/gtag/js?id='+CONFIG.GA4_ID;document.head.appendChild(s);
+  window.dataLayer=window.dataLayer||[];window.gtag=function(){dataLayer.push(arguments)};
+  gtag('js',new Date());gtag('config',CONFIG.GA4_ID);
+})();
+function track(ev, data){
+  try{ if(window.fbq) fbq('track', ev, data||{}); }catch(e){}
+  try{ if(window.gtag) gtag('event', ev, data||{}); }catch(e){}
+}
+
+/* -------- Dates + countdown -------- */
+document.getElementById('yr').textContent = new Date().getFullYear();
+(function(){
+  try{
+    const d = new Date(CONFIG.FIRST_CLASS);
+    document.getElementById('dateLabel').textContent =
+      d.toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'short'});
+  }catch(e){}
+})();
+(function(){
+  const el = document.getElementById('ctd');
+  const WIN = 5*60*1000;                 // 5-minute urgency window
+  const KEY = 'ofx_deadline';
+  let deadline = +localStorage.getItem(KEY) || 0;
+  // persist across reloads; when it runs out, start a fresh 5 minutes
+  if(!deadline || deadline < Date.now()){ deadline = Date.now()+WIN; localStorage.setItem(KEY, deadline); }
+  function tick(){
+    let diff = deadline - Date.now();
+    if(diff <= 0){ deadline = Date.now()+WIN; localStorage.setItem(KEY, deadline); diff = WIN; }
+    const m = String(Math.floor(diff/6e4)).padStart(2,'0');
+    const s = String(Math.floor(diff%6e4/1e3)).padStart(2,'0');
+    el.textContent = m+':'+s;
+  }
+  tick(); setInterval(tick,1000);
+})();
+
+/* -------- Floating HUD dismiss -------- */
+(function(){
+  const c=document.getElementById('hudClose');
+  if(c) c.addEventListener('click',()=>document.getElementById('hudLand').style.display='none');
+})();
+
+/* ============================================================
+   🎉 CONFETTI (party poppers) — self-contained, no libraries
+   ============================================================ */
+function fireConfetti(power){
+  if(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const cv=document.createElement('canvas');
+  cv.style.cssText='position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:9999';
+  document.body.appendChild(cv);
+  const ctx=cv.getContext('2d'), DPR=Math.min(devicePixelRatio||1,2);
+  function size(){cv.width=innerWidth*DPR;cv.height=innerHeight*DPR;}
+  size();
+  const colors=['#7c5cff','#a45cff','#00e0c6','#ffcf5c','#ff5c8a','#ffffff'];
+  // MORE confetti, LESS momentum (slow & floaty so you can enjoy it)
+  const N = power==='big' ? 420 : (power==='click' ? 240 : 180);
+  const parts=[];
+  // poppers from both bottom corners (feels like real party poppers)
+  const origins = [{x:0,y:innerHeight,ax:1,ay:-1},{x:innerWidth,y:innerHeight,ax:-1,ay:-1}];
+  const launch = power==='big' ? 9 : (power==='click' ? 8 : 7);   // gentler launch speed
+  origins.forEach(o=>{
+    for(let i=0;i<N/origins.length;i++){
+      const ang=(Math.random()*0.72+0.12)*Math.PI, sp=launch*(0.55+Math.random());
+      parts.push({
+        x:o.x*DPR, y:o.y*DPR,
+        vx:o.ax*Math.abs(Math.cos(ang))*sp*DPR,
+        vy:(o.ay*Math.abs(Math.sin(ang))*sp - 3)*DPR,
+        g:(0.12+Math.random()*0.06)*DPR,          // low gravity => floaty
+        drag:0.982,
+        w:(6+Math.random()*7)*DPR, h:(9+Math.random()*9)*DPR,
+        rot:Math.random()*6.28, vr:(Math.random()-.5)*0.22,
+        sway:Math.random()*6.28, swaySp:0.02+Math.random()*0.03,
+        c:colors[(Math.random()*colors.length)|0], life:0
+      });
+    }
+  });
+  const MAX = power==='big' ? 340 : 260;          // live longer => slow drift down
+  addEventListener('resize',size);
+  (function frame(){
+    ctx.clearRect(0,0,cv.width,cv.height);
+    let alive=false;
+    parts.forEach(p=>{
+      p.life++; p.vy+=p.g; p.vx*=p.drag; p.vy*=p.drag;
+      p.sway+=p.swaySp;
+      p.x+=p.vx + Math.cos(p.sway)*0.6*DPR;        // flutter sideways
+      p.y+=p.vy; p.rot+=p.vr;
+      if(p.y<cv.height+40*DPR && p.life<MAX){alive=true;}
+      const op=Math.max(0,1-p.life/MAX);
+      ctx.save();ctx.globalAlpha=op;ctx.translate(p.x,p.y);ctx.rotate(p.rot);
+      ctx.fillStyle=p.c;ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);ctx.restore();
+    });
+    if(alive) requestAnimationFrame(frame);
+    else { removeEventListener('resize',size); cv.remove(); }
+  })();
+}
+// party poppers when the page lands
+window.addEventListener('load', ()=>setTimeout(()=>fireConfetti('subtle'), 450));
+
+/* ============================================================
+   🎬 CONTROLLED YOUTUBE PLAYERS (via IFrame API)
+   - autoplay (muted) when ≥60% visible, pause when out of frame
+   - only one plays at a time (pauses the others)
+   - no YouTube chrome, no click-through, right-click blocked
+   ============================================================ */
+(function(){
+  if(!document.querySelector('.ytwrap')) return;
+  var tag=document.createElement('script');
+  tag.src='https://www.youtube.com/iframe_api';
+  document.head.appendChild(tag);
+})();
+var ytPlayers=[];
+function pauseOtherPlayers(cur){
+  ytPlayers.forEach(function(p){ try{ if(p!==cur && p.getPlayerState && p.getPlayerState()===1) p.pauseVideo(); }catch(e){} });
+}
+function onYouTubeIframeAPIReady(){
+  document.querySelectorAll('.ytwrap').forEach(function(wrap){
+    var mount=wrap.querySelector('.yt-mount');
+    var vid=wrap.getAttribute('data-yt');
+    var player=new YT.Player(mount,{
+      videoId:vid,
+      host:'https://www.youtube-nocookie.com',
+      playerVars:{
+        autoplay:1, mute:1, controls:0, modestbranding:1, rel:0,
+        iv_load_policy:3, playsinline:1, disablekb:1, fs:0,
+        loop:1, playlist:vid, origin:location.origin
+      },
+      events:{
+        onReady:function(e){
+          wrap._player=e.target; ytPlayers.push(e.target);
+          // play/pause based on visibility
+          var io=new IntersectionObserver(function(entries){
+            entries.forEach(function(en){
+              if(en.isIntersecting && en.intersectionRatio>=0.6){ try{e.target.playVideo();}catch(x){} }
+              else { try{e.target.pauseVideo();}catch(x){} }
+            });
+          },{threshold:[0,0.6]});
+          io.observe(wrap);
+        },
+        onStateChange:function(e){ if(e.data===YT.PlayerState.PLAYING) pauseOtherPlayers(e.target); }
+      }
+    });
+
+    // tap the guard to play/pause (guard also blocks redirect to YouTube)
+    wrap.querySelector('.yt-guard').addEventListener('click',function(){
+      try{ (player.getPlayerState()===1) ? player.pauseVideo() : player.playVideo(); }catch(e){}
+    });
+    // sound toggle
+    var sb=wrap.querySelector('.yt-sound');
+    sb.addEventListener('click',function(ev){
+      ev.stopPropagation();
+      try{
+        if(player.isMuted()){ player.unMute(); player.setVolume(100); sb.innerHTML='🔊 Sound on'; }
+        else { player.mute(); sb.innerHTML='🔇 Tap for sound'; }
+      }catch(e){}
+    });
+    // right-click prohibited
+    wrap.addEventListener('contextmenu',function(e){ e.preventDefault(); });
+  });
+}
+
+/* ============================================================
+   LEAD CAPTURE  (progressive save, like the pros)
+   1) modal open  -> create lead  {status:'form_started'}
+   2) submit      -> update lead  {status:'registered', name,email,phone}
+   3) redirect    -> WhatsApp/Telegram group
+   ============================================================ */
+const overlay = document.getElementById('overlay');
+const form = document.getElementById('regForm');
+let leadId = null;          // id returned by /api/lead
+let openSource = 'unknown';
+
+function openModal(src){
+  openSource = src || 'unknown';
+  overlay.classList.add('show');
+  document.body.style.overflow='hidden';
+  fireConfetti('click');   // 🎉 party popper when Register is clicked
+  track('InitiateCheckout', {content_name:'free_registration', source:openSource});
+  // create the lead record immediately (abandonment tracking)
+  if(!leadId){
+    api({ status:'form_started', source:openSource })
+      .then(r=>{ if(r && r.id) leadId = r.id; })
+      .catch(()=>{});
+  }
+}
+function closeModal(){ overlay.classList.remove('show'); document.body.style.overflow=''; }
+
+document.querySelectorAll('[data-open]').forEach(b=>{
+  b.addEventListener('click', ()=>openModal(b.getAttribute('data-open')));
+});
+document.getElementById('closeModal').addEventListener('click', closeModal);
+overlay.addEventListener('click', e=>{ if(e.target===overlay) closeModal(); });
+
+/* -------- Exit-intent popup (fires once per session) -------- */
+(function(){
+  let fired = !!sessionStorage.getItem('ofx_exit');
+  function trigger(src){
+    if(fired) return;
+    if(overlay.classList.contains('show')) return;
+    fired = true; sessionStorage.setItem('ofx_exit','1');
+    const ex = document.getElementById('exitBanner'); if(ex) ex.style.display='flex';
+    openModal(src);
+  }
+  // desktop: cursor leaves the top of the viewport
+  document.addEventListener('mouseout', e=>{
+    if(e.clientY<=0 && !e.relatedTarget) trigger('exit_intent');
+  });
+  // mobile fallback: fast scroll back toward the top after engaging
+  let lastY = window.scrollY;
+  window.addEventListener('scroll', ()=>{
+    const y=window.scrollY;
+    if(y < lastY-40 && y < 240 && lastY > 700) trigger('exit_intent_mobile');
+    lastY = y;
+  }, {passive:true});
+})();
+
+/* call the serverless function */
+async function api(payload){
+  const res = await fetch('/api/lead', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify(Object.assign({ id:leadId }, payload))
+  });
+  if(!res.ok) throw new Error('bad status '+res.status);
+  return res.json();
+}
+
+/* validation */
+function invalid(){
+  let bad = false;
+  const name = form.name.value.trim();
+  const email = form.email.value.trim();
+  const phone = form.phone.value.replace(/\D/g,'');
+  const setErr=(f,on)=>{ form[f].classList.toggle('err',on);
+    document.querySelector('.err-msg[data-for="'+f+'"]').style.display = on?'block':'none'; };
+  setErr('name', name.length<2); if(name.length<2) bad=true;
+  const okEmail=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email); setErr('email',!okEmail); if(!okEmail) bad=true;
+  const okPhone=phone.length>=10 && phone.length<=13; setErr('phone',!okPhone); if(!okPhone) bad=true;
+  return bad;
+}
+
+form.addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  document.getElementById('apiErr').style.display='none';
+  if(invalid()) return;
+
+  const btn=document.getElementById('submitBtn');
+  document.getElementById('submitLabel').style.display='none';
+  document.getElementById('spin').style.display='inline-block';
+  btn.disabled=true;
+
+  const payload = {
+    status:'registered',
+    name: form.name.value.trim(),
+    email: form.email.value.trim(),
+    phone: form.phone.value.replace(/\D/g,''),
+    source: openSource
+  };
+
+  function showSuccessAndRedirect(){
+    document.getElementById('successName').textContent = payload.name.split(' ')[0] || 'friend';
+    try{
+      const d=new Date(CONFIG.FIRST_CLASS);
+      document.getElementById('successDate').textContent =
+        d.toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long'});
+    }catch(e){}
+    document.getElementById('formView').style.display='none';
+    document.getElementById('successView').style.display='block';
+    fireConfetti('big');   // 🎉 party poppers on successful registration
+    const wa=document.getElementById('waLink'); wa.href=CONFIG.WHATSAPP_URL;
+    setTimeout(()=>{ window.location.href=CONFIG.WHATSAPP_URL; }, 3500);
+  }
+  // fire conversions + confirm. Never block the user on a storage hiccup.
+  try{ await api(payload); }catch(err){ /* save failed, but still convert */ }
+  track('Lead', {content_name:'nextgen_ai_artists'});
+  track('CompleteRegistration', {content_name:'free_class', status:true});
+  showSuccessAndRedirect();
+});
+</script>
+</body>
+</html>
