@@ -312,7 +312,16 @@ footer a{color:var(--mut);text-decoration:underline}
   .vids{grid-template-columns:1fr 1fr}
   .nav .cta-sm{display:none}
 }
-@media(max-width:520px){.vids{grid-template-columns:1fr}.tools{grid-template-columns:1fr}}
+@media(max-width:520px){
+  .vids{grid-template-columns:1fr}
+  /* keep tools 2-up and compact on phones (was 1 huge column) */
+  .tools{gap:10px}
+  .tool{padding:14px 10px}
+  .tool .emo{font-size:22px}
+  .tool .nm{font-size:13.5px;margin-top:6px}
+  .tool .ds{font-size:11px;min-height:28px;margin-top:2px}
+  .tool .pr{font-size:11px;padding:2px 9px;margin-top:7px}
+}
 </style>
 </head>
 <body>
