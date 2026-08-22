@@ -6,13 +6,14 @@
  *   2) form submit  -> { id, status:"registered", name,email,phone } => updates that same row
  *
  * Storage: Airtable (no SDK needed — plain REST). Set these env vars in Vercel:
- *   AIRTABLE_TOKEN     Personal access token (scope: data.records:read + write)
- *   AIRTABLE_BASE_ID   e.g. appXXXXXXXXXXXXXX
- *   AIRTABLE_TABLE     table name, e.g. "Leads"   (defaults to "Leads")
+ *   AIRTABLE_TOKEN     Personal access token (scopes: data.records:read + data.records:write)
+ *   AIRTABLE_BASE_ID   apprrooZUPaoPsrbt   ("NextGen AI Artists — Leads")
+ *   AIRTABLE_TABLE     Leads               (default if unset)
  *
- * Airtable "Leads" table fields (create these columns):
- *   Name (text) · Email (text) · Phone (text) · Status (single select: form_started/registered)
- *   Source (text) · Created (created-time, automatic) · UserAgent (text)
+ * Table "Leads" (already created) fields written by this function:
+ *   Name (text) · Email (email) · Contact (phone) · Status (select: form_started/registered)
+ *   Source (text) · Registered At (dateTime, set on submit)
+ * Fields left for YOU to fill in manually: Remarks (long text) · Custom Field (text).
  *
  * Want Supabase/Google Sheets instead? Swap the two helper calls at the bottom.
  */
@@ -71,14 +72,14 @@ export default async function handler(req, res) {
   const b = await readBody(req);
   const status = (b.status === "registered") ? "registered" : "form_started";
 
-  // Build the field set. Only overwrite name/email/phone when provided.
+  // Build the field set. Only overwrite name/email/contact when provided.
   const fields = { Status: status };
   if (b.source) fields.Source = String(b.source).slice(0, 60);
   if (b.name) fields.Name = String(b.name).slice(0, 120);
   if (b.email) fields.Email = String(b.email).slice(0, 160);
-  if (b.phone) fields.Phone = String(b.phone).replace(/\D/g, "").slice(0, 15);
-  const ua = req.headers["user-agent"];
-  if (ua) fields.UserAgent = String(ua).slice(0, 250);
+  if (b.phone) fields.Contact = String(b.phone).replace(/\D/g, "").slice(0, 15);
+  // stamp the registration time when the form is actually submitted
+  if (status === "registered") fields["Registered At"] = new Date().toISOString();
 
   try {
     let id = b.id;
