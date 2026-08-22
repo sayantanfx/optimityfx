@@ -270,6 +270,28 @@ section.blk{padding:56px 0}
 .inc .it.hot{border-color:rgba(255,207,92,.4);background:linear-gradient(150deg,rgba(255,207,92,.08),rgba(124,92,255,.05))}
 .inc .it.hot .ic{font-size:19px}
 
+/* roadmap timeline */
+.road{max-width:680px;margin:8px auto 0;position:relative}
+.road::before{content:"";position:absolute;left:23px;top:10px;bottom:10px;width:2px;background:linear-gradient(180deg,var(--brand),var(--brand2))}
+.road-step{position:relative;display:flex;gap:18px;align-items:flex-start;padding:10px 0}
+.road-node{flex:none;width:48px;height:48px;border-radius:14px;background:var(--grad);display:flex;align-items:center;justify-content:center;font-family:Sora;font-weight:800;font-size:17px;color:#fff;box-shadow:0 8px 22px rgba(124,92,255,.45);z-index:1}
+.road-card{flex:1;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.road-when{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--brand2);margin-bottom:5px}
+.road-card h3{font-size:18px;margin-bottom:5px}
+.road-card h3 em{font-style:italic}
+.road-card p{color:var(--mut);font-size:14px}
+.road-step.goal .road-node{background:linear-gradient(135deg,var(--gold),#ff8a5c);box-shadow:0 8px 26px rgba(255,180,80,.45);font-size:22px}
+.road-step.goal .road-card{border-color:rgba(255,207,92,.4);background:linear-gradient(150deg,rgba(255,207,92,.09),rgba(124,92,255,.05))}
+.road-step.goal .road-card h3{font-size:20px}
+@media(max-width:520px){
+  .road::before{left:19px}
+  .road-step{gap:13px}
+  .road-node{width:40px;height:40px;font-size:14px;border-radius:12px}
+  .road-card{padding:13px 14px}
+  .road-card h3{font-size:16px}
+  .road-card p{font-size:12.5px}
+}
+
 /* faq */
 .faq{max-width:760px;margin:0 auto}
 .q{background:var(--card);border:1px solid var(--line);border-radius:12px;margin-bottom:10px;overflow:hidden}
@@ -522,28 +544,51 @@ footer a{color:var(--mut);text-decoration:underline}
   <p class="mut center" style="font-size:13px;margin-top:16px"><span style="color:var(--brand2)">●</span> Free to start &nbsp; · &nbsp; <span style="color:var(--gold)">●</span> Paid to scale &amp; earn more</p>
 </section>
 
-<!-- ================= WHO IT'S FOR ================= -->
+<!-- ================= ROADMAP TO FIRST CLIENT ================= -->
 <section class="blk wrap">
-  <div class="eyebrow">Honesty First</div>
-  <h2 class="h2">Only for <span class="grad-txt">serious people.</span></h2>
-  <div class="two">
-    <div class="pane yes">
-      <h3>This is for you if…</h3>
-      <ul>
-        <li>You'll show up live and actually build</li>
-        <li>You want a real income skill, not just "AI tips"</li>
-        <li>You're ready to sell your work and reach out to clients</li>
-        <li>You can commit a few focused hours a week for 30 days</li>
-      </ul>
+  <div class="eyebrow">The Roadmap</div>
+  <h2 class="h2">From today to your <span class="grad-txt">first paying client.</span></h2>
+  <p class="lead">Not "someday". Here's what you'll actually have in hand, week by week.</p>
+  <div class="road">
+    <div class="road-step">
+      <div class="road-node">01</div>
+      <div class="road-card">
+        <div class="road-when">Week 1</div>
+        <h3>Your first finished AI ad</h3>
+        <p>Walk out of the opening classes with a complete, ready-to-post video you made yourself.</p>
+      </div>
     </div>
-    <div class="pane no">
-      <h3>Skip this if…</h3>
-      <ul>
-        <li>You want a magic "get rich overnight" button</li>
-        <li>You'll buy and never open it</li>
-        <li>You're not willing to do outreach or sell</li>
-        <li>You expect results without practicing</li>
-      </ul>
+    <div class="road-step">
+      <div class="road-node">02</div>
+      <div class="road-card">
+        <div class="road-when">Week 2</div>
+        <h3>A style that looks like <em>you</em></h3>
+        <p>Lock a repeatable look and cut your make-time in half, so quality stops being luck.</p>
+      </div>
+    </div>
+    <div class="road-step">
+      <div class="road-node">03</div>
+      <div class="road-card">
+        <div class="road-when">Week 3</div>
+        <h3>A portfolio + your price</h3>
+        <p>3–4 sample ads packaged, plus a pitch and pricing you can send a client with confidence.</p>
+      </div>
+    </div>
+    <div class="road-step">
+      <div class="road-node">04</div>
+      <div class="road-card">
+        <div class="road-when">Week 4</div>
+        <h3>Outreach live → real conversations</h3>
+        <p>Reach out with us, handle replies, and turn interest into your first booked project.</p>
+      </div>
+    </div>
+    <div class="road-step goal">
+      <div class="road-node">🎯</div>
+      <div class="road-card">
+        <div class="road-when">The goal</div>
+        <h3>Your first <span class="grad-txt">₹15,000+ project</span></h3>
+        <p>One client covers the whole thing. Everything here points at making that happen.</p>
+      </div>
     </div>
   </div>
 </section>
