@@ -91,7 +91,10 @@ a{color:inherit;text-decoration:none}
 
 /* ---------- NAV ---------- */
 .nav{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;max-width:var(--maxw);margin:0 auto}
-.logo{display:flex;align-items:center;gap:11px;font-family:Sora;font-weight:800}
+.logo{display:flex;align-items:center;gap:11px;font-family:Sora;font-weight:800;text-decoration:none;color:inherit}
+.logo-img{height:42px;width:auto;display:block}
+.logo-fallback{display:flex;align-items:center;gap:11px}
+@media(max-width:520px){.logo-img{height:34px;max-width:74vw}}
 .logo .dot{width:30px;height:30px;border-radius:9px;background:var(--grad);box-shadow:0 6px 20px rgba(124,92,255,.5);flex:none}
 .logo-txt{display:flex;flex-direction:column;line-height:1.12}
 .logo-txt b{font-size:16px;font-weight:800;letter-spacing:-.01em}
@@ -417,9 +420,13 @@ footer a{color:var(--mut);text-decoration:underline}
 
 <!-- ================= NAV ================= -->
 <div class="nav">
-  <div class="logo"><span class="dot"></span>
-    <span class="logo-txt"><b>NextGen AI Artists</b><small>Powered by OptimityFX</small></span>
-  </div>
+  <a class="logo" href="/next-gen-ai-artist/" aria-label="NextGen AI Artists">
+    <img class="logo-img" src="/next-gen-ai-artist/assets/logo-trimmed.png?v=2" alt="NextGen AI Artists"
+         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
+    <span class="logo-fallback" style="display:none"><span class="dot"></span>
+      <span class="logo-txt"><b>NextGen AI Artists</b><small>Powered by OptimityFX</small></span>
+    </span>
+  </a>
   <button class="cta-sm" data-open="nav">Register FREE →</button>
 </div>
 
