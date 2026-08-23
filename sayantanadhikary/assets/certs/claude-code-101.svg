@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 773" font-family="'Inter',system-ui,sans-serif">
+  <rect width="1000" height="773" fill="#7E9666"/>
+  <!-- pill -->
+  <rect x="212" y="96" width="576" height="70" rx="35" fill="none" stroke="#14140f" stroke-width="3.5"/>
+  <circle cx="262" cy="131" r="22" fill="#F3F0E7"/>
+  <path d="M251 131 l7 8 l14 -16" fill="none" stroke="#14140f" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="300" y="142" fill="#14140f" font-size="30" font-weight="800" letter-spacing="1.5">CERTIFICATE <tspan font-weight="500" font-style="normal">of</tspan> COMPLETION</text>
+  <!-- body -->
+  <text x="500" y="366" text-anchor="middle" fill="#14140f" font-family="'Fraunces',Georgia,serif" font-style="italic" font-size="30">has completed</text>
+  <text x="500" y="446" text-anchor="middle" fill="#14140f" font-size="78" font-weight="800" letter-spacing="-1">Claude Code</text>
+  <text x="500" y="536" text-anchor="middle" fill="#14140f" font-size="78" font-weight="800" letter-spacing="-1">101</text>
+  <!-- wordmark -->
+  <text x="500" y="700" text-anchor="middle" fill="#14140f" font-size="34" font-weight="800" letter-spacing="3">ANTHROP\C</text>
+</svg>

@@ -31,6 +31,7 @@
     { "source": "/ai-ads.html", "destination": "/ai-studio", "permanent": true }
   ],
   "rewrites": [
+    { "source": "/sayantanadhikary", "destination": "/sayantanadhikary/index.html" },
     { "source": "/ai-studio", "destination": "/ai-studio.html" },
     { "source": "/admin", "destination": "/admin.html" },
     { "source": "/team",  "destination": "/team/index.html" },
